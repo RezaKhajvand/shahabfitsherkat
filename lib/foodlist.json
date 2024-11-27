@@ -1,0 +1,85 @@
+{
+    "میوه‌ها": [
+      {"name": "تمشک", "portion": "1 فنجان", "calories": 64},
+      {"name": "هلو", "portion": "1 عدد متوسط", "calories": 58},
+      {"name": "آلو", "portion": "1 عدد متوسط", "calories": 30},
+      {"name": "گیلاس", "portion": "1 فنجان", "calories": 87},
+      {"name": "هندوانه", "portion": "1 فنجان", "calories": 46},
+      {"name": "سیب", "portion": "1 عدد متوسط", "calories": 95},
+      {"name": "موز", "portion": "1 عدد متوسط", "calories": 105},
+      {"name": "پرتقال", "portion": "1 عدد متوسط", "calories": 62},
+      {"name": "توت‌فرنگی", "portion": "1 فنجان", "calories": 53},
+      {"name": "بلوبری", "portion": "1 فنجان", "calories": 85},
+      {"name": "انگور", "portion": "1 فنجان", "calories": 104},
+      {"name": "آناناس", "portion": "1 فنجان", "calories": 82},
+      {"name": "انبه", "portion": "1 فنجان", "calories": 99}
+    ],
+    "سبزیجات": [
+      {"name": "خیار", "portion": "1 فنجان", "calories": 16},
+      {"name": "گوجه‌فرنگی", "portion": "1 عدد متوسط", "calories": 22},
+      {"name": "فلفل دلمه‌ای", "portion": "1 فنجان", "calories": 24},
+      {"name": "کدو سبز", "portion": "1 فنجان", "calories": 21},
+      {"name": "بادمجان", "portion": "1 فنجان", "calories": 20},
+      {"name": "گل کلم", "portion": "1 فنجان", "calories": 25},
+      {"name": "قارچ", "portion": "1 فنجان", "calories": 15},
+      {"name": "کاهو", "portion": "1 فنجان", "calories": 5},
+      {"name": "لوبیا سبز", "portion": "1 فنجان", "calories": 31},
+      {"name": "بروکلی", "portion": "1 فنجان", "calories": 55},
+      {"name": "هویج", "portion": "1 فنجان", "calories": 52},
+      {"name": "اسفناج", "portion": "1 فنجان", "calories": 7},
+      {"name": "کلم پیچ", "portion": "1 فنجان", "calories": 33},
+      {"name": "آووکادو", "portion": "1 عدد متوسط", "calories": 234}
+    ],
+    "پروتئین‌ها": [
+      {"name": "میگو", "portion": "3 اونس", "calories": 84},
+      {"name": "ماهی کاد", "portion": "3 اونس", "calories": 89},
+      {"name": "گوشت بره", "portion": "3 اونس", "calories": 250},
+      {"name": "گوشت اردک", "portion": "3 اونس", "calories": 337},
+      {"name": "سینه مرغ", "portion": "3 اونس", "calories": 165},
+      {"name": "ماهی سالمون", "portion": "3 اونس", "calories": 175},
+      {"name": "ماهی تن", "portion": "3 اونس", "calories": 99},
+      {"name": "سینه بوقلمون", "portion": "3 اونس", "calories": 135},
+      {"name": "توفو", "portion": "3 اونس", "calories": 70}
+    ],
+    "آجیل و دانه‌ها": [
+      {"name": "پسته", "portion": "1 اونس", "calories": 159},
+      {"name": "بادام هندی", "portion": "1 اونس", "calories": 157},
+      {"name": "تخمه آفتابگردان", "portion": "1 اونس", "calories": 165},
+      {"name": "تخمه کدو", "portion": "1 اونس", "calories": 126},
+      {"name": "بادام", "portion": "1 اونس", "calories": 160},
+      {"name": "بادام زمینی", "portion": "1 اونس", "calories": 161},
+      {"name": "گردو", "portion": "1 اونس", "calories": 185}
+    ],
+    "محصولات لبنی": [
+      {"name": "پنیر کاتیج", "portion": "1 فنجان", "calories": 206},
+      {"name": "پنیر ریکوتا", "portion": "1 فنجان", "calories": 428},
+      {"name": "پنیر پارمزان", "portion": "1 اونس", "calories": 110},
+      {"name": "پنیر چدار", "portion": "1 اونس", "calories": 114},
+      {"name": "پنیر موزارلا", "portion": "1 اونس", "calories": 85},
+      {"name": "شیر کامل", "portion": "1 فنجان", "calories": 150},
+      {"name": "شیر کم‌چرب", "portion": "1 فنجان", "calories": 102},
+      {"name": "شیر بدون چربی", "portion": "1 فنجان", "calories": 83},
+      {"name": "ماست یونانی", "portion": "1 فنجان", "calories": 100}
+    ],
+    "شیرینی‌جات و دسرها": [
+      {"name": "بستنی", "portion": "1 فنجان", "calories": 267},
+      {"name": "کیک", "portion": "1 برش", "calories": 352},
+      {"name": "براونی", "portion": "1 تکه", "calories": 132},
+      {"name": "کوکی", "portion": "1 عدد متوسط", "calories": 49},
+      {"name": "پنکیک", "portion": "1 عدد متوسط", "calories": 86},
+      {"name": "وافل", "portion": "1 عدد متوسط", "calories": 218},
+      {"name": "مافین", "portion": "1 عدد متوسط", "calories": 426},
+      {"name": "شکلات تلخ", "portion": "1 اونس", "calories": 155}
+    ],
+    "نوشیدنی‌ها": [
+      {"name": "آب سیب", "portion": "1 فنجان", "calories": 114},
+      {"name": "آب پرتقال", "portion": "1 فنجان", "calories": 112},
+      {"name": "قهوه سیاه", "portion": "1 فنجان", "calories": 2},
+      {"name": "چای سیاه", "portion": "1 فنجان", "calories": 2},
+      {"name": "نوشابه", "portion": "1 قوطی، 12 اونس", "calories": 150},
+      {"name": "آبجو", "portion": "1 قوطی، 12 اونس", "calories": 154},
+      {"name": "شراب", "portion": "1 لیوان، 5 اونس", "calories": 123},
+      {"name": "آب", "portion": "1 فنجان", "calories": 0}
+    ]
+  }
+  
