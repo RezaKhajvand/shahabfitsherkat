@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
-import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/OldVersion/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
@@ -125,7 +124,7 @@ class TrainerScreenState extends State<TrainerScreen> {
   @override
   void initState() {
     super.initState();
-    _activityFactor = activityList.first;
+    _activityFactor = activityList[2];
     final trainer = widget.trainer;
     if (trainer != null) {
       _nameController.text = trainer.name;
@@ -205,7 +204,6 @@ class TrainerScreenState extends State<TrainerScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 3,
                         child: DropdownButtonFormField<ActivityFactor>(
                           style: Theme.of(context)
                               .textTheme
@@ -237,7 +235,6 @@ class TrainerScreenState extends State<TrainerScreen> {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        flex: 2,
                         child: TextFormField(
                           textDirection: TextDirection.ltr,
                           textAlign: TextAlign.left,
@@ -249,12 +246,6 @@ class TrainerScreenState extends State<TrainerScreen> {
                           controller: _ageController,
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(labelText: 'سن'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'لطفا سن خود را وارد کنید';
-                            }
-                            return null;
-                          },
                         ),
                       ),
                     ],
@@ -379,14 +370,12 @@ class TrainerScreenState extends State<TrainerScreen> {
                   Row(
                     children: [
                       Expanded(
-                        flex: 2,
                         child: ElevatedButton(
                             onPressed: _calculateCalories,
                             child: const Text('محاسبه کالری')),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        flex: 2,
                         child: OutlinedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
