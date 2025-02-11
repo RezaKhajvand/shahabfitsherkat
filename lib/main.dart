@@ -9,8 +9,8 @@ import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.da
 import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
-import 'package:shahabfit/Features/OldVersion/managepage.dart';
-import 'package:shahabfit/Features/OldVersion/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Features/oldversion/managepage.dart';
+import 'package:shahabfit/Features/oldversion/replacefarsiandenglishnumber.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
 // Create an instance of the ShorebirdCodePush class

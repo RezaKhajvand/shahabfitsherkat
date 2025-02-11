@@ -1,9 +1,11 @@
 import 'package:pocketbase/pocketbase.dart';
 
 var pb = PocketBase('https://club.liara.run');
-Future<List<RecordModel>> getShagerdList() async {
+Future<String> getShagerdList() async {
   try {
-    return await pb.collection('shagerd').getFullList(sort: '-created');
+    var response = await pb.collection('shagerd').getFullList(sort: '-created');
+    print(response);
+    return response.toString();
   } catch (e) {
     rethrow;
   }
