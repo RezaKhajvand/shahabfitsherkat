@@ -5,6 +5,7 @@ import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/oldversion/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Features/oldversion/riverpod/shagerdprovider_riverpod.dart';
 import 'package:shahabfit/Features/oldversion/utils/formatdatetime.dart';
+import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,12 +20,9 @@ class _ShagerdListState extends ConsumerState<ShagerdList> {
   @override
   Widget build(BuildContext context) {
     final shagerdList = ref.watch(shagerdProvider);
-    ref.listen<String?>(errorProvider, (previous, next) {
+    ref.listen<SnackbarError?>(errorProvider, (previous, next) {
       if (next != null) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(next)),
-        );
+        getErrorSnackbar(context, next.errorMessage, action: next.action);
       }
     });
     return shagerdList.when(
@@ -60,7 +58,8 @@ class _ShagerdListState extends ConsumerState<ShagerdList> {
                 ),
                 Expanded(
                   child: RefreshIndicator(
-                    onRefresh: () async => shagerdList,
+                    onRefresh: () async =>
+                        ref.read(shagerdProvider.notifier).refreshShagerds(),
                     child: ListView.separated(
                         cacheExtent: 80,
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 90),
@@ -88,9 +87,7 @@ class _ShagerdListState extends ConsumerState<ShagerdList> {
                                 }
                               }
                             },
-                            confirmDismiss: (direction) async {
-                              return false;
-                            },
+                            confirmDismiss: (direction) async => false,
                             child: Container(
                               padding: const EdgeInsets.fromLTRB(0, 16, 16, 4),
                               decoration: ShapeDecoration(
@@ -368,44 +365,9 @@ class _ShagerdListState extends ConsumerState<ShagerdList> {
                                             fontWeight: FontWeight.w600),
                                       ),
                                       IconButton(
-                                        onPressed: () async {
-                                          //     if (jalasatdbox.values
-                                          //         .where((element) =>
-                                          //             element.shagerId ==
-                                          //             shagerds[index].id)
-                                          //         .isNotEmpty) {
-                                          //       if (DateTime.now()
-                                          //               .difference(jalasatdbox.values
-                                          //                   .where((element) =>
-                                          //                       element.shagerId ==
-                                          //                       shagerds[index].id)
-                                          //                   .last
-                                          //                   .jalaseDate)
-                                          //               .inHours >
-                                          //           2) {
-                                          //         await addJalase(shagerds[index]);
-                                          //       } else {
-                                          //         ScaffoldMessenger.of(context)
-                                          //             .clearSnackBars();
-                                          //         HapticFeedback.mediumImpact();
-                                          //         ScaffoldMessenger.of(context)
-                                          //             .showSnackBar(SnackBar(
-                                          //           content: const Text('''
-                                          // در ۲ ساعت اخیر کلاس ثبت کرده اید
-                                          // آیا از افزودن جلسه اطمینان دارید؟
-                                          // '''),
-                                          //           action: SnackBarAction(
-                                          //             label: 'بله',
-                                          //             onPressed: () async =>
-                                          //                 await addJalase(
-                                          //                     shagerds[index]),
-                                          //           ),
-                                          //         ));
-                                          //       }
-                                          //     } else {
-                                          //       await addJalase(shagerds[index]);
-                                          //     }
-                                        },
+                                        onPressed: () async => ref
+                                            .read(shagerdProvider.notifier)
+                                            .increaseJalase(shagerds[index]),
                                         icon: const Icon(Icons.add_circle,
                                             color: primary, size: 32),
                                       ),
