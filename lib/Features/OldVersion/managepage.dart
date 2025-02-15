@@ -86,9 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 child: TabBar(
-                  onTap: (value) {
-                    controller.jumpTo(0);
-                  },
+                  onTap: (value) => controller.jumpTo(0),
                   dividerColor: Colors.transparent,
                   padding: const EdgeInsets.all(10),
                   indicatorSize: TabBarIndicatorSize.tab,
@@ -115,9 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              ShagerdList(),
-              ShagerdList(),
-              ShagerdList(),
+              ShagerdList(controller: controller),
+              ShagerdList(controller: controller),
+              ShagerdList(controller: controller),
             ],
           ),
           floatingActionButton: FloatingActionButton(

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/Theme.dart';
 import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.dart';
 import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
+import 'package:shahabfit/Features/oldversion/bloc/shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/managepage.dart';
 import 'package:shahabfit/Features/oldversion/replacefarsiandenglishnumber.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
@@ -21,22 +21,13 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => ActivityBloc(),
-        ),
-        BlocProvider(
-          create: (context) => BasketBloc(),
-        ),
-        BlocProvider(
-          create: (context) => SystemBloc(),
-        ),
-        BlocProvider(
-          create: (context) => DaylimealListBloc(),
-        ),
+        BlocProvider(create: (context) => ActivityBloc()),
+        BlocProvider(create: (context) => BasketBloc()),
+        BlocProvider(create: (context) => SystemBloc()),
+        BlocProvider(create: (context) => DaylimealListBloc()),
+        BlocProvider(create: (context) => ShagerdBloc()),
       ],
-      child: ProviderScope(
-        child: const MyApp(),
-      ),
+      child: const MyApp(),
     ),
   );
 }
