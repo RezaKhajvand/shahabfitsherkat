@@ -1,0 +1,68 @@
+import 'dart:convert';
+
+import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
+import 'package:shahabfit/Features/oldversion/data/updateshagerd_datasource.dart';
+import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
+import 'package:shahabfit/Features/oldversion/utils/handleexception.dart';
+
+part 'update_shagerd_event.dart';
+part 'update_shagerd_state.dart';
+
+class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
+  UpdateShagerdBloc() : super(UpdateShagerdInitial()) {
+    on<UpdateShagerdEvent>((event, emit) async {
+      emit((UpdateShagerdLoading()));
+      var shagerd = event.shagerd;
+
+      try {
+        switch (event.action) {
+          case UpdateAction.decrease:
+            {
+              if (shagerd.jalase > 0) {
+                emit((UpdateShagerdSuccess(
+                    shagerd: await decreaseJalase(shagerd))));
+              } else {
+                emit((UpdateShagerdError(
+                    message: "جلسه ای برای کم کردن وجود ندارد")));
+              }
+            }
+          case UpdateAction.increase:
+            {
+              if (DateTime.now().difference(shagerd.updated).inHours > 2) {
+                emit((UpdateShagerdSuccess(
+                    shagerd: await increaseJalase(shagerd))));
+              } else {
+                HapticFeedback.mediumImpact();
+                emit((UpdateShagerdError(message: '''
+در ۲ ساعت اخیر کلاس ثبت کرده اید
+آیا از افزودن جلسه اطمینان دارید؟
+''', shagerd: shagerd)));
+              }
+            }
+          case UpdateAction.increaseDirectly:
+            {
+              emit((UpdateShagerdSuccess(
+                  shagerd: await increaseJalase(shagerd))));
+            }
+        }
+      } catch (e) {
+        emit((UpdateShagerdError(message: handleException(e))));
+      }
+    });
+  }
+
+  Future<Shagerd> increaseJalase(Shagerd shagerd) async {
+    shagerd.jalase++;
+    return Shagerd.fromJson(
+        json.decode(await updateShagerdDatasource(shagerd)));
+  }
+  // =======
+
+  Future<Shagerd> decreaseJalase(Shagerd shagerd) async {
+    shagerd.jalase--;
+    return Shagerd.fromJson(
+        json.decode(await updateShagerdDatasource(shagerd)));
+  }
+}
