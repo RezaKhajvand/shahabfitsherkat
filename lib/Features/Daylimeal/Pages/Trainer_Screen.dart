@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/Router.dart';
-import 'package:shahabfit/Features/Daylimeal/Pages/trainer_screen.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
+import 'package:shahabfit/Features/Daylimeal/utils/activityfactor.dart';
 import 'package:shahabfit/Features/Daylimeal/utils/getinputformatter.dart';
+import 'package:shahabfit/Features/Daylimeal/widgets/sliderwidget.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
-
-
 
 class TrainerScreen extends StatefulWidget {
   final Trainer? trainer;
@@ -352,15 +351,14 @@ class TrainerScreenState extends State<TrainerScreen> {
                   ),
                   const SizedBox(height: 15),
                   NutritionSlider(
-                    carbs: carbs,
-                    protein: protein,
-                    fat: fat,
-                    onValuesChanged: (p0, p1, p2) => setState(() {
-                      protein = p0;
-                      carbs = p1;
-                      fat = p2;
-                    }),
-                  ),
+                      carbs: carbs,
+                      protein: protein,
+                      fat: fat,
+                      onValuesChanged: (p0, p1, p2) => setState(() {
+                            protein = p0;
+                            carbs = p1;
+                            fat = p2;
+                          })),
                   const SizedBox(height: 15),
                   Row(
                     children: [
@@ -498,7 +496,4 @@ class TrainerScreenState extends State<TrainerScreen> {
       ),
     );
   }
-
-
 }
-
