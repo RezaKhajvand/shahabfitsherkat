@@ -7,4 +7,4 @@ class UpdateShagerdEvent {
   UpdateShagerdEvent({required this.shagerd, required this.action});
 }
 
-enum UpdateAction { increase, decrease,increaseDirectly }
+enum UpdateAction { increase, decrease,increaseDirectly,update }

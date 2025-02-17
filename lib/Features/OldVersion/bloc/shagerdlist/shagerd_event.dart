@@ -14,3 +14,8 @@ final class FetchShagerdEvent extends ShagerdEvent {
     this.searchText = '',
   });
 }
+
+final class DeleteShagerdEvent extends ShagerdEvent {
+  final Shagerd shagerd;
+  DeleteShagerdEvent({required this.shagerd});
+}

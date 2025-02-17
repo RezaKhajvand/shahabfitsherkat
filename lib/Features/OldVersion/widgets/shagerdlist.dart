@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/BorderRadius.dart';
+import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
@@ -31,6 +33,10 @@ class _ShagerdListState extends State<ShagerdList> {
   @override
   void initState() {
     super.initState();
+    fetchShagerd();
+  }
+
+  fetchShagerd() {
     switch (widget.type) {
       case ShagerdType.all:
         fetchAllShagerd();
@@ -93,7 +99,7 @@ class _ShagerdListState extends State<ShagerdList> {
               ),
               Expanded(
                 child: RefreshIndicator(
-                  onRefresh: () async => fetchAllShagerd(),
+                  onRefresh: () async => fetchShagerd(),
                   child: ListView.separated(
                       cacheExtent: 80,
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 90),
@@ -272,29 +278,28 @@ class _ShagerdListState extends State<ShagerdList> {
                                                     planindex = 2;
                                                 }
 
-                                                // if (value == 0) {
-                                                //   bool? resault = await Navigator.push(
-                                                //       context,
-                                                //       MaterialPageRoute(
-                                                //         builder: (context) => EditPage(
-                                                //           shagerd:shagerds[index],
-                                                //           planindex: planindex,
-                                                //           typeindex:
-                                                //            shagerds[index].khosusi ==
-                                                //                       true
-                                                //                   ? 1
-                                                //                   : 0,
-                                                //         ),
-                                                //       ));
-                                                //   if (resault == true) {
-                                                //     setState(() {});
-                                                //   }
-                                                // }
-                                                // if (value == 1) {
-                                                //   await shagerdbox
-                                                //       .delete(shagerds[index].id);
-                                                //   setState(() {});
-                                                // }
+                                                if (value == 0) {
+                                                  print(
+                                                      'جلسه : ${shagerds[index].jalase}');
+                                                  bool? resault = await context
+                                                      .push(editShagerdPage,
+                                                          extra: {
+                                                        "shagerd":
+                                                            shagerds[index],
+                                                        "shagerdList": shagerds,
+                                                      });
+
+                                                  if (resault == true) {
+                                                    fetchShagerd();
+                                                  }
+                                                }
+                                                if (value == 1) {
+                                                  context
+                                                      .read<ShagerdBloc>()
+                                                      .add(DeleteShagerdEvent(
+                                                          shagerd:
+                                                              shagerds[index]));
+                                                }
                                                 if (value == 2) {
                                                   final List<String> planlist =
                                                       [

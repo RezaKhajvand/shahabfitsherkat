@@ -48,6 +48,11 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
               emit((UpdateShagerdSuccess(
                   shagerd: await increaseJalase(shagerd))));
             }
+            break;
+          case UpdateAction.update:
+            {
+              emit((UpdateShagerdSuccess(shagerd: await update(shagerd))));
+            }
         }
       } catch (e) {
         emit((UpdateShagerdError(message: handleException(e))));
@@ -55,14 +60,22 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
     });
   }
 
+  Future<Shagerd> update(Shagerd shagerd) async {
+    var updatingShagerd = shagerd;
+    final resault = await updateShagerdDatasource(updatingShagerd);
+    shagerd = Shagerd.fromJson(json.decode(resault));
+    return shagerd;
+  }
+
+  // =======
   Future<Shagerd> increaseJalase(Shagerd shagerd) async {
     var updatingShagerd = shagerd.copyWith(jalase: shagerd.jalase + 1);
     final resault = await updateShagerdDatasource(updatingShagerd);
     shagerd = Shagerd.fromJson(json.decode(resault));
     return shagerd;
   }
-  // =======
 
+  // =======
   Future<Shagerd> decreaseJalase(Shagerd shagerd) async {
     var updatingShagerd = shagerd.copyWith(jalase: shagerd.jalase - 1);
     final resault = await updateShagerdDatasource(updatingShagerd);

@@ -12,8 +12,11 @@ import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
 import 'package:shahabfit/Features/Splash/SplashPage.dart';
 import 'package:shahabfit/Features/System/Pages/SystemPage.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
+import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
+import 'package:shahabfit/Features/oldversion/editpage.dart';
+import 'package:shahabfit/Features/oldversion/managepage.dart';
+import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
 import 'package:shahabfit/Features/oldversion/searchpage.dart';
-import 'package:shahabfit/main.dart';
 
 const String activitiesPage = '/activities';
 const String basketListPage = '/basketlist';
@@ -27,6 +30,7 @@ const String dayliMealPage = '/daylimeal';
 const String trainerPage = '/trainer';
 const String shagerdSearchPage = '/shagerdsearch';
 const String daylimealListPage = '/daylimeallist';
+const String editShagerdPage = '/editshagerd';
 // GoRouter configuration
 final router = GoRouter(
   initialLocation: splashPage,
@@ -37,7 +41,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: homePage,
-      builder: (context, state) => const BasePage(),
+      builder: (context, state) => const ManagePage(),
     ),
     GoRoute(
       path: systemPickerPage,
@@ -82,6 +86,18 @@ final router = GoRouter(
     GoRoute(
       path: daylimealListPage,
       builder: (context, state) => const DayliMealListScreen(),
+    ),
+    GoRoute(
+      path: editShagerdPage,
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        return BlocProvider(
+          create: (context) => UpdateShagerdBloc(),
+          child: EditPage(
+              shagerd: extra["shagerd"] as Shagerd,
+              shagerdList: extra["shagerdList"] as List<Shagerd>),
+        );
+      },
     ),
     GoRoute(
       path: shagerdSearchPage,

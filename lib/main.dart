@@ -158,22 +158,3 @@ class _ProgressContentState extends State<ProgressContent>
     );
   }
 }
-
-class BasePage extends StatelessWidget {
-  const BasePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF141414),
-        image: DecorationImage(
-          image: AssetImage('images/shahabbg.png'),
-          alignment: Alignment.topCenter,
-          fit: BoxFit.fitWidth,
-        ),
-      ),
-      child:  ManagePage(),
-    );
-  }
-}
