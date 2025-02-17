@@ -6,7 +6,7 @@ import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
-import 'package:shahabfit/Features/oldversion/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 
 class DayliMealListScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:shahabfit/Features/oldversion/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 String format1(Date d) {

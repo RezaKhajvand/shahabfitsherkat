@@ -5,7 +5,7 @@ import 'package:open_file/open_file.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:shahabfit/Features/Basket/Utils/PDFCreator.dart';
 import 'package:shahabfit/Features/Daylimeal/models/pdftext_model.dart';
-import 'package:shahabfit/Features/oldversion/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 pdfMealCreator(List<Meal> meals, String pdfName, String pdfText) async {

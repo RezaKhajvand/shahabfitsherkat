@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/BorderRadius.dart';
+import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/Home/Widgets/Drawer.dart';
-import 'package:shahabfit/Features/OldVersion/widgets/shagerdlist.dart';
+import 'package:shahabfit/Features/oldversion/utils/shagerdtype.dart';
+import 'package:shahabfit/Features/oldversion/widgets/shagerdlist.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 import 'package:shahabfit/main.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class ManagePage extends StatefulWidget {
+  const ManagePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ManagePage> createState() => _ManagePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final ScrollController controller = ScrollController();
-
+class _ManagePageState extends State<ManagePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -49,17 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.white,
                   )),
               IconButton(
-                  onPressed: () async {
-                    // await Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     fullscreenDialog: true,
-                    //     builder: (context) => const SearchPage(),
-                    //   ),
-                    // );
-
-                    setState(() {});
-                  },
+                  onPressed: () async => context.push(shagerdSearchPage),
                   icon: const Icon(
                     Icons.search,
                     color: Colors.white,
@@ -86,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 child: TabBar(
-                  onTap: (value) => controller.jumpTo(0),
                   dividerColor: Colors.transparent,
                   padding: const EdgeInsets.all(10),
                   indicatorSize: TabBarIndicatorSize.tab,
@@ -113,9 +103,9 @@ class _MyHomePageState extends State<MyHomePage> {
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              ShagerdList(controller: controller),
-              ShagerdList(controller: controller),
-              ShagerdList(controller: controller),
+              ShagerdList(type: ShagerdType.all),
+              ShagerdList(type: ShagerdType.khosusi),
+              ShagerdList(type: ShagerdType.monqzi),
             ],
           ),
           floatingActionButton: FloatingActionButton(

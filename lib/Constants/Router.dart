@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Activities/Pages/ActivitiesPage.dart';
 import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
@@ -10,6 +11,8 @@ import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
 import 'package:shahabfit/Features/Splash/SplashPage.dart';
 import 'package:shahabfit/Features/System/Pages/SystemPage.dart';
+import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
+import 'package:shahabfit/Features/oldversion/searchpage.dart';
 import 'package:shahabfit/main.dart';
 
 const String activitiesPage = '/activities';
@@ -22,6 +25,7 @@ const String basketPage = '/basket';
 const String systemPickerPage = '/systempicker';
 const String dayliMealPage = '/daylimeal';
 const String trainerPage = '/trainer';
+const String shagerdSearchPage = '/shagerdsearch';
 const String daylimealListPage = '/daylimeallist';
 // GoRouter configuration
 final router = GoRouter(
@@ -78,6 +82,13 @@ final router = GoRouter(
     GoRoute(
       path: daylimealListPage,
       builder: (context, state) => const DayliMealListScreen(),
+    ),
+    GoRoute(
+      path: shagerdSearchPage,
+      builder: (context, state) => BlocProvider(
+        create: (context) => ShagerdBloc(),
+        child: const SearchPage(),
+      ),
     ),
   ],
 );

@@ -3,7 +3,6 @@ import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/dele
 import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/getOpenBasketActivityDataSource.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/Basket/Data/updateBasketActivityDataSource.dart';
-import 'package:shahabfit/Features/System/Models/ClubSystemModel.dart';
 
 part 'basket_event.dart';
 part 'basket_state.dart';

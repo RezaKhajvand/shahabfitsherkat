@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shahabfit/Constants/BorderRadius.dart';
 import 'package:shahabfit/Constants/colors.dart';
-import 'package:shahabfit/Features/oldversion/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 
 
 

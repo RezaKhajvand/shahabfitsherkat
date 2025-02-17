@@ -13,7 +13,8 @@ class ShagerdBloc extends Bloc<ShagerdEvent, ShagerdState> {
     on<FetchShagerdEvent>((event, emit) async {
       emit((ShagerdLoading()));
       try {
-        shagerdList = shagerdFromJson(await getShagerdList());
+        shagerdList = shagerdFromJson(
+            await getShagerdList(khosusi: event.khosusi, monqzi: event.monqzi,searchText: event.searchText));
         emit((ShagerdLoaded(shagerdList: shagerdList)));
       } catch (e) {
         emit((ShagerdError(message: handleException(e))));

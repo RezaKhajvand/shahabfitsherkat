@@ -28,6 +28,7 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
                     message: "جلسه ای برای کم کردن وجود ندارد")));
               }
             }
+            break;
           case UpdateAction.increase:
             {
               if (DateTime.now().difference(shagerd.updated).inHours > 2) {
@@ -41,6 +42,7 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
 ''', shagerd: shagerd)));
               }
             }
+            break;
           case UpdateAction.increaseDirectly:
             {
               emit((UpdateShagerdSuccess(
@@ -54,15 +56,17 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
   }
 
   Future<Shagerd> increaseJalase(Shagerd shagerd) async {
-    shagerd.jalase++;
-    return Shagerd.fromJson(
-        json.decode(await updateShagerdDatasource(shagerd)));
+    var updatingShagerd = shagerd.copyWith(jalase: shagerd.jalase + 1);
+    final resault = await updateShagerdDatasource(updatingShagerd);
+    shagerd = Shagerd.fromJson(json.decode(resault));
+    return shagerd;
   }
   // =======
 
   Future<Shagerd> decreaseJalase(Shagerd shagerd) async {
-    shagerd.jalase--;
-    return Shagerd.fromJson(
-        json.decode(await updateShagerdDatasource(shagerd)));
+    var updatingShagerd = shagerd.copyWith(jalase: shagerd.jalase - 1);
+    final resault = await updateShagerdDatasource(updatingShagerd);
+    shagerd = Shagerd.fromJson(json.decode(resault));
+    return shagerd;
   }
 }

@@ -8,8 +8,7 @@ import 'package:shahabfit/Features/Daylimeal/Pages/pdfexport.dart';
 import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/pdftext_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
-import 'package:shahabfit/Features/OldVersion/replacefarsiandenglishnumber.dart';
-import 'package:shahabfit/Utils/swapextension.dart';
+import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 
 class DaylimealScreen extends StatefulWidget {
