@@ -11,8 +11,8 @@ import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
 import 'package:shahabfit/Features/Splash/SplashPage.dart';
 import 'package:shahabfit/Features/System/Pages/SystemPage.dart';
+import 'package:shahabfit/Features/oldversion/addpage.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
-import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/editpage.dart';
 import 'package:shahabfit/Features/oldversion/managepage.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
@@ -31,6 +31,7 @@ const String trainerPage = '/trainer';
 const String shagerdSearchPage = '/shagerdsearch';
 const String daylimealListPage = '/daylimeallist';
 const String editShagerdPage = '/editshagerd';
+const String createShagerdPage = '/createshagerd';
 // GoRouter configuration
 final router = GoRouter(
   initialLocation: splashPage,
@@ -90,15 +91,11 @@ final router = GoRouter(
     GoRoute(
       path: editShagerdPage,
       builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        return BlocProvider(
-          create: (context) => UpdateShagerdBloc(),
-          child: EditPage(
-              shagerd: extra["shagerd"] as Shagerd,
-              shagerdList: extra["shagerdList"] as List<Shagerd>),
-        );
+        final extra = state.extra as Shagerd;
+        return EditPage(shagerd: extra);
       },
     ),
+    GoRoute(path: createShagerdPage, builder: (context, state) => AddPage()),
     GoRoute(
       path: shagerdSearchPage,
       builder: (context, state) => BlocProvider(

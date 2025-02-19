@@ -5,6 +5,7 @@ class Trainer {
   final int weight;
   final int height;
   final int wrist;
+  final String goal;
   final int age;
   final int protein;
   final int carbo;
@@ -19,6 +20,7 @@ class Trainer {
     required this.weight,
     required this.height,
     required this.wrist,
+    required this.goal,
     required this.age,
     required this.protein,
     required this.carbo,

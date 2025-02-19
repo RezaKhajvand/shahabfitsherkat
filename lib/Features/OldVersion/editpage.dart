@@ -10,8 +10,7 @@ import 'package:shamsi_date/shamsi_date.dart';
 
 class EditPage extends StatefulWidget {
   final Shagerd shagerd;
-  final List<Shagerd> shagerdList;
-  const EditPage({super.key, required this.shagerd, required this.shagerdList});
+  const EditPage({super.key, required this.shagerd});
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -100,13 +99,6 @@ class _EditPageState extends State<EditPage> {
                     } else {
                       if (value.isEmpty) {
                         return 'لطفا نام شاگرد را وارد کنید';
-                      } else if (value.isNotEmpty) {
-                        for (var element in widget.shagerdList) {
-                          if (element.name == value &&
-                              element.name != widget.shagerd.name) {
-                            return 'از نام تکراری استفاده کرده اید';
-                          }
-                        }
                       }
                     }
                     return null;
@@ -256,9 +248,7 @@ class _EditPageState extends State<EditPage> {
                 child: ElevatedButton(
                     onPressed: () async {
                       if (formGlobalKey.currentState!.validate()) {
-                        print('جلسه : ${widget.shagerd.jalase}');
-                        context
-                            .read<UpdateShagerdBloc>()
+                        BlocProvider.of<UpdateShagerdBloc>(context)
                             .add(UpdateShagerdEvent(
                                 shagerd: widget.shagerd.copyWith(
                                   name: namecontroler.text,
@@ -274,8 +264,7 @@ class _EditPageState extends State<EditPage> {
                                   ).toUtcDateTime(),
                                 ),
                                 action: UpdateAction.update));
-
-                        context.pop(true);
+                        context.pop();
                       }
                     },
                     child: const Text('ویرایش')),

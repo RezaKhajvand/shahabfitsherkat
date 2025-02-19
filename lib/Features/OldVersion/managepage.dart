@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/BorderRadius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
-import 'package:shahabfit/Features/Home/Widgets/Drawer.dart';
 import 'package:shahabfit/Features/oldversion/utils/shagerdtype.dart';
 import 'package:shahabfit/Features/oldversion/widgets/shagerdlist.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
@@ -36,28 +35,26 @@ class _ManagePageState extends State<ManagePage> {
           child: Scaffold(
             backgroundColor: Colors.transparent,
             resizeToAvoidBottomInset: true,
-            drawer: const CustomDrawer(),
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
               actions: [
                 const HomeButton(),
-                IconButton(
-                    onPressed: () async {
-                      // await Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     fullscreenDialog: true,
-                      //     builder: (context) => TimePage(),
-                      //   ),
-                      // );
-
-                      setState(() {});
-                    },
-                    icon: const Icon(
-                      Icons.watch_later,
-                      color: Colors.white,
-                    )),
+                // IconButton(
+                //     onPressed: () async {
+                //       // await Navigator.push(
+                //       //   context,
+                //       //   MaterialPageRoute(
+                //       //     fullscreenDialog: true,
+                //       //     builder: (context) => TimePage(),
+                //       //   ),
+                //       // );
+                //     },
+                //     icon: const Icon(
+                //       Icons.watch_later,
+                //       color: Colors.white,
+                //     )),
                 IconButton(
                     onPressed: () async => context.push(shagerdSearchPage),
                     icon: const Icon(
@@ -119,17 +116,7 @@ class _ManagePageState extends State<ManagePage> {
             ),
             floatingActionButton: FloatingActionButton(
               backgroundColor: primary,
-              onPressed: () async {
-                // bool? resault = await Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       fullscreenDialog: true,
-                //       builder: (context) => const AddPage(),
-                //     ));
-                // if (resault == true) {
-                //   setState(() {});
-                // }
-              },
+              onPressed: () => context.push(createShagerdPage),
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),

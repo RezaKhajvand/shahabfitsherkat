@@ -7,9 +7,9 @@ import 'package:shahabfit/Constants/Theme.dart';
 import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.dart';
 import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
-import 'package:shahabfit/Features/OldVersion/ManagePage.dart';
 import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
+import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 
@@ -26,6 +26,7 @@ void main() async {
         BlocProvider(create: (context) => SystemBloc()),
         BlocProvider(create: (context) => DaylimealListBloc()),
         BlocProvider(create: (context) => ShagerdBloc()),
+        BlocProvider(create: (context) => UpdateShagerdBloc()),
       ],
       child: const MyApp(),
     ),

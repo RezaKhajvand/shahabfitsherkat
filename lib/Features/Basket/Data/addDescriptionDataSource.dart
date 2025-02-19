@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:shahabfit/Di.dart';
+import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
 import 'package:shahabfit/Utils/Exception.dart';
 
-Future<String> addDescription(String text) async {
+Future<String> addDescription(String text, DescriptionType type) async {
   var dio = Dio();
-  var data = {"text": text};
+  var data = {"text": text, "type": getDescriptionTitle(type)};
   try {
     var response = await dio.request('$baseUrl/collections/description/records',
         options: Options(

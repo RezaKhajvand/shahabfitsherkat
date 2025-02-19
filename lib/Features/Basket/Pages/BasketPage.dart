@@ -13,6 +13,7 @@ import 'package:shahabfit/Features/Basket/Data/addDescriptionDataSource.dart';
 import 'package:shahabfit/Features/Basket/Data/getDescriptionListDataSource.dart.dart';
 import 'package:shahabfit/Features/Basket/Models/description_model.dart';
 import 'package:shahabfit/Features/Basket/Utils/PDFCreator.dart';
+import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
 import 'package:shahabfit/Features/Basket/Widgets/SetRow.dart';
 import 'package:shahabfit/Features/Basket/Widgets/SystemPicker.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
@@ -185,7 +186,7 @@ class _BasketPageState extends State<BasketPage>
                                           if (descriptionList.isEmpty) {
                                             return descriptionList =
                                                 descriptionFromJson(
-                                                        await getDescriptionList())
+                                                        await getDescriptionList(DescriptionType.tamrin))
                                                     .items;
                                           } else {
                                             return descriptionList
@@ -236,7 +237,7 @@ class _BasketPageState extends State<BasketPage>
                                       if (!descriptionList.any((element) =>
                                           element.text ==
                                           pdfTextController.text)) {
-                                        addDescription(pdfTextController.text);
+                                        addDescription(pdfTextController.text,DescriptionType.tamrin);
                                       }
 
                                       AndroidDeviceInfo deviceInfo =

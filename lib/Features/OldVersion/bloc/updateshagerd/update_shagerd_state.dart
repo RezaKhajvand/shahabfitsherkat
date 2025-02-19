@@ -5,7 +5,11 @@ sealed class UpdateShagerdState {}
 
 final class UpdateShagerdInitial extends UpdateShagerdState {}
 
-final class UpdateShagerdLoading extends UpdateShagerdState {}
+final class UpdateShagerdLoading extends UpdateShagerdState {
+  final Shagerd shagerd;
+
+  UpdateShagerdLoading({required this.shagerd});
+}
 
 final class UpdateShagerdSuccess extends UpdateShagerdState {
   final Shagerd shagerd;

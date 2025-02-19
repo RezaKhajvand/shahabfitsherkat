@@ -89,6 +89,7 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                                 onPressed: () => context.replace(
                                       trainerPage,
                                       extra: Trainer(
+                                        goal: meal.goal,
                                         name: meal.name,
                                         wrist: meal.wrist,
                                         activity: meal.activity,

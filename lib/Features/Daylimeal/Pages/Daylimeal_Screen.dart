@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/Features/Basket/Data/addDescriptionDataSource.dart';
+import 'package:shahabfit/Features/Basket/Data/getDescriptionListDataSource.dart.dart';
+import 'package:shahabfit/Features/Basket/Models/description_model.dart';
 import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
+import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
 import 'package:shahabfit/Features/Daylimeal/Data/add_daylimeal_datasource.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/pdfexport.dart';
 import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
@@ -23,7 +28,7 @@ class DaylimealScreen extends StatefulWidget {
 class _DaylimealScreenState extends State<DaylimealScreen> {
   final pdfNameController = TextEditingController();
   final pdfTextController = TextEditingController();
-
+  List<DescriptionModel> descriptionList = [];
   List<List<TextEditingController>> controllers = [
     [TextEditingController()],
     [TextEditingController()],
@@ -170,17 +175,67 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
                                                     EdgeInsets.symmetric(
                                                         horizontal: 10))),
                                         const SizedBox(height: 20),
-                                        TextFormField(
+                                        TypeAheadField<DescriptionModel>(
                                             controller: pdfTextController,
-                                            maxLines: 3,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelSmall!
-                                                .copyWith(color: Colors.white),
-                                            decoration: const InputDecoration(
-                                                hintText: 'توضیحات برنامه',
-                                                contentPadding:
-                                                    EdgeInsets.all(10))),
+                                            hideOnEmpty: true,
+                                            suggestionsCallback:
+                                                (search) async {
+                                              if (descriptionList.isEmpty) {
+                                                return descriptionList =
+                                                    descriptionFromJson(
+                                                            await getDescriptionList(
+                                                                DescriptionType
+                                                                    .qazae))
+                                                        .items;
+                                              } else {
+                                                return descriptionList
+                                                    .where((element) => element
+                                                        .text
+                                                        .contains(search))
+                                                    .toList();
+                                              }
+                                            },
+                                            builder: (context, controller,
+                                                focusNode) {
+                                              return TextField(
+                                                controller: controller,
+                                                focusNode: focusNode,
+                                                autofocus: true,
+                                                maxLines: 3,
+                                                textAlignVertical:
+                                                    TextAlignVertical.top,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.white),
+                                                decoration:
+                                                    const InputDecoration(
+                                                        alignLabelWithHint:
+                                                            true,
+                                                        contentPadding:
+                                                            EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        10,
+                                                                    vertical:
+                                                                        12),
+                                                        label: Text(
+                                                            'توضیحات برنامه'),
+                                                        labelStyle: TextStyle(
+                                                            fontSize: 14)),
+                                              );
+                                            },
+                                            itemSeparatorBuilder:
+                                                (context, index) =>
+                                                    const Divider(height: 2),
+                                            itemBuilder: (context,
+                                                    description) =>
+                                                ListTile(
+                                                    dense: true,
+                                                    title:
+                                                        Text(description.text)),
+                                            onSelected: (value) =>
+                                                pdfTextController.text =
+                                                    value.text),
                                       ],
                                     );
                                   }),
@@ -188,6 +243,13 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
                                     width: double.infinity,
                                     child: ElevatedButton(
                                         onPressed: () async {
+                                          if (!descriptionList.any((element) =>
+                                              element.text ==
+                                              pdfTextController.text)) {
+                                            addDescription(
+                                                pdfTextController.text,
+                                                DescriptionType.qazae);
+                                          }
                                           pdfMealCreator(
                                               mealList,
                                               pdfNameController.text,
@@ -197,6 +259,7 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
                                             trainer: Trainer(
                                               name: pdfNameController.text,
                                               gender: t.gender,
+                                              goal: t.goal,
                                               calories: t.calories,
                                               weight: t.weight,
                                               height: t.height,
@@ -364,6 +427,9 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
               },
               itemCount: mealWidgets.length,
               onReorder: (oldIndex, newIndex) {
+                if (oldIndex < newIndex) {
+                  newIndex -= 1;
+                }
                 setState(() {
                   final item = mealWidgets.removeAt(oldIndex);
                   final controller = controllers.removeAt(oldIndex);

@@ -25,16 +25,10 @@ class InsertActivityEvent extends ActivityEvent {
 }
 
 class UpdateActivityEvent extends ActivityEvent {
-  final String firstIndexId;
-  final String secIndexId;
-  final int firstNumberView;
-  final int secNumberView;
+ final List<ActivityRecord> activityList;
 
-  UpdateActivityEvent(
-      {required this.firstIndexId,
-      required this.secIndexId,
-      required this.firstNumberView,
-      required this.secNumberView});
+  UpdateActivityEvent({required this.activityList});
+
 }
 
 class DeleteActivityEvent extends ActivityEvent {

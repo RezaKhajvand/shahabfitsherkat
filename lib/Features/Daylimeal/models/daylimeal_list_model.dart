@@ -37,6 +37,7 @@ class Item {
   DateTime created;
   List<Daylimeal> daylimeal;
   int fat;
+  String goal;
   String gender;
   int height;
   String id;
@@ -56,6 +57,7 @@ class Item {
     required this.created,
     required this.daylimeal,
     required this.fat,
+    required this.goal,
     required this.gender,
     required this.height,
     required this.id,
@@ -77,6 +79,7 @@ class Item {
         daylimeal: List<Daylimeal>.from(
             json["daylimeal"].map((x) => Daylimeal.fromJson(x))),
         fat: json["fat"],
+        goal: json["goal"],
         gender: json["gender"],
         height: json["height"],
         id: json["id"],

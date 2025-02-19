@@ -1,13 +1,11 @@
 import 'package:shahabfit/Features/oldversion/data/shagerdlist_datasource.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
 
-Future<String> updateShagerdDatasource(Shagerd shagerd) async {
+Future<void> createJalaseDatasource(Shagerd shagerd) async {
   try {
-    final response = await pb
-        .collection('shagerd')
-        .update(shagerd.id??'', body: shagerd.toJson());
+    final response =
+        await pb.collection('jalase').create(body: {"shagerd": shagerd.id});
     print(response);
-    return response.toString();
   } catch (e) {
     rethrow;
   }

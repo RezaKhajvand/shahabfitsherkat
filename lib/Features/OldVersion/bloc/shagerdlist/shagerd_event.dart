@@ -19,3 +19,8 @@ final class DeleteShagerdEvent extends ShagerdEvent {
   final Shagerd shagerd;
   DeleteShagerdEvent({required this.shagerd});
 }
+
+final class CreateShagerdEvent extends ShagerdEvent {
+  final Shagerd shagerd;
+  CreateShagerdEvent({required this.shagerd});
+}

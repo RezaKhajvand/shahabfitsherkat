@@ -6,6 +6,8 @@ import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
+import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
+import 'package:shahabfit/Features/oldversion/utils/getplan.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Features/oldversion/utils/formatdatetime.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleexception.dart';
@@ -67,6 +69,7 @@ class _ShagerdListState extends State<ShagerdList> {
         }
         if (state is ShagerdLoaded) {
           final shagerds = state.shagerdList;
+          print(shagerds.length);
           return Column(
             children: [
               Container(
@@ -103,369 +106,345 @@ class _ShagerdListState extends State<ShagerdList> {
                   child: ListView.separated(
                       cacheExtent: 80,
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 90),
-                      itemBuilder: (context, index) => BlocProvider(
-                            create: (context) => UpdateShagerdBloc(),
-                            child: BlocConsumer<UpdateShagerdBloc,
-                                UpdateShagerdState>(
-                              listener: (context, updateState) {
-                                if (updateState is UpdateShagerdError) {
-                                  getErrorSnackbar(context, updateState.message,
-                                      action: updateState.shagerd != null
-                                          ? SnackBarAction(
-                                              label: 'بله',
-                                              onPressed: () async => context
-                                                  .read<UpdateShagerdBloc>()
-                                                  .add(UpdateShagerdEvent(
-                                                      shagerd:
-                                                          updateState.shagerd!,
-                                                      action: UpdateAction
-                                                          .increaseDirectly)),
-                                            )
-                                          : null);
+                      itemBuilder: (context, index) =>
+                          BlocConsumer<UpdateShagerdBloc, UpdateShagerdState>(
+                            listener: (context, updateState) {
+                              if (updateState is UpdateShagerdError) {
+                                getErrorSnackbar(context, updateState.message,
+                                    action: updateState.shagerd != null
+                                        ? SnackBarAction(
+                                            label: 'بله',
+                                            onPressed: () async => context
+                                                .read<UpdateShagerdBloc>()
+                                                .add(UpdateShagerdEvent(
+                                                    shagerd:
+                                                        updateState.shagerd!,
+                                                    action: UpdateAction
+                                                        .increaseDirectly)),
+                                          )
+                                        : null);
+                              }
+                            },
+                            builder: (context, updateState) {
+                              if (updateState is UpdateShagerdSuccess) {
+                                final shagerdIndex = shagerds.indexWhere(
+                                    (element) =>
+                                        element.id == updateState.shagerd.id);
+                                if (shagerdIndex != -1) {
+                                  shagerds[shagerdIndex] = updateState.shagerd;
                                 }
-                              },
-                              builder: (context, updateState) {
-                                if (updateState is UpdateShagerdSuccess) {
-                                  shagerds[index] = updateState.shagerd;
-                                }
-
-                                return Dismissible(
-                                  direction: DismissDirection.startToEnd,
-                                  background: Container(
-                                    decoration: BoxDecoration(
-                                      color: primary,
-                                      borderRadius: cardBorderRadius,
-                                    ),
-                                    padding: const EdgeInsets.only(right: 50),
-                                    alignment: Alignment.centerRight,
-                                    child: const Icon(Icons.call),
+                              }
+                              return Dismissible(
+                                direction: DismissDirection.startToEnd,
+                                background: Container(
+                                  decoration: BoxDecoration(
+                                    color: primary,
+                                    borderRadius: cardBorderRadius,
                                   ),
-                                  key: Key(index.toString()),
-                                  onUpdate: (details) async {
-                                    final call = Uri.parse(
-                                        'tel:${shagerds[index].phone}');
-                                    if (details.progress == 1) {
-                                      if (await canLaunchUrl(call)) {
-                                        launchUrl(call);
-                                      } else {
-                                        print('مشکل در برقراری تماس');
-                                      }
+                                  padding: const EdgeInsets.only(right: 50),
+                                  alignment: Alignment.centerRight,
+                                  child: const Icon(Icons.call),
+                                ),
+                                key: Key(index.toString()),
+                                onUpdate: (details) async {
+                                  final call =
+                                      Uri.parse('tel:${shagerds[index].phone}');
+                                  if (details.progress == 1) {
+                                    if (await canLaunchUrl(call)) {
+                                      launchUrl(call);
+                                    } else {
+                                      print('مشکل در برقراری تماس');
                                     }
-                                  },
-                                  confirmDismiss: (direction) async => false,
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 16, 16, 4),
-                                    decoration: ShapeDecoration(
-                                      color: background,
-                                      shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                              width: 1, color: borderColor),
-                                          borderRadius: cardBorderRadius),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: 50,
-                                              height: 50,
-                                              decoration: ShapeDecoration(
-                                                color: const Color(0xFF2D2D2D),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      cardBorderRadius,
-                                                ),
-                                              ),
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                  shagerds[index].khosusi
-                                                      ? '💎'
-                                                      : shagerds[index]
-                                                          .name
-                                                          .substring(0, 1),
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize:
-                                                        shagerds[index].khosusi
-                                                            ? 30
-                                                            : 20,
-                                                    fontWeight: FontWeight.w600,
-                                                  )),
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(shagerds[index].name,
-                                                    style: const TextStyle(
-                                                        color: Colors.white)),
-                                                const SizedBox(height: 4),
-                                                RichText(
-                                                  text: TextSpan(
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .labelSmall,
-                                                    children: [
-                                                      TextSpan(
-                                                          text: replaceFarsiNumber(
-                                                              '${shagerds[index].plan} جلسه'),
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white
-                                                                  .withOpacity(
-                                                                      0.6))),
-                                                      const TextSpan(
-                                                          text: ' ⚡ '),
-                                                      TextSpan(
-                                                          text: replaceFarsiNumber(
-                                                              'کد : ${shagerds[index].shagerdId.toString()}')),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const Spacer(),
-                                            shagerds[index].jalase >=
-                                                        int.parse(
-                                                                shagerds[index]
-                                                                    .plan) -
-                                                            1 ||
-                                                    DateTime.now()
-                                                            .difference(shagerds[
-                                                                    index]
-                                                                .registerdate)
-                                                            .inDays >
-                                                        30
-                                                ? Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 8,
-                                                        vertical: 5),
-                                                    clipBehavior:
-                                                        Clip.antiAlias,
-                                                    decoration: ShapeDecoration(
-                                                      color: const Color(
-                                                          0xFF00EFFF),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            tabBorderRadius,
-                                                      ),
-                                                    ),
-                                                    child: const Text(
-                                                      'منقضی',
-                                                      style: TextStyle(
-                                                        color: background,
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : const SizedBox(),
-                                            PopupMenuButton(
-                                              color: Colors.white,
-                                              onSelected: (value) async {
-                                                var plan = shagerds[index].plan;
-                                                late int planindex;
-
-                                                switch (plan) {
-                                                  case 12:
-                                                    planindex = 0;
-                                                  case 16:
-                                                    planindex = 1;
-                                                  case 24:
-                                                    planindex = 2;
-                                                }
-
-                                                if (value == 0) {
-                                                  print(
-                                                      'جلسه : ${shagerds[index].jalase}');
-                                                  bool? resault = await context
-                                                      .push(editShagerdPage,
-                                                          extra: {
-                                                        "shagerd":
-                                                            shagerds[index],
-                                                        "shagerdList": shagerds,
-                                                      });
-
-                                                  if (resault == true) {
-                                                    fetchShagerd();
-                                                  }
-                                                }
-                                                if (value == 1) {
-                                                  context
-                                                      .read<ShagerdBloc>()
-                                                      .add(DeleteShagerdEvent(
-                                                          shagerd:
-                                                              shagerds[index]));
-                                                }
-                                                if (value == 2) {
-                                                  final List<String> planlist =
-                                                      [
-                                                    '۱۲ جلسه',
-                                                    '۱۶ جلسه',
-                                                    '۲۴ جلسه'
-                                                  ];
-                                                  // ignore: use_build_context_synchronously
-                                                  bool? resault =
-                                                      await showModalBottomSheet(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        Container(
-                                                      color: background,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              20),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          const Text(
-                                                            'انتخاب پلن تمدید',
-                                                            style: TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                          const SizedBox(
-                                                              height: 30),
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: List.generate(
-                                                                planlist.length,
-                                                                (planindex) => ElevatedButton(
-                                                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                                                                    onPressed: () async {
-                                                                      // await shagerdbox.put(
-                                                                      //     shagerds[
-                                                                      //             index]
-                                                                      //         .id,
-                                                                      //     HiveShagerd(
-                                                                      //         name: shagerds[index]
-                                                                      //             .name,
-                                                                      //         phone:shagerds[index]
-                                                                      //             .phone,
-                                                                      //         jalase:
-                                                                      //             0,
-                                                                      //         khosusi:shagerds[index]
-                                                                      //             .khosusi,
-                                                                      //         workouttime:shagerds[index]
-                                                                      //             .workouttime,
-                                                                      //         id:shagerds[index]
-                                                                      //             .id,
-                                                                      //         plan: getplan(
-                                                                      //             planindex),
-                                                                      //         registerdate:
-                                                                      //             DateTime.now()));
-                                                                      Navigator.pop(
-                                                                          context,
-                                                                          true);
-                                                                    },
-                                                                    child: Text(planlist[planindex]))),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  );
-                                                  if (resault == true) {
-                                                    // setState(() {});
-                                                  }
-                                                }
-                                              },
-                                              itemBuilder: (context) => [
-                                                PopupMenuItem(
-                                                  value: 0,
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall,
-                                                  child: const Text('ویرایش'),
-                                                ),
-                                                PopupMenuItem(
-                                                  value: 1,
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall,
-                                                  child: const Text('حذف'),
-                                                ),
-                                                PopupMenuItem(
-                                                  value: 2,
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodySmall,
-                                                  child: const Text('تمدید'),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 18),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              format1(shagerds[index]
-                                                  .registerdate
-                                                  .toJalali()),
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            IconButton(
-                                              onPressed: () => context
-                                                  .read<UpdateShagerdBloc>()
-                                                  .add(UpdateShagerdEvent(
-                                                      shagerd: shagerds[index],
-                                                      action: UpdateAction
-                                                          .decrease)),
-                                              icon: const Icon(
-                                                  Icons.remove_circle,
-                                                  color: primary,
-                                                  size: 32),
-                                            ),
-                                            updateState is UpdateShagerdLoading
-                                                ? SizedBox(
-                                                    height: 18,
-                                                    width: 18,
-                                                    child:
-                                                        CircularProgressIndicator())
-                                                : Text(
-                                                    replaceFarsiNumber(
-                                                        ' ${shagerds[index].jalase} '),
-                                                    style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                            IconButton(
-                                              onPressed: () => context
-                                                  .read<UpdateShagerdBloc>()
-                                                  .add(UpdateShagerdEvent(
-                                                      shagerd: shagerds[index],
-                                                      action: UpdateAction
-                                                          .increase)),
-                                              icon: const Icon(Icons.add_circle,
-                                                  color: primary, size: 32),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  }
+                                },
+                                confirmDismiss: (direction) async => false,
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 16, 16, 4),
+                                  decoration: ShapeDecoration(
+                                    color: background,
+                                    shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            width: 1, color: borderColor),
+                                        borderRadius: cardBorderRadius),
                                   ),
-                                );
-                              },
-                            ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 50,
+                                            height: 50,
+                                            decoration: ShapeDecoration(
+                                              color: const Color(0xFF2D2D2D),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: cardBorderRadius,
+                                              ),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Stack(
+                                              fit: StackFit.expand,
+                                              children: [
+                                                Image.network(
+                                                  shagerds[index]
+                                                          .profileImage ??
+                                                      '',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                Text(
+                                                    shagerds[index].khosusi
+                                                        ? '💎'
+                                                        : '',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 30,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(shagerds[index].name,
+                                                  style: const TextStyle(
+                                                      color: Colors.white)),
+                                              const SizedBox(height: 4),
+                                              RichText(
+                                                text: TextSpan(
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelSmall,
+                                                  children: [
+                                                    TextSpan(
+                                                        text: replaceFarsiNumber(
+                                                            '${shagerds[index].plan} جلسه'),
+                                                        style: TextStyle(
+                                                            color: Colors.white
+                                                                .withOpacity(
+                                                                    0.6))),
+                                                    const TextSpan(text: ' ⚡ '),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          shagerds[index].jalase >=
+                                                      int.parse(shagerds[index]
+                                                              .plan) -
+                                                          1 ||
+                                                  DateTime.now()
+                                                          .difference(
+                                                              shagerds[index]
+                                                                  .registerdate)
+                                                          .inDays >
+                                                      30
+                                              ? Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 5),
+                                                  clipBehavior: Clip.antiAlias,
+                                                  decoration: ShapeDecoration(
+                                                    color:
+                                                        const Color(0xFF00EFFF),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          tabBorderRadius,
+                                                    ),
+                                                  ),
+                                                  child: const Text(
+                                                    'منقضی',
+                                                    style: TextStyle(
+                                                      color: background,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                          PopupMenuButton(
+                                            color: Colors.white,
+                                            onSelected: (value) async {
+                                              var plan = shagerds[index].plan;
+                                              late int planindex;
+                                              switch (plan) {
+                                                case 12:
+                                                  planindex = 0;
+                                                case 16:
+                                                  planindex = 1;
+                                                case 24:
+                                                  planindex = 2;
+                                              }
+
+                                              if (value == 0) {
+                                                await context.push(
+                                                    editShagerdPage,
+                                                    extra: shagerds[index]);
+                                              }
+                                              if (value == 1) {
+                                                context.read<ShagerdBloc>().add(
+                                                    DeleteShagerdEvent(
+                                                        shagerd:
+                                                            shagerds[index]));
+                                              }
+                                              if (value == 2) {
+                                                final List<String> planlist = [
+                                                  '۱۲ جلسه',
+                                                  '۱۶ جلسه',
+                                                  '۲۴ جلسه'
+                                                ];
+                                                // ignore: use_build_context_synchronously
+                                                bool? resault =
+                                                    await showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      Container(
+                                                    color: background,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Text(
+                                                          'انتخاب پلن تمدید',
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 30),
+                                                        Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: List.generate(
+                                                              planlist.length,
+                                                              (planindex) => ElevatedButton(
+                                                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                                                                  onPressed: () async {
+                                                                    BlocProvider.of<UpdateShagerdBloc>(
+                                                                            context)
+                                                                        .add(UpdateShagerdEvent(
+                                                                            shagerd: shagerds[index].copyWith(
+                                                                              plan: getplan(planindex).toString(),
+                                                                              jalase: 0,
+                                                                              registerdate: DateTime.now().toUtc(),
+                                                                            ),
+                                                                            action: UpdateAction.tamdid));
+                                                                    context
+                                                                        .pop();
+                                                                  },
+                                                                  child: Text(planlist[planindex]))),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                                if (resault == true) {
+                                                  // setState(() {});
+                                                }
+                                              }
+                                            },
+                                            itemBuilder: (context) => [
+                                              PopupMenuItem(
+                                                value: 0,
+                                                textStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                                child: const Text('ویرایش'),
+                                              ),
+                                              PopupMenuItem(
+                                                value: 1,
+                                                textStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                                child: const Text('حذف'),
+                                              ),
+                                              PopupMenuItem(
+                                                value: 2,
+                                                textStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                                child: const Text('تمدید'),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 18),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            format1(shagerds[index]
+                                                .registerdate
+                                                .toJalali()),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            onPressed: () => context
+                                                .read<UpdateShagerdBloc>()
+                                                .add(UpdateShagerdEvent(
+                                                    shagerd: shagerds[index],
+                                                    action:
+                                                        UpdateAction.decrease)),
+                                            icon: const Icon(
+                                                Icons.remove_circle,
+                                                color: primary,
+                                                size: 32),
+                                          ),
+                                          (updateState
+                                                      is UpdateShagerdLoading &&
+                                                  shagerds[index] ==
+                                                      updateState.shagerd)
+                                              ? SizedBox(
+                                                  height: 18,
+                                                  width: 18,
+                                                  child:
+                                                      CircularProgressIndicator())
+                                              : Text(
+                                                  replaceFarsiNumber(
+                                                      ' ${shagerds[index].jalase} '),
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                          IconButton(
+                                            onPressed: () => context
+                                                .read<UpdateShagerdBloc>()
+                                                .add(UpdateShagerdEvent(
+                                                    shagerd: shagerds[index],
+                                                    action:
+                                                        UpdateAction.increase)),
+                                            icon: const Icon(Icons.add_circle,
+                                                color: primary, size: 32),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 14),

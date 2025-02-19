@@ -88,18 +88,13 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
     });
     on<UpdateActivityEvent>((event, emit) async {
       try {
-        updateActivity(
-            activityId: event.firstIndexId, numberView: event.secNumberView);
-        updateActivity(
-            activityId: event.secIndexId, numberView: event.firstNumberView);
-
-        activity.items
-            .firstWhere((element) => element.id == event.firstIndexId)
-            .numberView = event.secNumberView;
-        activity.items
-            .firstWhere((element) => element.id == event.secIndexId)
-            .numberView = event.firstNumberView;
-        sortItems();
+        var newShagerdList = event.activityList;
+        Future.wait(List.generate(newShagerdList.length, (index) {
+          newShagerdList[index].numberView = index;
+          return updateActivity(
+              activityId: newShagerdList[index].id, numberView: index);
+        }));
+        activity.items = newShagerdList;
         emit((ActivityLoaded(
             openBasket: openBasket,
             activity: activity,

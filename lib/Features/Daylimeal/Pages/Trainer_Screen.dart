@@ -45,7 +45,7 @@ class TrainerScreenState extends State<TrainerScreen> {
   late ActivityFactor _activityFactor;
   int _typeIndex = 0;
   List<Map<String, dynamic>> daylimeal = [];
-
+  final goalList = const ['کاهش وزن', 'تثبیت وزن', 'افزایش وزن'];
   // تابع محاسبه کالری
   void _calculateCalories() {
     if (_formKey.currentState!.validate()) {
@@ -176,11 +176,11 @@ class TrainerScreenState extends State<TrainerScreen> {
                     dropdownColor: Colors.black,
                     value: _typeIndex,
                     decoration: const InputDecoration(labelText: 'هدف'),
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('کاهش وزن')),
-                      DropdownMenuItem(value: 1, child: Text('تثبیت وزن')),
-                      DropdownMenuItem(value: 2, child: Text('افزایش وزن')),
-                    ],
+                    items: List.generate(
+                      goalList.length,
+                      (index) => DropdownMenuItem(
+                          value: index, child: Text(goalList[index])),
+                    ),
                     onChanged: (value) {
                       setState(() {
                         _typeIndex = value!;
@@ -377,6 +377,7 @@ class TrainerScreenState extends State<TrainerScreen> {
                                   dayliMealPage,
                                   extra: Trainer(
                                     name: '',
+                                    goal:goalList[_typeIndex],
                                     wrist: int.parse(replaceEnglishNumber(
                                         _wristController.text)),
                                     activity: _activityFactor.title,

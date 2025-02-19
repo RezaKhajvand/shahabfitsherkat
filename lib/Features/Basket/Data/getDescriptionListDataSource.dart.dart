@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:shahabfit/Di.dart';
+import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
 import 'package:shahabfit/Utils/Exception.dart';
 
-Future<String> getDescriptionList() async {
+Future<String> getDescriptionList(DescriptionType type) async {
   var dio = Dio();
   try {
     var response = await dio.request(
-      '$baseUrl/collections/description/records',
+      '$baseUrl/collections/description/records?filter=type="${getDescriptionTitle(type)}"',
       options: Options(
         method: 'GET',
         headers: headers,

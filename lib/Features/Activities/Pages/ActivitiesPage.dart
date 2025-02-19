@@ -271,28 +271,19 @@ class _ActivitiesPageState extends State<ActivitiesPage>
               openBasketId = state.openBasketId;
               return ReorderableListView.builder(
                 itemCount: activityList.length,
+                buildDefaultDragHandles: false,
                 key: Key(_tabController.index.toString()),
                 proxyDecorator: (child, index, animation) =>
                     proxyDecorator(child, index, animation),
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
                 onReorder: (oldIndex, newIndex) {
-                  var qadimIndex = 0;
-                  var jadidIndex = 0;
-                  if (newIndex > oldIndex) {
-                    print('$oldIndex  - ${newIndex - 1}');
-                    qadimIndex = oldIndex;
-                    jadidIndex = newIndex - 1;
-                  } else {
-                    print('$oldIndex - $newIndex');
-                    qadimIndex = oldIndex;
-                    jadidIndex = newIndex;
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
                   }
-                  BlocProvider.of<ActivityBloc>(context).add(
-                      UpdateActivityEvent(
-                          firstIndexId: activityList[jadidIndex].id,
-                          secIndexId: activityList[qadimIndex].id,
-                          firstNumberView: jadidIndex,
-                          secNumberView: qadimIndex));
+                  final item = activityList.removeAt(oldIndex);
+                  activityList.insert(newIndex, item);
+                  BlocProvider.of<ActivityBloc>(context)
+                      .add(UpdateActivityEvent(activityList: activityList));
                 },
                 itemBuilder: (context, index) {
                   return Container(
@@ -309,10 +300,19 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                           borderRadius: cardBorderRadius,
                         ),
                       ),
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(12),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          ReorderableDragStartListener(
+                            key: ObjectKey(widget),
+                            index: index,
+                            child: const Icon(
+                              Icons.drag_handle,
+                              size: 30,
+                            ),
+                          ),
+                          SizedBox(width: 10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -346,9 +346,9 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                                             activity: activityList[index]));
                                   },
                                   icon: const Icon(Icons.delete_outline)),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 5),
                               SizedBox(
-                                width: 60,
+                                width: 50,
                                 child: Builder(builder: (context) {
                                   if (activityList[index].id ==
                                       state.loadingItem) {

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:shahabfit/Features/oldversion/data/createshagerd_datasource.dart';
 import 'package:shahabfit/Features/oldversion/data/deleteshagerd_datasource.dart';
 import 'package:shahabfit/Features/oldversion/data/shagerdlist_datasource.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
@@ -28,6 +31,18 @@ class ShagerdBloc extends Bloc<ShagerdEvent, ShagerdState> {
       try {
         await deleteShagerdDatasource(event.shagerd);
         shagerdList.remove(event.shagerd);
+        emit((ShagerdLoaded(shagerdList: shagerdList)));
+      } catch (e) {
+        emit((ShagerdError(message: handleException(e))));
+      }
+    });
+
+    on<CreateShagerdEvent>((event, emit) async {
+      emit((ShagerdLoading()));
+      try {
+        final record = Shagerd.fromJson(
+            json.decode(await createShagerdDatasource(event.shagerd)));
+        shagerdList.insert(0, record);
         emit((ShagerdLoaded(shagerdList: shagerdList)));
       } catch (e) {
         emit((ShagerdError(message: handleException(e))));

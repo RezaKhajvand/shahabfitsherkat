@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/OldVersion/bottomsheet_tarikh.dart';
 import 'package:shahabfit/Features/OldVersion/getshomarefrestande.dart';
-import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
+import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class AddPage extends StatefulWidget {
-  final List<Shagerd> shagerdList;
-  const AddPage({super.key, required this.shagerdList});
+  const AddPage({super.key});
 
   @override
   State<AddPage> createState() => _AddPageState();
@@ -94,12 +93,6 @@ class _AddPageState extends State<AddPage> {
                     } else {
                       if (value.isEmpty) {
                         return 'لطفا نام شاگرد را وارد کنید';
-                      } else if (value.isNotEmpty) {
-                        for (var element in widget.shagerdList) {
-                          if (element.name == value) {
-                            return 'از نام تکراری استفاده کرده اید';
-                          }
-                        }
                       }
                     }
                     return null;
@@ -249,28 +242,25 @@ class _AddPageState extends State<AddPage> {
                 child: ElevatedButton(
                     onPressed: () async {
                       if (formGlobalKey.currentState!.validate()) {
-                        // context
-                        //     .read<UpdateShagerdBloc>()
-                        //     .add(UpdateShagerdEvent(
-                        //         shagerd: Shagerd(
-                        //           name: namecontroler.text,
-                        //           phone:
-                        //               replaceEnglishNumber(phonecontroler.text),
-                        //           khosusi: typeindex != 0,
-                        //           workouttime: timelist[workouttimeindex],
-                        //           plan: getplan(),
-                        //           registerdate: Jalali(
-                        //             date![2],
-                        //             date![1],
-                        //             date![0],
-                        //           ).toUtcDateTime(),
-                        //         ),
-                        //         action: UpdateAction.update));
-
-                        context.pop(true);
+                        BlocProvider.of<ShagerdBloc>(context)
+                            .add(CreateShagerdEvent(
+                                shagerd: Shagerd(
+                          name: namecontroler.text,
+                          jalase: 0,
+                          phone: replaceEnglishNumber(phonecontroler.text),
+                          khosusi: typeindex != 0,
+                          workouttime: timelist[workouttimeindex],
+                          plan: getplan(),
+                          registerdate: Jalali(
+                            date![2],
+                            date![1],
+                            date![0],
+                          ).toUtcDateTime(),
+                        )));
+                        context.pop();
                       }
                     },
-                    child: const Text('ویرایش')),
+                    child: const Text('افزودن شاگرد')),
               )
             ],
           ),

@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
+import 'package:shahabfit/Features/oldversion/data/createjalase_datasource.dart';
+import 'package:shahabfit/Features/oldversion/data/deletealljalasat_datasource.dart';
+import 'package:shahabfit/Features/oldversion/data/deletejalase_datasource.dart';
 import 'package:shahabfit/Features/oldversion/data/updateshagerd_datasource.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleexception.dart';
@@ -13,9 +16,8 @@ part 'update_shagerd_state.dart';
 class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
   UpdateShagerdBloc() : super(UpdateShagerdInitial()) {
     on<UpdateShagerdEvent>((event, emit) async {
-      emit((UpdateShagerdLoading()));
       var shagerd = event.shagerd;
-
+      emit((UpdateShagerdLoading(shagerd: shagerd)));
       try {
         switch (event.action) {
           case UpdateAction.decrease:
@@ -31,7 +33,7 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
             break;
           case UpdateAction.increase:
             {
-              if (DateTime.now().difference(shagerd.updated).inHours > 2) {
+              if (DateTime.now().difference(shagerd.updated!).inHours > 2) {
                 emit((UpdateShagerdSuccess(
                     shagerd: await increaseJalase(shagerd))));
               } else {
@@ -53,6 +55,10 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
             {
               emit((UpdateShagerdSuccess(shagerd: await update(shagerd))));
             }
+          case UpdateAction.tamdid:
+            {
+              emit((UpdateShagerdSuccess(shagerd: await tamdid(shagerd))));
+            }
         }
       } catch (e) {
         emit((UpdateShagerdError(message: handleException(e))));
@@ -70,7 +76,11 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
   // =======
   Future<Shagerd> increaseJalase(Shagerd shagerd) async {
     var updatingShagerd = shagerd.copyWith(jalase: shagerd.jalase + 1);
-    final resault = await updateShagerdDatasource(updatingShagerd);
+    final responses = await Future.wait([
+      createJalaseDatasource(shagerd),
+      updateShagerdDatasource(updatingShagerd)
+    ]);
+    final resault = responses.last as String;
     shagerd = Shagerd.fromJson(json.decode(resault));
     return shagerd;
   }
@@ -78,7 +88,22 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
   // =======
   Future<Shagerd> decreaseJalase(Shagerd shagerd) async {
     var updatingShagerd = shagerd.copyWith(jalase: shagerd.jalase - 1);
-    final resault = await updateShagerdDatasource(updatingShagerd);
+    final responses = await Future.wait([
+      deleteLastJalaseDatasource(shagerd),
+      updateShagerdDatasource(updatingShagerd)
+    ]);
+    final resault = responses.last as String;
+    shagerd = Shagerd.fromJson(json.decode(resault));
+    return shagerd;
+  }
+
+  // =======
+  Future<Shagerd> tamdid(Shagerd shagerd) async {
+    final responses = await Future.wait([
+      deleteShagerdAllJalasatDatasource(shagerd),
+      updateShagerdDatasource(shagerd)
+    ]);
+    final resault = responses.last as String;
     shagerd = Shagerd.fromJson(json.decode(resault));
     return shagerd;
   }

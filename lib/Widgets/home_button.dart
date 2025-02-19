@@ -10,7 +10,7 @@ class HomeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: () async => await context.push(mainPage),
+        onPressed: () async => context.go(mainPage),
         icon: const Icon(Icons.home_rounded));
   }
 }
