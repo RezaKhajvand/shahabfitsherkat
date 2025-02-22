@@ -1,0 +1,13 @@
+{
+  "app": "shahabfit",
+  "port": 3000,
+  "build": {
+    "location": "germany"
+  },
+  "disks": [
+    {
+      "name": "fit",
+      "mountTo": "path/to/folder"
+    }
+  ]
+}
