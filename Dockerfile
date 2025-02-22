@@ -8,7 +8,7 @@ COPY build/web /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # 3. اکسپوز کردن پورت 80
-EXPOSE 3000
+EXPOSE 80
 
 # 4. اجرای Nginx
 CMD ["nginx", "-g", "daemon off;"]
