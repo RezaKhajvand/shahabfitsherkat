@@ -1,0 +1,1 @@
+ C:\\Users\\SatPay\ User\ 2\\Desktop\\shahabfitsherkat\\.dart_tool\\flutter_build\\1ffbd4fec997e1ff2e45056f5af8c13f\\native_assets.yaml: 

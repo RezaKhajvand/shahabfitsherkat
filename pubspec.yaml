@@ -1,0 +1,88 @@
+name: shahabfit
+description: A new Flutter project.
+publish_to: "none"
+
+version: 1.0.5
+
+environment:
+  sdk: ">=3.1.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  shamsi_date: ^1.0.1
+  url_launcher: ^6.1.10
+  permission_handler: ^11.2.1
+  go_router: ^14.8.0
+  path_provider: ^2.1.2
+  device_info_plus: ^11.3.0
+  flutter_bloc: ^9.0.0
+  bloc: ^9.0.0
+  shared_preferences: ^2.2.2
+  package_info_plus: ^8.2.1
+  pdf: ^3.10.8
+  open_file: ^3.3.2
+  pocketbase: ^0.21.0
+  file_picker: ^8.0.0+1
+  flutter_typeahead: ^5.2.0
+  loading_animation_widget: ^1.2.1
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.4.14
+  flutter_lints: ^5.0.0
+
+flutter:
+  assets:
+    - images/
+  uses-material-design: true
+
+  fonts:
+    - family: Anjoman-Black
+      fonts:
+        - asset: web/assets/fonts/Anjoman-Black.ttf
+    - family: Anjoman-UltraBold
+      fonts:
+        - asset: web/assets/fonts/Anjoman-UltraBold.ttf
+    - family: Anjoman-ExtraBold
+      fonts:
+        - asset: web/assets/fonts/Anjoman-ExtraBold.ttf
+    - family: Anjoman-Bold
+      fonts:
+        - asset: web/assets/fonts/Anjoman-Bold.ttf
+    - family: Anjoman-SemiBold
+      fonts:
+        - asset: web/assets/fonts/Anjoman-SemiBold.ttf
+    - family: Anjoman-Medium
+      fonts:
+        - asset: web/assets/fonts/Anjoman-Medium.ttf
+    - family: Anjoman-Regular
+      fonts:
+        - asset: web/assets/fonts/Anjoman-Regular.ttf
+    - family: Anjoman-Light
+      fonts:
+        - asset: web/assets/fonts/Anjoman-Light.ttf
+    - family: Anjoman-ExtraLight
+      fonts:
+        - asset: web/assets/fonts/Anjoman-ExtraLight.ttf
+
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
