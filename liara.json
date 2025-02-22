@@ -4,10 +4,5 @@
   "build": {
     "location": "germany"
   },
-  "disks": [
-    {
-      "name": "fit",
-      "mountTo": "path/to/folder"
-    }
-  ]
+  "disks": []
 }
