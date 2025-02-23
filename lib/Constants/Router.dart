@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.dart';
 import 'package:shahabfit/Features/Activities/Pages/ActivitiesPage.dart';
+import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
 import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
 import 'package:shahabfit/Features/Basket/Utils/basketinput.dart';
 import 'package:shahabfit/Features/Basket/Widgets/SystemPickerPage.dart';
@@ -13,6 +15,7 @@ import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
 import 'package:shahabfit/Features/Splash/SplashPage.dart';
 import 'package:shahabfit/Features/System/Pages/SystemPage.dart';
+import 'package:shahabfit/Features/barnameview/page/barnameview_screen.dart';
 import 'package:shahabfit/Features/landing/view/blog_screen.dart';
 import 'package:shahabfit/Features/landing/view/landing_screen.dart';
 import 'package:shahabfit/Features/oldversion/addpage.dart';
@@ -38,9 +41,10 @@ const String shagerdSearchPage = '/shagerdsearch';
 const String daylimealListPage = '/daylimeallist';
 const String editShagerdPage = '/editshagerd';
 const String createShagerdPage = '/createshagerd';
+const String barnameViewPage = '/barnameview';
 // GoRouter configuration
 final router = GoRouter(
-  initialLocation: landingPage,
+  initialLocation: barnameViewPage,
   routes: [
     //landing
     GoRoute(
@@ -137,9 +141,23 @@ final router = GoRouter(
         child: MobileLayout(child: const SearchPage()),
       ),
     ),
+    GoRoute(
+      path: barnameViewPage,
+      builder: (context, state) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => ShagerdBloc()
+          ),
+        BlocProvider(create: (context) => ActivityBloc()),
+        BlocProvider(create: (context) => BasketBloc()),
+        ],
+        child: MobileLayout(child: const BarnameViewPage()),
+      ),
+    ),
   ],
 );
-const double mobileWidth=400;
+const double mobileWidth = 400;
+
 class MobileLayout extends StatelessWidget {
   final Widget child;
   const MobileLayout({

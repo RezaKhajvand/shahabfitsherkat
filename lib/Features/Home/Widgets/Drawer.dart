@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/BorderRadius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/Utils/texttheme.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -34,7 +35,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Spacer(),
-                    const Text("شهاب حسینی"),
+                     Text("شهاب حسینی",style: context.anjomanBlack.copyWith(color:background),),
                     const SizedBox(height: 6),
                     Text("ShahabHoseini",
                         style: Theme.of(context)
