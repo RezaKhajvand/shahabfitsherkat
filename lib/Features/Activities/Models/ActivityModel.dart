@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:shahabfit/Features/oldversion/data/shagerdlist_datasource.dart';
+
 List<ActivityRecord> activityListFromJson(String str) =>
     List<ActivityRecord>.from(
         json.decode(str).map((x) => ActivityRecord.fromJson(x)));
@@ -13,6 +15,8 @@ class ActivityRecord {
   String id;
   bool isInBasket;
   String title;
+  String description;
+  String video;
   DateTime updated;
 
   ActivityRecord({
@@ -24,6 +28,8 @@ class ActivityRecord {
     required this.id,
     required this.isInBasket,
     required this.title,
+    required this.description,
+    required this.video,
     required this.updated,
   });
 
@@ -36,6 +42,9 @@ class ActivityRecord {
         id: json["id"],
         isInBasket: json["isInBasket"],
         title: json["title"],
+        description: json["description"],
+        video:
+            '${pb.baseURL}/api/files/${json["collectionId"]}/${json["id"]}/${json["video"]}',
         updated: DateTime.parse(json["updated"]),
       );
 }

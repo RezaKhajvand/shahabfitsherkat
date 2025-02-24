@@ -8,7 +8,6 @@ Future<String> getOpenBasketActivity(
         filter:
             'basket="$basketId"${dayOfWeek != null ? 'dayOfWeek=$dayOfWeek' : ""}',
         expand: 'activity,basket,system');
-
     print(records.toString());
     return records.toString();
   } catch (e) {

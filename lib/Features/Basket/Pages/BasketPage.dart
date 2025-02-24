@@ -23,8 +23,6 @@ import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 
-
-
 class BasketPage extends StatefulWidget {
   final BasketInputs basketInputs;
   const BasketPage({super.key, required this.basketInputs});
@@ -82,6 +80,10 @@ class _BasketPageState extends State<BasketPage>
           surfaceTintColor: Colors.transparent,
           actions: [
             const HomeButton(),
+            IconButton(
+                onPressed: () => context.push(
+                    '$barnameViewPage?basketId=${widget.basketInputs.basketId}'),
+                icon: Icon(Icons.share)),
             IconButton(
                 onPressed: () async {
                   List<DescriptionModel> descriptionList = [];
@@ -319,13 +321,11 @@ class _BasketPageState extends State<BasketPage>
                           tabAlignment: TabAlignment.start,
                           labelPadding:
                               const EdgeInsets.symmetric(horizontal: 30),
-                          unselectedLabelStyle:context.anjomanLight,
-                          labelStyle: context.anjomanBold.copyWith(color: background),
-                          tabs: List.generate(
-                              weekDays.length,
-                              (index) => Tab(
-                                    text: weekDays[index]
-                                  ))),
+                          unselectedLabelStyle: context.anjomanLight,
+                          labelStyle:
+                              context.anjomanBold.copyWith(color: background),
+                          tabs: List.generate(weekDays.length,
+                              (index) => Tab(text: weekDays[index]))),
                     ),
                   ],
                 ),
@@ -404,23 +404,28 @@ class _BasketPageState extends State<BasketPage>
                                           DeleteBasketEvent(
                                               basketActivityId:
                                                   basketActivity[index].id)),
-                                  icon: const Icon(Icons.delete_outline,color: Colors.white30,))
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    color: Colors.white30,
+                                  ))
                             ],
                           ),
-                        
-                               Divider(height: 30,thickness: 0.5,color: Colors.white24,),
+                          Divider(
+                            height: 30,
+                            thickness: 0.5,
+                            color: Colors.white24,
+                          ),
                           SystemPicker(basketActivity: basketActivity[index]),
-                       const SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: activitySet.length ,
+                            itemCount: activitySet.length,
                             itemBuilder: (context, setindex) {
-                                return SetRowItem(
-                                  basketActivity: basketActivity[index],
-                                  setIndex: setindex,
-                                );
-                              
+                              return SetRowItem(
+                                basketActivity: basketActivity[index],
+                                setIndex: setindex,
+                              );
                             },
                             separatorBuilder: (context, index) =>
                                 const SizedBox(height: 14),

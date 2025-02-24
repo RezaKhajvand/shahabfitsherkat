@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:shahabfit/Features/Activities/Models/ActivityModel.dart';
+import 'package:video_player/video_player.dart';
+
 List<ActivityItem> basketActivityFromJson(String str) =>
     List<ActivityItem>.from(
         json.decode(str).map((x) => ActivityItem.fromJson(x)));
@@ -18,7 +21,7 @@ class ActivityItem {
   int systemSubId;
   DateTime updated;
   int numberView;
-
+  VideoPlayerController? controller;
   ActivityItem({
     required this.activity,
     required this.activitySet,
@@ -33,6 +36,7 @@ class ActivityItem {
     required this.systemSubId,
     required this.updated,
     required this.numberView,
+    this.controller,
   });
 
   factory ActivityItem.fromJson(Map<String, dynamic> json) => ActivityItem(
@@ -53,7 +57,7 @@ class ActivityItem {
 }
 
 class Expand {
-  Activity? activity;
+  ActivityRecord? activity;
   Basket? basket;
   System? system;
 
@@ -64,7 +68,7 @@ class Expand {
   });
 
   factory Expand.fromJson(Map<String, dynamic> json) => Expand(
-        activity: Activity.fromJson(json["activity"]),
+        activity: ActivityRecord.fromJson(json["activity"]),
         basket: Basket.fromJson(json["basket"]),
         system: json["system"] == null ? null : System.fromJson(json["system"]),
       );
@@ -97,39 +101,6 @@ class System {
         title: json["title"],
         updated: DateTime.parse(json["updated"]),
         description: json["description"],
-      );
-}
-
-class Activity {
-  String catId;
-  String collectionId;
-  String collectionName;
-  DateTime created;
-  String id;
-  bool isInBasket;
-  String title;
-  DateTime updated;
-
-  Activity({
-    required this.catId,
-    required this.collectionId,
-    required this.collectionName,
-    required this.created,
-    required this.id,
-    required this.isInBasket,
-    required this.title,
-    required this.updated,
-  });
-
-  factory Activity.fromJson(Map<String, dynamic> json) => Activity(
-        catId: json["catId"],
-        collectionId: json["collectionId"],
-        collectionName: json["collectionName"],
-        created: DateTime.parse(json["created"]),
-        id: json["id"],
-        isInBasket: json["isInBasket"],
-        title: json["title"],
-        updated: DateTime.parse(json["updated"]),
       );
 }
 

@@ -15,6 +15,7 @@ import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
 import 'package:shahabfit/Features/Splash/SplashPage.dart';
 import 'package:shahabfit/Features/System/Pages/SystemPage.dart';
+import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
 import 'package:shahabfit/Features/barnameview/page/barnameview_screen.dart';
 import 'package:shahabfit/Features/landing/view/blog_screen.dart';
 import 'package:shahabfit/Features/landing/view/landing_screen.dart';
@@ -44,7 +45,7 @@ const String createShagerdPage = '/createshagerd';
 const String barnameViewPage = '/barnameview';
 // GoRouter configuration
 final router = GoRouter(
-  initialLocation: barnameViewPage,
+  initialLocation: splashPage,
   routes: [
     //landing
     GoRoute(
@@ -142,18 +143,15 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
-      path: barnameViewPage,
-      builder: (context, state) => MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => ShagerdBloc()
-          ),
-        BlocProvider(create: (context) => ActivityBloc()),
-        BlocProvider(create: (context) => BasketBloc()),
-        ],
-        child: MobileLayout(child: const BarnameViewPage()),
-      ),
-    ),
+        path: barnameViewPage,
+        builder: (context, state) {
+          final basketId =
+              (state.uri.queryParameters['basketId'] ?? 'basketId');
+          return MultiBlocProvider(
+            providers: [BlocProvider(create: (context) => BarnameViewBloc())],
+            child: MobileLayout(child: BarnameViewPage(basketId: basketId)),
+          );
+        }),
   ],
 );
 const double mobileWidth = 400;
