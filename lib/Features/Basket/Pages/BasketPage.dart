@@ -82,7 +82,7 @@ class _BasketPageState extends State<BasketPage>
             const HomeButton(),
             IconButton(
                 onPressed: () => context.push(
-                    '$barnameViewPage?basketId=${widget.basketInputs.basketId}'),
+                    '$barnameViewPage?basketId=${widget.basketInputs.basketId}&tabIndex=${_tabController.index}'),
                 icon: Icon(Icons.share)),
             IconButton(
                 onPressed: () async {

@@ -30,7 +30,8 @@ class _SetRowItemState extends State<SetRowItem> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
+          SizedBox(
+            width: 50,
             child: SetInputField(
               basketActivity: widget.basketActivity,
               setIndex: widget.setIndex,
@@ -44,39 +45,48 @@ class _SetRowItemState extends State<SetRowItem> {
                 .labelLarge!
                 .copyWith(color: Colors.white30),
           ),
-          Expanded(
+          SizedBox(
+            width: 50,
             child: SetInputField(
               basketActivity: widget.basketActivity,
               setIndex: widget.setIndex,
               fieldIndex: 1,
             ),
           ),
-          const SizedBox(width: 120),
-        widget.basketActivity.activitySet.length>1?  IconButton(
+          Spacer(),
+          widget.basketActivity.activitySet.length > 1
+              ? IconButton(
+                  onPressed: () async {
+                    if (widget.basketActivity.activitySet.length >= 2) {
+                      BlocProvider.of<BasketBloc>(context).add(
+                          UpdateBasketActivityEvent(
+                              basketActivityId: widget.basketActivity.id,
+                              activitySet: widget.basketActivity.activitySet
+                                ..removeAt(widget.setIndex)));
+                    } else {
+                      getErrorSnackbar(context, 'حداقل یک ست لازم است');
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.remove_circle_outline,
+                    size: 34,
+                    color: primary,
+                  ))
+              : SizedBox(),
+          SizedBox(width: 6),
+          IconButton(
               onPressed: () async {
-                if (widget.basketActivity.activitySet.length >= 2) {
-                  BlocProvider.of<BasketBloc>(context).add(
-                      UpdateBasketActivityEvent(
-                          basketActivityId: widget.basketActivity.id,
-                          activitySet: widget.basketActivity.activitySet
-                            ..removeAt(widget.setIndex)));
-                } else {
-                  getErrorSnackbar(context, 'حداقل یک ست لازم است');
-                }
+                BlocProvider.of<BasketBloc>(context).add(
+                    UpdateBasketActivityEvent(
+                        basketActivityId: widget.basketActivity.id,
+                        activitySet: widget.basketActivity.activitySet
+                          ..add([3, 10])));
               },
-              icon: const Icon(Icons.remove_circle_outline,size: 34,color: primary,)):SizedBox(),
-             SizedBox(width: 10),
-               IconButton(
-              onPressed: () async {
-                 BlocProvider.of<BasketBloc>(context).add(
-                                          UpdateBasketActivityEvent(
-                                              basketActivityId:
-                                                widget.basketActivity.id,
-                                              activitySet:  widget.basketActivity.activitySet
-                                                ..add([3, 10])));
-             
-              },
-              icon: const Icon(Icons.add_circle_outline,size: 34,color: primary,)),
+              icon: const Icon(
+                Icons.add_circle_outline,
+                size: 34,
+                color: primary,
+              )),
         ],
       ),
     );

@@ -33,6 +33,7 @@ dependencies:
   shimmer: ^3.0.0
   video_player: ^2.9.3
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

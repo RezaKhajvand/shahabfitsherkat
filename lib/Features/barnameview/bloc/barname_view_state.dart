@@ -9,8 +9,12 @@ final class BarnameViewLoading extends BarnameViewState {}
 
 final class BarnameViewLoaded extends BarnameViewState {
   final List<ActivityItem> basketActivity;
+  final String? dayIndex;
+  final List<int>? filledDays;
 
-  BarnameViewLoaded({required this.basketActivity});
+  BarnameViewLoaded({required this.basketActivity,  this.dayIndex,  this.filledDays});
+
+
 }
 
 final class BarnameViewError extends BarnameViewState {

@@ -16,6 +16,7 @@ import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
 import 'package:shahabfit/Features/Splash/SplashPage.dart';
 import 'package:shahabfit/Features/System/Pages/SystemPage.dart';
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
+import 'package:shahabfit/Features/barnameview/page/barnamedetail_screen.dart';
 import 'package:shahabfit/Features/barnameview/page/barnameview_screen.dart';
 import 'package:shahabfit/Features/landing/view/blog_screen.dart';
 import 'package:shahabfit/Features/landing/view/landing_screen.dart';
@@ -43,6 +44,7 @@ const String daylimealListPage = '/daylimeallist';
 const String editShagerdPage = '/editshagerd';
 const String createShagerdPage = '/createshagerd';
 const String barnameViewPage = '/barnameview';
+const String barnameDetailPage = '/barnamedetailview';
 // GoRouter configuration
 final router = GoRouter(
   initialLocation: splashPage,
@@ -147,9 +149,24 @@ final router = GoRouter(
         builder: (context, state) {
           final basketId =
               (state.uri.queryParameters['basketId'] ?? 'basketId');
+          final tabIndex = (state.uri.queryParameters['tabIndex'] ?? '0');
           return MultiBlocProvider(
             providers: [BlocProvider(create: (context) => BarnameViewBloc())],
-            child: MobileLayout(child: BarnameViewPage(basketId: basketId)),
+            child: MobileLayout(
+                child: BarnameViewPage(
+              basketId: basketId,
+              tabIndex: tabIndex,
+            )),
+          );
+        }),
+    GoRoute(
+        path: barnameDetailPage,
+        builder: (context, state) {
+          final recordId =
+              (state.uri.queryParameters['recordId'] ?? 'recordId');
+          return MultiBlocProvider(
+            providers: [BlocProvider(create: (context) => BarnameViewBloc())],
+            child: MobileLayout(child: BarnameDetailPage(recordId: recordId)),
           );
         }),
   ],

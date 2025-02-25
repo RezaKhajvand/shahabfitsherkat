@@ -43,8 +43,9 @@ class ActivityRecord {
         isInBasket: json["isInBasket"],
         title: json["title"],
         description: json["description"],
-        video:
-            '${pb.baseURL}/api/files/${json["collectionId"]}/${json["id"]}/${json["video"]}',
+        video: json["video"] == ''
+            ? ''
+            : '${pb.baseURL}/api/files/${json["collectionId"]}/${json["id"]}/${json["video"]}',
         updated: DateTime.parse(json["updated"]),
       );
 }
