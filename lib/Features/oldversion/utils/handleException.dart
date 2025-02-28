@@ -8,6 +8,8 @@ handleException(dynamic e, StackTrace s) {
     print('\x1B[33m${s.toString().split('\n').join('\n\x1B[33m')}\x1B[0m');
     return message;
   } else {
+    print(e);
+    print(s);
     return "خطای غیرمنتظره لطفا دوباره تلاش کنید";
   }
 }

@@ -343,23 +343,13 @@ class _BasketPageState extends State<BasketPage>
                 proxyDecorator: (child, index, animation) =>
                     proxyDecorator(child, index, animation),
                 onReorder: (oldIndex, newIndex) {
-                  var qadimIndex = 0;
-                  var jadidIndex = 0;
-                  if (newIndex > oldIndex) {
-                    print('$oldIndex  - ${newIndex - 1}');
-                    qadimIndex = oldIndex;
-                    jadidIndex = newIndex - 1;
-                  } else {
-                    print('$oldIndex - $newIndex');
-                    qadimIndex = oldIndex;
-                    jadidIndex = newIndex;
+                  if (oldIndex < newIndex) {
+                    newIndex -= 1;
                   }
+                  final item = basketActivity.removeAt(oldIndex);
+                  basketActivity.insert(newIndex, item);
                   BlocProvider.of<BasketBloc>(context).add(
-                      ChangeNumberViewEvent(
-                          firstIndexId: basketActivity[jadidIndex].id,
-                          secIndexId: basketActivity[qadimIndex].id,
-                          firstNumberView: jadidIndex,
-                          secNumberView: qadimIndex));
+                      ChangeNumberViewEvent(basketActivity: basketActivity));
                 },
                 itemCount: basketActivity.length,
                 key: Key(_tabController.index.toString()),
@@ -398,6 +388,12 @@ class _BasketPageState extends State<BasketPage>
                                       .copyWith(color: Colors.white),
                                 ),
                               ),
+                              ReorderableDragStartListener(
+                                  key: ObjectKey(widget),
+                                  index: index,
+                                  child:
+                                      const Icon(Icons.drag_handle, size: 30)),
+                              SizedBox(width: 6),
                               IconButton(
                                   onPressed: () =>
                                       BlocProvider.of<BasketBloc>(context).add(

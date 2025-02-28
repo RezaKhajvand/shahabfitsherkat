@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:chewie/chewie.dart';
+import 'package:flutter/services.dart';
+import 'package:get_thumbnail_video/video_thumbnail.dart';
 import 'package:shahabfit/Features/Activities/Models/ActivityModel.dart';
 import 'package:video_player/video_player.dart';
 
@@ -21,7 +24,9 @@ class ActivityItem {
   int systemSubId;
   DateTime updated;
   int numberView;
-  VideoPlayerController? controller;
+  VideoPlayerController? videoController;
+  ChewieController? chewieController;
+  XFile? thumbnail;
   ActivityItem({
     required this.activity,
     required this.activitySet,
@@ -36,7 +41,9 @@ class ActivityItem {
     required this.systemSubId,
     required this.updated,
     required this.numberView,
-    this.controller,
+    this.videoController,
+    this.chewieController,
+    this.thumbnail,
   });
 
   factory ActivityItem.fromJson(Map<String, dynamic> json) => ActivityItem(

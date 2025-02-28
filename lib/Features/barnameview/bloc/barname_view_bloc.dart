@@ -2,27 +2,40 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/getOpenBasketActivityDataSource.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
+import 'package:shahabfit/Features/barnameview/utils/setchewiecontroller.dart';
+import 'package:shahabfit/Features/barnameview/utils/setthumbnail.dart';
+import 'package:shahabfit/Features/barnameview/utils/setvideoplayercontroller.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
-import 'package:video_player/video_player.dart';
 
 part 'barname_view_event.dart';
 part 'barname_view_state.dart';
 
 class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
   List<ActivityItem> basketActivity = [];
+
+  @override
+  Future<void> close() {
+    for (var element in basketActivity) {
+      element.chewieController?.dispose();
+      element.videoController?.dispose();
+      element.chewieController = null;
+      element.videoController = null;
+    }
+    print("Bloc is closing...");
+    return super.close();
+  }
+
   BarnameViewBloc() : super(BarnameViewInitial()) {
+    print("Bloc is starting...");
     on<FetchActivityEvent>((event, emit) async {
       emit((BarnameViewLoading()));
       try {
         basketActivity = basketActivityFromJson(
             await getOpenBasketActivity(recordId: event.recordId));
         for (var element in basketActivity) {
-          element
-              .controller = VideoPlayerController.networkUrl(Uri.parse(element
-                  .expand.activity!.video.isEmpty
-              ? 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'
-              : element.expand.activity!.video));
-          await element.controller!.initialize().catchError(onError);
+          element.videoController = setVideoPlayerController(element);
+          await element.videoController!.initialize().catchError(onError);
+          element.chewieController = setChewieController(element);
         }
         emit((BarnameViewLoaded(
           basketActivity: basketActivity,
@@ -49,13 +62,12 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
               (element) => element.dayOfWeek.toString() == dayIndex,
             )
             .toList();
+        emit((BarnameViewLoaded(
+            basketActivity: basketActivity,
+            dayIndex: dayIndex,
+            filledDays: filledDays)));
         for (var element in basketActivity) {
-          element
-              .controller = VideoPlayerController.networkUrl(Uri.parse(element
-                  .expand.activity!.video.isEmpty
-              ? 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'
-              : element.expand.activity!.video));
-          await element.controller!.initialize().catchError(onError);
+          element.thumbnail = await generateThumbnail(element);
           emit((BarnameViewLoaded(
               basketActivity: basketActivity,
               dayIndex: dayIndex,
@@ -67,13 +79,6 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
             filledDays: filledDays)));
       } catch (e, s) {
         emit((BarnameViewError(errormessage: handleException(e, s))));
-      }
-    });
-    // ========>
-    on<DisposeBarnameEvent>((event, emit) async {
-      for (var element in basketActivity) {
-        element.controller?.dispose();
-        element.controller = null;
       }
     });
   }

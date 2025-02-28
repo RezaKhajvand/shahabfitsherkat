@@ -12,7 +12,7 @@ Future<String> updateBasketActivity({
     "systemSubId": systemSubId,
     "activitySet": activitySet,
     "numberView": numberView
-  }..removeWhere((key, value) => value == null);
+  }..removeWhere((key, value) => key != "system" && value == null);
   try {
     final record = await pb
         .collection('basketActivity')
@@ -20,7 +20,6 @@ Future<String> updateBasketActivity({
     print(record.toString());
     return record.toString();
   } catch (e) {
-    ;
     rethrow;
   }
 }

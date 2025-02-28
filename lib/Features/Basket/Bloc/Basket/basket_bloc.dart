@@ -63,20 +63,13 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     //
     on<ChangeNumberViewEvent>((event, emit) async {
       try {
-        updateBasketActivity(
-            basketActivityId: event.firstIndexId,
-            numberView: event.secNumberView);
-        updateBasketActivity(
-            basketActivityId: event.secIndexId,
-            numberView: event.firstNumberView);
-
-        basketActivity
-            .firstWhere((element) => element.id == event.firstIndexId)
-            .numberView = event.secNumberView;
-        basketActivity
-            .firstWhere((element) => element.id == event.secIndexId)
-            .numberView = event.firstNumberView;
-        sortItems();
+        var newShagerdList = event.basketActivity;
+        Future.wait(List.generate(newShagerdList.length, (index) {
+          newShagerdList[index].numberView = index;
+          return updateBasketActivity(
+              basketActivityId: newShagerdList[index].id, numberView: index);
+        }));
+        basketActivity = newShagerdList;
         emit((BasketLoaded(basketActivity: basketActivity)));
       } catch (e, s) {
         emit((BasketError(errormsg: handleException(e, s))));

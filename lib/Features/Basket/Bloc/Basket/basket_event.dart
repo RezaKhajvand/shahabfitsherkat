@@ -29,14 +29,7 @@ class UpdateBasketActivityEvent extends BasketEvent {
 }
 
 class ChangeNumberViewEvent extends BasketEvent {
-  final String firstIndexId;
-  final String secIndexId;
-  final int firstNumberView;
-  final int secNumberView;
+  final List<ActivityItem> basketActivity;
 
-  ChangeNumberViewEvent(
-      {required this.firstIndexId,
-      required this.secIndexId,
-      required this.firstNumberView,
-      required this.secNumberView});
+  ChangeNumberViewEvent({required this.basketActivity});
 }

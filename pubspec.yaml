@@ -31,8 +31,10 @@ dependencies:
   flutter_typeahead: ^5.2.0
   loading_animation_widget: ^1.2.1
   shimmer: ^3.0.0
+  chewie: ^1.10.0
   video_player: ^2.9.3
-
+  get_thumbnail_video: ^0.7.3
+  animated_tree_view: ^2.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shahabfit/Constants/colors.dart';
@@ -5,7 +6,6 @@ import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
-import 'package:video_player/video_player.dart';
 
 class BarnameDetailPage extends StatefulWidget {
   final String recordId;
@@ -25,16 +25,6 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
     context
         .read<BarnameViewBloc>()
         .add(FetchActivityEvent(recordId: widget.recordId));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    context.read<BarnameViewBloc>().add(DisposeBarnameEvent());
-  }
-
-  playVideo(VideoPlayerController controller) {
-    controller.play();
   }
 
   @override
@@ -59,52 +49,30 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
             if (state is BarnameViewLoaded) {
               final harkat = state.basketActivity;
               return ListView.separated(
-                  padding: EdgeInsets.all(12),
+                  padding: EdgeInsets.all(16),
                   itemBuilder: (context, index) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Builder(
-                          builder: (context) {
-                            final VideoPlayerController? controller =
-                                harkat[index].controller;
-                            if (controller == null) {
-                              return LoadingWidget();
-                            }
-
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: FittedBox(
-                                  fit: BoxFit.cover,
-                                  child: SizedBox(
-                                    width: controller.value.size.width,
-                                    height: controller.value.size.height,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        VideoPlayer(controller),
-                                        IconButton(
-                                            onPressed: () =>
-                                                playVideo(controller),
-                                            icon: Icon(
-                                              Icons.play_arrow_rounded,
-                                              color: background,
-                                              size: 40,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: Builder(builder: (context) {
+                              final controller = harkat[index].chewieController;
+                              if (controller == null) {
+                                return LoadingWidget();
+                              }
+                              return Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: Chewie(controller: controller));
+                            }),
+                          ),
                         ),
-                        SizedBox(height: 8),
+                        SizedBox(height: 12),
                         Text(harkat[index].expand.activity?.title ?? 'بدون نام',
-                            style: context.anjomanBold),
-                        SizedBox(height: 2),
+                            style: context.anjomanBold.copyWith(fontSize: 18)),
+                        SizedBox(height: 8),
                         Builder(builder: (context) {
                           var text = '';
                           if (harkat.isNotEmpty &&
@@ -119,9 +87,20 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
                             }
                           }
                           return Text(replaceFarsiNumber('ست ها : $text'),
-                              style: context.anjomanExtraLight);
+                              style:
+                                  context.anjomanLight.copyWith(fontSize: 16));
                         }),
-                        SizedBox(height: 8),
+                        SizedBox(height: 4),
+                        harkat[index].expand.system?.title != null
+                            ? Column(
+                                children: [
+                                  SizedBox(height: 4),
+                                  Text(harkat[index].expand.system?.title ?? '',
+                                      style: context.anjomanLight
+                                          .copyWith(fontSize: 16)),
+                                ],
+                              )
+                            : SizedBox(),
                         Text(
                             harkat[index].expand.activity?.description ??
                                 'بدون توضیح',
