@@ -15,6 +15,7 @@ import 'package:shahabfit/Utils/scrollbehavior.dart';
 
 final globalKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   runApp(
