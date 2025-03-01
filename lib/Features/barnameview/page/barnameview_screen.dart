@@ -169,7 +169,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                           } else {
                             return Padding(
                               padding: const EdgeInsets.only(
-                                  right: 30.0, top: 8, bottom: 8),
+                                  right: 25.0, top: 8, bottom: 8),
                               child: InkWell(
                                 onTap: () => context.push(
                                     '$barnameDetailPage?recordId=${harkat.id}'),
@@ -185,56 +185,41 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                             Border.all(color: Colors.white10),
                                       ),
                                       padding: EdgeInsets.all(8),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            child: AspectRatio(
-                                              aspectRatio: 3,
-                                              child:
-                                                  Builder(builder: (context) {
-                                                final thumbnail =
-                                                    harkat.thumbnail;
-                                                if (thumbnail == null) {
-                                                  return LoadingWidget();
-                                                }
-                                                return Image.network(
-                                                    thumbnail.path,
-                                                    fit: BoxFit.cover);
-                                              }),
-                                            ),
-                                          ),
-                                          SizedBox(height: 8),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                harkat.expand.activity?.title ??
-                                                    'بدون نام',
-                                                style: context.anjomanLight,
+                                      child: SizedBox(
+                                        height: 70,
+                                        child: Row(
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: .8,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                                child:
+                                                    Builder(builder: (context) {
+                                                  final thumbnail =
+                                                      harkat.thumbnail;
+                                                  if (thumbnail == null) {
+                                                    return LoadingWidget();
+                                                  }
+                                                  return Image.network(
+                                                      thumbnail.path,
+                                                      fit: BoxFit.cover);
+                                                }),
                                               ),
-                                              SizedBox(height: 4),
-                                              harkat.expand.system?.title !=
-                                                      null
-                                                  ? Column(
-                                                      children: [
-                                                        SizedBox(height: 4),
-                                                        Text(
-                                                          harkat.expand.system
-                                                                  ?.title ??
-                                                              '',
-                                                          style: context
-                                                              .anjomanLight,
-                                                        ),
-                                                      ],
-                                                    )
-                                                  : SizedBox(),
-                                              Row(
+                                            ),
+                                            SizedBox(width: 12),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
+                                                  Text(
+                                                    harkat.expand.activity
+                                                            ?.title ??
+                                                        'بدون نام',
+                                                    style: context.anjomanLight,
+                                                  ),
+                                                  SizedBox(height: 4),
                                                   Builder(builder: (context) {
                                                     var text = '';
                                                     if (harkat.activitySet
@@ -258,24 +243,18 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                                     );
                                                   }),
                                                   Spacer(),
+                                                  SizedBox(height: 4),
                                                   Text(
-                                                    'جزئیات',
-                                                    style: context
-                                                        .anjomanExtraLight
-                                                        .copyWith(
-                                                            color:
-                                                                Colors.white54),
-                                                  ),
-                                                  Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: Colors.white54,
-                                                    size: 12,
-                                                  )
+                                                      harkat.expand.system
+                                                              ?.title ??
+                                                          '',
+                                                      style: context
+                                                          .anjomanExtraLight),
                                                 ],
                                               ),
-                                            ],
-                                          )
-                                        ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

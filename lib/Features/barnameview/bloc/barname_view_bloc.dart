@@ -35,7 +35,8 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
         for (var element in basketActivity) {
           element.videoController = setVideoPlayerController(element);
           await element.videoController!.initialize().catchError(onError);
-          element.chewieController = setChewieController(element);
+          element.chewieController =
+              setChewieController(element, element.videoController!);
         }
         emit((BarnameViewLoaded(
           basketActivity: basketActivity,

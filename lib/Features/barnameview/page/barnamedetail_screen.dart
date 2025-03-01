@@ -47,69 +47,23 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
           listener: (context, state) {},
           builder: (context, state) {
             if (state is BarnameViewLoaded) {
-              final harkat = state.basketActivity;
-              return ListView.separated(
-                  padding: EdgeInsets.all(16),
-                  itemBuilder: (context, index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(5),
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Builder(builder: (context) {
-                              final controller = harkat[index].chewieController;
-                              if (controller == null) {
-                                return LoadingWidget();
-                              }
-                              return Directionality(
-                                  textDirection: TextDirection.ltr,
-                                  child: Chewie(controller: controller));
-                            }),
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        Text(harkat[index].expand.activity?.title ?? 'بدون نام',
-                            style: context.anjomanBold.copyWith(fontSize: 18)),
-                        SizedBox(height: 8),
-                        Builder(builder: (context) {
-                          var text = '';
-                          if (harkat.isNotEmpty &&
-                              harkat.toList()[index].activitySet.isNotEmpty) {
-                            for (var element
-                                in harkat.toList()[index].activitySet) {
-                              text = text +
-                                  (text.isEmpty ? '' : ' - ') +
-                                  (element.first == 1
-                                      ? '${element.last}'
-                                      : '${element.first}x${element.last}');
-                            }
-                          }
-                          return Text(replaceFarsiNumber('ست ها : $text'),
-                              style:
-                                  context.anjomanLight.copyWith(fontSize: 16));
-                        }),
-                        SizedBox(height: 4),
-                        harkat[index].expand.system?.title != null
-                            ? Column(
-                                children: [
-                                  SizedBox(height: 4),
-                                  Text(harkat[index].expand.system?.title ?? '',
-                                      style: context.anjomanLight
-                                          .copyWith(fontSize: 16)),
-                                ],
-                              )
-                            : SizedBox(),
-                        Text(
-                            harkat[index].expand.activity?.description ??
-                                'بدون توضیح',
-                            style: context.anjomanLight),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (context, index) => SizedBox(height: 20),
-                  itemCount: harkat.length);
+              final harkat = state.basketActivity.first;
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Builder(builder: (context) {
+                  final controller = harkat.chewieController;
+                  if (controller == null) {
+                    return LoadingWidget();
+                  }
+                  return Stack(
+                    children: [
+                      Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Chewie(controller: controller)),
+                    ],
+                  );
+                }),
+              );
             }
             if (state is BarnameViewLoading) {
               return LoadingWidget();
