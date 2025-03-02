@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/getOpenBasketActivityDataSource.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/barnameview/utils/setchewiecontroller.dart';
-import 'package:shahabfit/Features/barnameview/utils/setthumbnail.dart';
 import 'package:shahabfit/Features/barnameview/utils/setvideoplayercontroller.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 
@@ -63,17 +62,6 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
               (element) => element.dayOfWeek.toString() == dayIndex,
             )
             .toList();
-        emit((BarnameViewLoaded(
-            basketActivity: basketActivity,
-            dayIndex: dayIndex,
-            filledDays: filledDays)));
-        for (var element in basketActivity) {
-          element.thumbnail = await generateThumbnail(element);
-          emit((BarnameViewLoaded(
-              basketActivity: basketActivity,
-              dayIndex: dayIndex,
-              filledDays: filledDays)));
-        }
         emit((BarnameViewLoaded(
             basketActivity: basketActivity,
             dayIndex: dayIndex,

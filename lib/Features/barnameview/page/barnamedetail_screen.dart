@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
-import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 
@@ -55,13 +54,9 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
                   if (controller == null) {
                     return LoadingWidget();
                   }
-                  return Stack(
-                    children: [
-                      Directionality(
-                          textDirection: TextDirection.ltr,
-                          child: Chewie(controller: controller)),
-                    ],
-                  );
+                  return Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Chewie(controller: controller));
                 }),
               );
             }

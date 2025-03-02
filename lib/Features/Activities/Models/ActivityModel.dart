@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/oldversion/data/shagerdlist_datasource.dart';
 
 List<ActivityRecord> activityListFromJson(String str) =>
@@ -10,42 +11,50 @@ class ActivityRecord {
   String catId;
   String collectionId;
   String collectionName;
-  int numberView;
   DateTime created;
+  String description;
+  Category? expand;
   String id;
   bool isInBasket;
+  int numberView;
   String title;
-  String description;
-  String video;
   DateTime updated;
+  String user;
+  String video;
 
   ActivityRecord({
     required this.catId,
     required this.collectionId,
     required this.collectionName,
-    required this.numberView,
     required this.created,
+    required this.description,
+    this.expand,
     required this.id,
     required this.isInBasket,
+    required this.numberView,
     required this.title,
-    required this.description,
-    required this.video,
     required this.updated,
+    required this.user,
+    required this.video,
   });
 
   factory ActivityRecord.fromJson(Map<String, dynamic> json) => ActivityRecord(
         catId: json["catId"],
         collectionId: json["collectionId"],
         collectionName: json["collectionName"],
-        numberView: json["numberView"],
         created: DateTime.parse(json["created"]),
+        description: json["description"],
+        expand: json["expand"] != null && json["expand"]["catId"] != null
+            ? Category.fromJson(json["expand"]["catId"])
+            : null, // مقداردهی به‌صورت null-safe
         id: json["id"],
         isInBasket: json["isInBasket"],
+        numberView: json["numberView"],
         title: json["title"],
-        description: json["description"],
+        updated: DateTime.parse(json["updated"]),
+        user: json["user"],
         video: json["video"] == ''
             ? ''
             : '${pb.baseURL}/api/files/${json["collectionId"]}/${json["id"]}/${json["video"]}',
-        updated: DateTime.parse(json["updated"]),
       );
 }

@@ -20,7 +20,9 @@ import 'package:shahabfit/Features/Basket/Widgets/SetRow.dart';
 import 'package:shahabfit/Features/Basket/Widgets/SystemPicker.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
+import 'package:shahabfit/Widgets/CustomErrorWidget.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
+import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 
 class BasketPage extends StatefulWidget {
@@ -431,7 +433,11 @@ class _BasketPageState extends State<BasketPage>
                 },
               );
             }
-            return const Center(child: CircularProgressIndicator());
+            if (state is BasketError) {
+              return CustomErrorWidget(
+                  errormsg: state.errormsg, onPressed: getBasketItems);
+            }
+            return LoadingWidget();
           },
         ),
       ),

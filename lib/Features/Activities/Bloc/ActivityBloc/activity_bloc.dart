@@ -136,6 +136,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         updatedActivity.title = event.title;
         //
         openBasket.add(ActivityItem(
+          
             numberView: 0,
             activity: event.activityId,
             activitySet: event.activitySet,

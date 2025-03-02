@@ -76,7 +76,4 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
       }
     });
   }
-  sortItems() {
-    basketActivity.sort((a, b) => a.numberView.compareTo(b.numberView));
-  }
 }

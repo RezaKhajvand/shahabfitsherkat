@@ -11,3 +11,10 @@ const Color secendary = Color.fromARGB(255, 255, 47, 120);
 const Color borderColor = Color.fromARGB(255, 78, 78, 78);
 
 const Color textColor = Colors.white;
+final List<String> colorList = [
+  '#FFFFFF',
+  '#177DFF',
+  '#f3f169',
+  '#fc5c9c',
+  '#a7ff83',
+];

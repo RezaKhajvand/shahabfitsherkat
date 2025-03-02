@@ -1,8 +1,4 @@
 import 'dart:ui';
-import 'package:animated_tree_view/tree_view/tree_node.dart';
-import 'package:animated_tree_view/tree_view/tree_view.dart';
-import 'package:animated_tree_view/tree_view/widgets/expansion_indicator.dart';
-import 'package:animated_tree_view/tree_view/widgets/indent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -28,7 +24,13 @@ class BarnameViewPage extends StatefulWidget {
 class _BarnameViewPageState extends State<BarnameViewPage> {
   int _selectedDay = 0;
   List<int> filledDays = [];
-
+  double itemHeight = 90;
+  double itemSpacing = 10;
+  double dividerTickness = 2;
+  double getLineHeight(int length) =>
+      ((itemHeight + itemSpacing) / 2) - dividerTickness / 2;
+  Color getLineColor(int systemSubId) => Colors.grey;
+  // HexColor.fromHex(colorList[systemSubId]);
   @override
   void initState() {
     super.initState();
@@ -134,254 +136,234 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
 
                   if (state is BarnameViewLoaded) {
                     final harkat = state.basketActivity;
+                    List<List<ActivityItem>> groupedList = [];
+                    Map<String, Map<int, List<ActivityItem>>> grouped = {};
+                    for (var movement in harkat) {
+                      print(movement.system);
+                      var key = movement.expand.system?.title ?? 'بدون سیستم';
 
-                    final tree = TreeNode<ActivityItem>.root(
-                      data: harkat[0],
-                    )..addAll([
-                        TreeNode<ActivityItem>(
-                          key: harkat[1].id,
-                          data: harkat[1],
-                        ),
-                        TreeNode<ActivityItem>(
-                          key: harkat[2].id,
-                          data: harkat[2],
-                        ),
-                      ]);
-                    return TreeView.simpleTyped<ActivityItem,
-                            TreeNode<ActivityItem>>(
-                        tree: tree,
-                        padding: EdgeInsets.all(16),
-                        showRootNode: true,
-                        indentation:
-                            const Indentation(color: primary, thickness: 2),
-                        expansionIndicatorBuilder: (context, node) {
-                          return ChevronIndicator.upDown(
-                            tree: node,
-                            icon: Icons.keyboard_arrow_down_rounded,
-                            alignment: Alignment.centerLeft,
-                            color: primary,
-                          );
-                        },
-                        builder: (context, node) {
-                          final harkat = node.data;
-                          if (harkat == null) {
-                            return SizedBox(); // مقدار `null` رو نادیده بگیر
-                          } else {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 25.0, top: 8, bottom: 8),
-                              child: InkWell(
-                                onTap: () => context.push(
-                                    '$barnameDetailPage?recordId=${harkat.id}'),
-                                child: ClipRRect(
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 10, sigmaY: 10),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.white.withOpacity(0.05),
-                                        border:
-                                            Border.all(color: Colors.white10),
-                                      ),
-                                      padding: EdgeInsets.all(8),
-                                      child: SizedBox(
-                                        height: 70,
-                                        child: Row(
+                      grouped.putIfAbsent(key, () => {});
+                      grouped[key]!.putIfAbsent(movement.systemSubId, () => []);
+                      grouped[key]![movement.systemSubId]!.add(movement);
+                    }
+
+                    grouped.forEach((system, subsystems) {
+                      subsystems.forEach((subsystem, list) {
+                        groupedList.add(list);
+                      });
+                    });
+
+                    List<Widget> movementWidgets = [];
+                    grouped.forEach((system, subsystems) {
+                      subsystems.forEach((subsystem, list) {
+                        movementWidgets.add(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // هدر سیستم و زیرسیستم
+                              Text(system, style: context.anjomanBold),
+                              SizedBox(height: 10),
+                              // آیتم‌های گروه
+                              Column(
+                                children: List.generate(list.length, (index) {
+                                  return Row(
+                                    children: [
+                                      // اتصال بصری بین آیتم‌ها (خط عمودی)
+                                      if (list.length > 1)
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            AspectRatio(
-                                              aspectRatio: .8,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                child:
-                                                    Builder(builder: (context) {
-                                                  final thumbnail =
-                                                      harkat.thumbnail;
-                                                  if (thumbnail == null) {
-                                                    return LoadingWidget();
-                                                  }
-                                                  return Image.network(
-                                                      thumbnail.path,
-                                                      fit: BoxFit.cover);
-                                                }),
+                                            index != 0
+                                                ? Container(
+                                                    width: dividerTickness,
+                                                    height: getLineHeight(
+                                                        list.length),
+                                                    color: getLineColor(
+                                                      list[index].systemSubId,
+                                                    ),
+                                                  )
+                                                : SizedBox(
+                                                    height: getLineHeight(
+                                                        list.length)),
+                                            Container(
+                                              width: 20,
+                                              height: dividerTickness,
+                                              color: getLineColor(
+                                                list[index].systemSubId,
                                               ),
                                             ),
-                                            SizedBox(width: 12),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    harkat.expand.activity
-                                                            ?.title ??
-                                                        'بدون نام',
-                                                    style: context.anjomanLight,
+                                            index != list.length - 1
+                                                ? Container(
+                                                    width: dividerTickness,
+                                                    height: getLineHeight(
+                                                      list.length,
+                                                    ),
+                                                    color: getLineColor(
+                                                      list[index].systemSubId,
+                                                    ),
+                                                  )
+                                                : SizedBox(
+                                                    height: getLineHeight(
+                                                      list.length,
+                                                    ),
                                                   ),
-                                                  SizedBox(height: 4),
-                                                  Builder(builder: (context) {
-                                                    var text = '';
-                                                    if (harkat.activitySet
-                                                        .isNotEmpty) {
-                                                      for (var element in harkat
-                                                          .activitySet) {
-                                                        text = text +
-                                                            (text.isEmpty
-                                                                ? ''
-                                                                : ' - ') +
-                                                            (element.first == 1
-                                                                ? '${element.last}'
-                                                                : '${element.first}x${element.last}');
-                                                      }
-                                                    }
-                                                    return Text(
-                                                      replaceFarsiNumber(
-                                                          'ست ها : $text'),
-                                                      style: context
-                                                          .anjomanExtraLight,
-                                                    );
-                                                  }),
-                                                  Spacer(),
-                                                  SizedBox(height: 4),
-                                                  Text(
-                                                      harkat.expand.system
-                                                              ?.title ??
-                                                          '',
-                                                      style: context
-                                                          .anjomanExtraLight),
-                                                ],
+                                          ],
+                                        ),
+
+                                      // عنوان حرکت
+                                      Expanded(
+                                        child: SizedBox(
+                                          height: itemHeight,
+                                          child: InkWell(
+                                            onTap: () => context.push(
+                                                '$barnameDetailPage?recordId=${list[index].id}'),
+                                            child: ClipRect(
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                    sigmaX: 10, sigmaY: 10),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color: Colors.white
+                                                        .withOpacity(0.05),
+                                                    border: Border.all(
+                                                        color: Colors.white10),
+                                                  ),
+                                                  padding: EdgeInsets.all(8),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4),
+                                                        child: AspectRatio(
+                                                          aspectRatio: 1,
+                                                          child: Image.network(
+                                                            list[index]
+                                                                    .expand
+                                                                    .activity
+                                                                    ?.expand
+                                                                    ?.image ??
+                                                                '',
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 12),
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              list[index]
+                                                                      .expand
+                                                                      .activity
+                                                                      ?.title ??
+                                                                  'بدون نام',
+                                                              style: context
+                                                                  .anjomanLight,
+                                                            ),
+                                                            SizedBox(height: 4),
+                                                            Column(
+                                                              children: [
+                                                                Builder(builder:
+                                                                    (context) {
+                                                                  var text = '';
+                                                                  if (list.isNotEmpty &&
+                                                                      list
+                                                                          .toList()[
+                                                                              index]
+                                                                          .activitySet
+                                                                          .isNotEmpty) {
+                                                                    for (var element in list
+                                                                        .toList()[
+                                                                            index]
+                                                                        .activitySet) {
+                                                                      text = text +
+                                                                          (text.isEmpty
+                                                                              ? ''
+                                                                              : ' - ') +
+                                                                          (element.first == 1
+                                                                              ? '${element.last}'
+                                                                              : '${element.first}x${element.last}');
+                                                                    }
+                                                                  }
+                                                                  return Text(
+                                                                    replaceFarsiNumber(
+                                                                        'ست ها : $text'),
+                                                                    style: context
+                                                                        .anjomanExtraLight,
+                                                                  );
+                                                                }),
+                                                              ],
+                                                            ),
+                                                            Spacer(),
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  list[index]
+                                                                          .expand
+                                                                          .system
+                                                                          ?.title ??
+                                                                      '',
+                                                                  style: context
+                                                                      .anjomanLight,
+                                                                ),
+                                                                Spacer(),
+                                                                Text(
+                                                                  'جزئیات',
+                                                                  style: context
+                                                                      .anjomanExtraLight
+                                                                      .copyWith(
+                                                                          color:
+                                                                              Colors.white54),
+                                                                ),
+                                                                Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  color: Colors
+                                                                      .white54,
+                                                                  size: 12,
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                ),
+                                    ],
+                                  );
+                                }),
                               ),
-                            );
-                          }
-                        });
-
-                    ListView.separated(
-                      padding: EdgeInsets.all(16),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () => context.push(
-                              '$barnameDetailPage?recordId=${harkat[index].id}'),
-                          child: ClipRRect(
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white.withOpacity(0.05),
-                                  border: Border.all(color: Colors.white10),
-                                ),
-                                padding: EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(4),
-                                      child: AspectRatio(
-                                        aspectRatio: 3,
-                                        child: Builder(builder: (context) {
-                                          final thumbnail =
-                                              harkat[index].thumbnail;
-                                          if (thumbnail == null) {
-                                            return LoadingWidget();
-                                          }
-                                          return Image.network(thumbnail.path,
-                                              fit: BoxFit.cover);
-                                        }),
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          harkat[index]
-                                                  .expand
-                                                  .activity
-                                                  ?.title ??
-                                              'بدون نام',
-                                          style: context.anjomanLight,
-                                        ),
-                                        SizedBox(height: 4),
-                                        harkat[index].expand.system?.title !=
-                                                null
-                                            ? Column(
-                                                children: [
-                                                  SizedBox(height: 4),
-                                                  Text(
-                                                    harkat[index]
-                                                            .expand
-                                                            .system
-                                                            ?.title ??
-                                                        '',
-                                                    style: context.anjomanLight,
-                                                  ),
-                                                ],
-                                              )
-                                            : SizedBox(),
-                                        Row(
-                                          children: [
-                                            Builder(builder: (context) {
-                                              var text = '';
-                                              if (harkat.isNotEmpty &&
-                                                  harkat
-                                                      .toList()[index]
-                                                      .activitySet
-                                                      .isNotEmpty) {
-                                                for (var element in harkat
-                                                    .toList()[index]
-                                                    .activitySet) {
-                                                  text = text +
-                                                      (text.isEmpty
-                                                          ? ''
-                                                          : ' - ') +
-                                                      (element.first == 1
-                                                          ? '${element.last}'
-                                                          : '${element.first}x${element.last}');
-                                                }
-                                              }
-                                              return Text(
-                                                replaceFarsiNumber(
-                                                    'ست ها : $text'),
-                                                style:
-                                                    context.anjomanExtraLight,
-                                              );
-                                            }),
-                                            Spacer(),
-                                            Text(
-                                              'جزئیات',
-                                              style: context.anjomanExtraLight
-                                                  .copyWith(
-                                                      color: Colors.white54),
-                                            ),
-                                            Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.white54,
-                                              size: 12,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                            ],
                           ),
                         );
+                      });
+                    });
+
+                    return ListView.separated(
+                      padding: EdgeInsets.all(16),
+                      itemBuilder: (context, index) {
+                        return movementWidgets[index];
                       },
                       separatorBuilder: (context, index) =>
-                          SizedBox(height: 16),
-                      itemCount: harkat.length,
+                          SizedBox(height: 12),
+                      itemCount: movementWidgets.length,
                     );
                   }
 
