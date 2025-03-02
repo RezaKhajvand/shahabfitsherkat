@@ -68,55 +68,57 @@ class _TelegramPlayerState extends State<TelegramPlayer> {
   }
 
   void _toggleDescription() {
-    widget.videoController.play();
     setState(() {
       _showDescription = !_showDescription;
     });
-    if (_showDescription) {
-      _startHideTimer();
-    } else {
+
+    if (widget.videoController.value.isPlaying) {
+      widget.videoController.pause();
       _hideTimer?.cancel();
+    } else {
+      widget.videoController.play();
+      if (_showDescription) {
+        _startHideTimer();
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: _showDescription ? 1 : 0,
-      duration: Duration(milliseconds: 300),
-      child: GestureDetector(
-        onTap: () => _toggleDescription(),
-        child: Stack(
-          children: [
-            Center(
-              child: Icon(
-                Icons.play_circle_filled_rounded,
-                size: 45,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.6),
-                ),
-                child: SizedBox(
-                  height: 200,
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(12),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Text(
-                        widget.element.expand.activity?.description ?? '',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+    return GestureDetector(
+      onTap: () => _toggleDescription(),
+      child: Material(
+        color: Colors.transparent,
+        child: AnimatedOpacity(
+          opacity: _showDescription ? 1 : 0,
+          duration: Duration(milliseconds: 300),
+          child: Stack(
+            children: [
+              Center(child: Icon(Icons.play_circle_filled_rounded, size: 45)),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+                  child: SizedBox(
+                    height: 200,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(12),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Text(
+                          widget.element.expand.activity?.description ?? '',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
