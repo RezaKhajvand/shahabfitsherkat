@@ -49,32 +49,46 @@ class TelegramPlayer extends StatefulWidget {
 }
 
 class _TelegramPlayerState extends State<TelegramPlayer> {
+  final DraggableScrollableController _scrollController =
+      DraggableScrollableController();
   bool _showDescription = true;
   Timer? _hideTimer;
-
+  final double _minSheetSize = 0.2; // مقدار اولیه کوچک
+  final double _maxSheetSize = 0.4; // مقدار بزرگ حداکثر
+  double _liveSheetSize = 0.2;
+  final Duration animationTime = Duration(milliseconds: 300);
   void _startHideTimer() {
     _hideTimer?.cancel();
-    _hideTimer = Timer(Duration(milliseconds: 1500), () {
-      setState(() {
-        _showDescription = false;
-      });
-    });
+    _hideTimer = Timer(
+        Duration(milliseconds: 2500),
+        () => setState(() {
+              if (_liveSheetSize > _minSheetSize ||
+                  !widget.videoController.value.isPlaying) {
+                _hideTimer?.cancel();
+              } else {
+                _showDescription = false;
+                _startHideTimer();
+              }
+            }));
   }
 
   @override
   void dispose() {
     _hideTimer?.cancel();
+    _hideTimer = null;
     super.dispose();
   }
 
-  void _toggleDescription() {
-    setState(() {
-      _showDescription = !_showDescription;
-    });
+  void _toggleScreen() {
+    setState(() => _showDescription = !_showDescription);
+    if (widget.videoController.value.isPlaying) {
+      _startHideTimer();
+    }
+  }
 
+  void _togglePlay() {
     if (widget.videoController.value.isPlaying) {
       widget.videoController.pause();
-      _hideTimer?.cancel();
     } else {
       widget.videoController.play();
       if (_showDescription) {
@@ -84,39 +98,59 @@ class _TelegramPlayerState extends State<TelegramPlayer> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    widget.videoController.addListener(() => setState(() {}));
+    _scrollController.addListener(() {
+      _liveSheetSize = _scrollController.size;
+      print(_liveSheetSize);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final description = widget.element.expand.activity?.description;
     return GestureDetector(
-      onTap: () => _toggleDescription(),
+      onTap: () => _toggleScreen(),
       child: Material(
         color: Colors.transparent,
         child: AnimatedOpacity(
           opacity: _showDescription ? 1 : 0,
-          duration: Duration(milliseconds: 300),
+          curve: Curves.ease,
+          duration: animationTime,
           child: Stack(
             children: [
-              Center(child: Icon(Icons.play_circle_filled_rounded, size: 45)),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
-                  ),
-                  child: SizedBox(
-                    height: 200,
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.all(12),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
+              Center(
+                  child: IconButton(
+                      onPressed: _showDescription ? _togglePlay : null,
+                      icon: Icon(
+                          widget.videoController.value.isPlaying
+                              ? Icons.pause_circle_filled_rounded
+                              : Icons.play_circle_filled_rounded,
+                          size: 60))),
+              if (description != null && description.isNotEmpty)
+                AnimatedSlide(
+                  offset: Offset(0, _showDescription ? 0 : 0.3),
+                  curve: Curves.ease,
+                  duration: animationTime,
+                  child: DraggableScrollableSheet(
+                    controller: _scrollController,
+                    initialChildSize: _minSheetSize,
+                    minChildSize: _minSheetSize,
+                    maxChildSize: _maxSheetSize,
+                    builder: (context, scrollController) => Material(
+                      color: Colors.black54,
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.all(16),
+                        controller: scrollController,
                         child: Text(
-                          widget.element.expand.activity?.description ?? '',
+                          description,
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

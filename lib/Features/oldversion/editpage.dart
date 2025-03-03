@@ -6,6 +6,7 @@ import 'package:shahabfit/Features/OldVersion/getshomarefrestande.dart';
 import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class EditPage extends StatefulWidget {
@@ -49,7 +50,9 @@ class _EditPageState extends State<EditPage> {
   ];
   tarikhErsal() async {
     var resault =
-        await getBottomSheet(const TarikhBottomSheetContent(), context);
+        await customModalSheet( context,
+      const TarikhBottomSheetContent()
+    );
     if (resault != null) {
       date = resault;
       print(date);

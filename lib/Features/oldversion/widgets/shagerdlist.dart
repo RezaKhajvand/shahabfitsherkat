@@ -11,6 +11,7 @@ import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber
 import 'package:shahabfit/Features/oldversion/utils/formatdatetime.dart';
 import 'package:shahabfit/Features/oldversion/utils/shagerdtype.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -251,8 +252,8 @@ class _ShagerdListState extends State<ShagerdList> {
                                                       vertical: 8),
                                                   clipBehavior: Clip.antiAlias,
                                                   decoration: ShapeDecoration(
-                                                    color:
-                                                        Colors.red.withValues(alpha: 0.1),
+                                                    color: Colors.red
+                                                        .withValues(alpha: 0.1),
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
@@ -289,10 +290,9 @@ class _ShagerdListState extends State<ShagerdList> {
                                                 ];
                                                 // ignore: use_build_context_synchronously
                                                 bool? resault =
-                                                    await showModalBottomSheet(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      Container(
+                                                    await customModalSheet(
+                                                  context,
+                                                  Container(
                                                     color: background,
                                                     padding:
                                                         const EdgeInsets.all(
@@ -335,6 +335,7 @@ class _ShagerdListState extends State<ShagerdList> {
                                                     ),
                                                   ),
                                                 );
+
                                                 if (resault == true) {
                                                   // setState(() {});
                                                 }

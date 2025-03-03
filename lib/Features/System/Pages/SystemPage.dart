@@ -7,6 +7,7 @@ import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
 import 'package:shahabfit/Features/Home/Widgets/Drawer.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 
 class SystemPage extends StatefulWidget {
@@ -127,16 +128,9 @@ class _SystemPageState extends State<SystemPage> {
         TextEditingController(text: system?.title);
     final TextEditingController descriptionController =
         TextEditingController(text: system?.description);
-    return showModalBottomSheet(
-      backgroundColor: background,
-      barrierColor: Colors.transparent,
-      elevation: 0,
-      shape: const RoundedRectangleBorder(),
-      isScrollControlled: true,
-      useSafeArea: true,
-      context: context,
-      builder: (context) {
-        return Scaffold(
+    return customModalSheet(
+        context,
+        Scaffold(
           appBar: AppBar(
             title: Text(system == null ? 'افزودن سیستم' : 'ویرایش سیستم'),
           ),
@@ -209,8 +203,6 @@ class _SystemPageState extends State<SystemPage> {
               )
             ],
           ),
-        );
-      },
-    );
+        ));
   }
 }

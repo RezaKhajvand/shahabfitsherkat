@@ -1,4 +1,3 @@
-import 'package:shahabfit/Di.dart';
 import 'package:shahabfit/Features/oldversion/data/shagerdlist_datasource.dart';
 
 Future<String> insertBasketActivity({
@@ -12,14 +11,12 @@ Future<String> insertBasketActivity({
     "dayOfWeek": dayOfWeek,
     "activity": activity,
     "activitySet": activitySet,
-    "user": userId,
   };
   try {
     final record = await pb.collection('basketActivity').create(body: body);
     print(record.toString());
     return record.toString();
   } catch (e) {
-    ;
     rethrow;
   }
 }

@@ -7,9 +7,13 @@ import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
 import 'package:shahabfit/Features/barnameview/utils/updateurl.dart';
+import 'package:shahabfit/Features/oldversion/utils/formatdatetime.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
+import 'package:shamsi_date/shamsi_date.dart';
+import 'package:shimmer/shimmer.dart';
 
 class BarnameViewPage extends StatefulWidget {
   final String basketId;
@@ -56,6 +60,48 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
         ),
       ),
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: BlocBuilder<BarnameViewBloc, BarnameViewState>(
+            builder: (context, state) {
+              return AppBar(
+                elevation: 4,
+                shadowColor: Colors.black,
+                backgroundColor: background,
+                title: state is BarnameViewLoaded
+                    ? Builder(builder: (context) {
+                        final name =
+                            state.basketActivity.first.expand.basket?.name ??
+                                '';
+                        final level =
+                            state.basketActivity.first.expand.basket?.level ??
+                                '';
+                        final date =
+                            state.basketActivity.first.expand.basket?.created;
+                        return Row(
+                          children: [
+                            Text(
+                              '$name  -  ',
+                              style: context.anjomanBold,
+                            ),
+                            Text(
+                              level,
+                              style:
+                                  context.anjomanLight.copyWith(color: primary),
+                            ),
+                            Spacer(),
+                            Text(
+                              format1(Jalali.fromDateTime(date!)),
+                              style: context.anjomanLight,
+                            ),
+                          ],
+                        );
+                      })
+                    : ShimmerWidget(80, 20),
+              );
+            },
+          ),
+        ),
         body: Row(
           children: [
             StatefulBuilder(builder: (context, setState) {
@@ -86,7 +132,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                 style: context.anjomanLight.copyWith(
                                   fontSize: 12,
                                   color: _selectedDay != index
-                                      ? Colors.white
+                                      ? Colors.white.withValues(alpha: 0.5)
                                       : background,
                                 ),
                               ),
@@ -140,8 +186,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                     Map<String, Map<int, List<ActivityItem>>> grouped = {};
                     for (var movement in harkat) {
                       print(movement.system);
-                      var key = movement.expand.system?.title ?? 'بدون سیستم';
-
+                      var key = movement.expand.system?.title ?? '';
                       grouped.putIfAbsent(key, () => {});
                       grouped[key]!.putIfAbsent(movement.systemSubId, () => []);
                       grouped[key]![movement.systemSubId]!.add(movement);
@@ -156,20 +201,75 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                     List<Widget> movementWidgets = [];
                     grouped.forEach((system, subsystems) {
                       subsystems.forEach((subsystem, list) {
+                        final description =
+                            list.first.expand.system?.description ?? '';
                         movementWidgets.add(
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // هدر سیستم و زیرسیستم
-                              Text(system, style: context.anjomanBold),
-                              SizedBox(height: 10),
+                              if (system.isNotEmpty)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(system, style: context.anjomanBold),
+                                    IconButton(
+                                        onPressed: description.isNotEmpty
+                                            ? () {
+                                                customModalSheet(
+                                                  context,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            20.0),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text('توضیحات سیستم',
+                                                            style: context
+                                                                .anjomanBold),
+                                                        SizedBox(
+                                                            width:
+                                                                double.infinity,
+                                                            height: 16),
+                                                        Text(description),
+                                                        SizedBox(height: 30),
+                                                        Center(
+                                                          child: SizedBox(
+                                                            width:
+                                                                double.infinity,
+                                                            child: OutlinedButton(
+                                                                onPressed: () =>
+                                                                    context
+                                                                        .pop(),
+                                                                child: Text(
+                                                                    'بستن')),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            : () {},
+                                        icon: Icon(Icons.info_outlined))
+                                  ],
+                                ),
                               // آیتم‌های گروه
                               Column(
+                                spacing: (list.length > 1 && system.isEmpty)
+                                    ? itemSpacing
+                                    : 0,
                                 children: List.generate(list.length, (index) {
                                   return Row(
                                     children: [
                                       // اتصال بصری بین آیتم‌ها (خط عمودی)
-                                      if (list.length > 1)
+                                      if (list.length > 1 && system.isNotEmpty)
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -187,7 +287,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                                     height: getLineHeight(
                                                         list.length)),
                                             Container(
-                                              width: 20,
+                                              width: 15,
                                               height: dividerTickness,
                                               color: getLineColor(
                                                 list[index].systemSubId,
@@ -210,7 +310,6 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                                   ),
                                           ],
                                         ),
-
                                       // عنوان حرکت
                                       Expanded(
                                         child: SizedBox(
@@ -243,7 +342,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                                             BorderRadius
                                                                 .circular(4),
                                                         child: AspectRatio(
-                                                          aspectRatio: 1,
+                                                          aspectRatio: 0.8,
                                                           child: Image.network(
                                                             list[index]
                                                                     .expand
@@ -262,14 +361,21 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Text(
-                                                              list[index]
-                                                                      .expand
-                                                                      .activity
-                                                                      ?.title ??
-                                                                  'بدون نام',
-                                                              style: context
-                                                                  .anjomanLight,
+                                                            FittedBox(
+                                                              fit: BoxFit
+                                                                  .scaleDown,
+                                                              child: Text(
+                                                                list[index]
+                                                                        .expand
+                                                                        .activity
+                                                                        ?.title ??
+                                                                    'بدون نام',
+                                                                style: context
+                                                                    .anjomanLight,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
                                                             ),
                                                             SizedBox(height: 4),
                                                             Column(
@@ -350,21 +456,16 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                   );
                                 }),
                               ),
+                              Divider(height: 30, color: Colors.white30),
                             ],
                           ),
                         );
                       });
                     });
 
-                    return ListView.separated(
-                      padding: EdgeInsets.all(16),
-                      itemBuilder: (context, index) {
-                        return movementWidgets[index];
-                      },
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 12),
-                      itemCount: movementWidgets.length,
-                    );
+                    return ListView(
+                        padding: const EdgeInsets.all(16.0),
+                        children: movementWidgets);
                   }
 
                   return SizedBox();
@@ -373,6 +474,30 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ShimmerWidget extends StatelessWidget {
+  final double width;
+  final double height;
+  const ShimmerWidget(
+    this.width,
+    this.height, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.white10,
+      highlightColor: Colors.white24,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(5)),
       ),
     );
   }

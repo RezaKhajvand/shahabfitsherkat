@@ -24,7 +24,6 @@ class ActivityItem {
   String? system;
   int systemSubId;
   DateTime updated;
-  String? user;
   VideoPlayerController? videoController;
   ChewieController? chewieController;
 
@@ -42,7 +41,6 @@ class ActivityItem {
     required this.system,
     required this.systemSubId,
     required this.updated,
-    this.user,
     this.videoController,
     this.chewieController,
   });
@@ -62,7 +60,6 @@ class ActivityItem {
         system: json["system"],
         systemSubId: json["systemSubId"],
         updated: DateTime.parse(json["updated"]),
-        user: json["user"],
       );
 }
 

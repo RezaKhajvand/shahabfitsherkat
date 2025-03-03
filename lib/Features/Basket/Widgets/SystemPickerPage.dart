@@ -7,6 +7,7 @@ import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
 import 'package:shahabfit/Features/System/Models/ClubSystemModel.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 
 class SystemPickerPage extends StatefulWidget {
   const SystemPickerPage({
@@ -45,15 +46,12 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
               itemBuilder: (context, index) => InkWell(
                 borderRadius: cardBorderRadius,
                 onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    backgroundColor: background,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(6))),
-                    builder: (context) => Padding(
+                  customModalSheet(
+                    context,
+                    Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -72,26 +70,25 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
                                 .copyWith(color: Colors.white),
                           ),
                           const SizedBox(height: 20),
-                          Expanded(
-                            child: GridView.builder(
-                              itemCount: 4,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisExtent: 45,
-                                      crossAxisSpacing: 12,
-                                      mainAxisSpacing: 12),
-                              itemBuilder: (context, channelIndex) =>
-                                  OutlinedButton(
-                                      onPressed: () {
-                                        context.pop();
-                                        context.pop(PickedSystem(
-                                            system: systemList[index],
-                                            systemSubId: channelIndex+1));
-                                      },
-                                      child: Text(
-                                          'کانال : ${replaceFarsiNumber((channelIndex+1).toString())}')),
-                            ),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: 4,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisExtent: 45,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 12),
+                            itemBuilder: (context, channelIndex) =>
+                                OutlinedButton(
+                                    onPressed: () {
+                                      context.pop();
+                                      context.pop(PickedSystem(
+                                          system: systemList[index],
+                                          systemSubId: channelIndex + 1));
+                                    },
+                                    child: Text(
+                                        'کانال : ${replaceFarsiNumber((channelIndex + 1).toString())}')),
                           ),
                         ],
                       ),
@@ -123,10 +120,6 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
           }
           return const LoadingWidget();
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {},
       ),
     );
   }

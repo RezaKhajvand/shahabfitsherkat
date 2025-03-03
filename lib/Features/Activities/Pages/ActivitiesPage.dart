@@ -14,6 +14,7 @@ import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber
 import 'package:shahabfit/Widgets/CustomErrorWidget.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
@@ -131,8 +132,9 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                           tabAlignment: TabAlignment.start,
                           labelPadding:
                               const EdgeInsets.symmetric(horizontal: 30),
-                           unselectedLabelStyle:context.anjomanLight,
-                          labelStyle: context.anjomanBold.copyWith(color: background),
+                          unselectedLabelStyle: context.anjomanLight,
+                          labelStyle:
+                              context.anjomanBold.copyWith(color: background),
                           tabs: List.generate(
                               weekDays.length,
                               (index) => Tab(
@@ -198,25 +200,21 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                                                           horizontal: 10))),
                                       onPressed: () async {
                                         String? resault =
-                                            await showModalBottomSheet(
-                                                backgroundColor: background,
-                                                elevation: 0,
-                                                isScrollControlled: true,
-                                                useSafeArea: true,
-                                                context: context,
-                                                builder: (context) =>
-                                                    DraggableScrollableSheet(
-                                                      minChildSize: 1,
-                                                      maxChildSize: 1,
-                                                      initialChildSize: 1,
-                                                      builder: (context,
-                                                              scrollController) =>
-                                                          CategoryBottomSheet(
-                                                              scrollController:
-                                                                  scrollController,
-                                                              categoryLit:
-                                                                  categoryList),
-                                                    ));
+                                            await customModalSheet(
+                                                context,
+                                                DraggableScrollableSheet(
+                                                  minChildSize: 1,
+                                                  maxChildSize: 1,
+                                                  initialChildSize: 1,
+                                                  builder: (context,
+                                                          scrollController) =>
+                                                      CategoryBottomSheet(
+                                                          scrollController:
+                                                              scrollController,
+                                                          categoryLit:
+                                                              categoryList),
+                                                ));
+
                                         if (resault != null) {
                                           setState(() => categoryId = resault);
                                           getActivityList();
@@ -411,72 +409,63 @@ class _ActivitiesPageState extends State<ActivitiesPage>
           onPressed: () {
             final TextEditingController activityTitleController =
                 TextEditingController();
-            showModalBottomSheet(
-              backgroundColor: background,
-              barrierColor: Colors.transparent,
-              elevation: 0,
-              shape: const RoundedRectangleBorder(),
-              isScrollControlled: true,
-              useSafeArea: true,
-              context: context,
-              builder: (context) {
-                return Scaffold(
-                  appBar: AppBar(title: const Text('افزودن حرکت')),
-                  body: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              style: Theme.of(context).textTheme.labelSmall,
-                              controller: activityTitleController,
-                              decoration: const InputDecoration(
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
-                                hintText: 'نام حرکت',
-                              ),
+            customModalSheet(
+              context,
+              Scaffold(
+                appBar: AppBar(title: const Text('افزودن حرکت')),
+                body: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            style: Theme.of(context).textTheme.labelSmall,
+                            controller: activityTitleController,
+                            decoration: const InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 10),
+                              hintText: 'نام حرکت',
                             ),
-                            const SizedBox(height: 20),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: primary),
-                                  onPressed: () {
-                                    BlocProvider.of<ActivityBloc>(context).add(
-                                        InsertActivityEvent(
-                                            categoryId: categoryId,
-                                            dayOfWeek: _tabController.index,
-                                            title:
-                                                activityTitleController.text));
-                                  },
-                                  child: const Text('افزودن')),
-                            )
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: primary),
+                                onPressed: () {
+                                  BlocProvider.of<ActivityBloc>(context).add(
+                                      InsertActivityEvent(
+                                          categoryId: categoryId,
+                                          dayOfWeek: _tabController.index,
+                                          title: activityTitleController.text));
+                                },
+                                child: const Text('افزودن')),
+                          )
+                        ],
                       ),
-                      BlocConsumer<ActivityBloc, ActivityState>(
-                        listener: (context, state) {
-                          if (state is ActivityLoaded) {
-                            context.pop();
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is ActivityLoading) {
-                            return const Material(
-                              color: Colors.black54,
-                              child: LoadingWidget(),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                      )
-                    ],
-                  ),
-                );
-              },
+                    ),
+                    BlocConsumer<ActivityBloc, ActivityState>(
+                      listener: (context, state) {
+                        if (state is ActivityLoaded) {
+                          context.pop();
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is ActivityLoading) {
+                          return const Material(
+                            color: Colors.black54,
+                            child: LoadingWidget(),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    )
+                  ],
+                ),
+              ),
             );
           },
           child: const Icon(Icons.add),

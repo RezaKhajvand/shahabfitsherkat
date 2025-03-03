@@ -9,6 +9,7 @@ import 'package:shahabfit/Features/BasketList/Data/getBasketListDataSource.dart'
 import 'package:shahabfit/Features/Home/Widgets/Drawer.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -149,10 +150,9 @@ class _BasketListPageState extends State<BasketListPage> {
                                   const SizedBox(width: 5),
                                   IconButton(
                                       onPressed: () async {
-                                        showModalBottomSheet(
-                                          backgroundColor: background,
-                                          context: context,
-                                          builder: (context) => Padding(
+                                        customModalSheet(
+                                          context,
+                                          Padding(
                                             padding: const EdgeInsets.all(16.0),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
@@ -188,11 +188,13 @@ class _BasketListPageState extends State<BasketListPage> {
                                                                 'بله'))),
                                                     const SizedBox(width: 20),
                                                     Expanded(
-                                                        child: OutlinedButton(
-                                                            onPressed: () =>
-                                                                context.pop(),
-                                                            child: const Text(
-                                                                'انصراف')))
+                                                      child: OutlinedButton(
+                                                        onPressed: () =>
+                                                            context.pop(),
+                                                        child: const Text(
+                                                            'انصراف'),
+                                                      ),
+                                                    ),
                                                   ],
                                                 )
                                               ],

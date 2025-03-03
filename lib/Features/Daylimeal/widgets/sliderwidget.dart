@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 
 class NutritionSlider extends StatefulWidget {
   double protein;
@@ -28,20 +29,14 @@ class NutritionSliderState extends State<NutritionSlider> {
       children: [
         InkWell(
           onTap: () async {
-            final List<double>? resault = await showModalBottomSheet(
-              isScrollControlled: true,
-              backgroundColor: background,
-              shape: const RoundedRectangleBorder(),
-              context: context,
-              builder: (context) => const SliderBottomSheet(),
-            );
+            final List<double>? resault =
+                await customModalSheet(context, const SliderBottomSheet());
             if (resault != null) {
               setState(() {
                 widget.protein = resault[0];
                 widget.carbs = resault[1];
                 widget.fat = resault[2];
               });
-              // Call the callback function to update the parent's state
               widget.onValuesChanged(widget.protein, widget.carbs, widget.fat);
             }
           },

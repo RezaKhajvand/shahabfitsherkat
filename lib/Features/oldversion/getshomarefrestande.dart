@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shahabfit/Constants/BorderRadius.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
-
-
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 
 TextFormField getCliclableTextfield(
   String validatorText,
@@ -48,26 +47,19 @@ TextFormField getCliclableTextfield(
             letterSpacing: 0),
         enabledBorder: OutlineInputBorder(
             borderRadius: cardBorderRadius,
-            borderSide: const BorderSide(
-                width: 1.5, color:Colors.white)),
+            borderSide: const BorderSide(width: 1.5, color: Colors.white)),
         errorBorder: OutlineInputBorder(
             borderRadius: cardBorderRadius,
-            borderSide: const BorderSide(
-                width: 1.5, color:Colors.white)),
+            borderSide: const BorderSide(width: 1.5, color: Colors.white)),
       ),
       onTap: onTap);
 }
 
-getBottomSheet(Widget childclass, BuildContext context) async {
-  return await showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: background,
-    builder: (context) {
-      return childclass;
-    },
-  );
-}
+
+
+
+
+
 class AlwaysDisabledFocusNode extends FocusNode {
   @override
   bool get hasFocus => false;
