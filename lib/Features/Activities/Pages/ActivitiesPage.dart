@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shahabfit/Constants/BorderRadius.dart';
+import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
-import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/constants/colors.dart';
 import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.dart';
 import 'package:shahabfit/Features/Activities/Models/CategoryModel.dart';
 import 'package:shahabfit/Features/Activities/Widgets/CategoryBottomSheet.dart';
@@ -195,7 +195,7 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                                           .style!
                                           .copyWith(
                                               padding:
-                                                  const MaterialStatePropertyAll(
+                                                  const WidgetStatePropertyAll(
                                                       EdgeInsets.symmetric(
                                                           horizontal: 10))),
                                       onPressed: () async {

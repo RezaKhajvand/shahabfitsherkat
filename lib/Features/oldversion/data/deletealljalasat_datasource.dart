@@ -15,7 +15,6 @@ Future<void> deleteShagerdAllJalasatDatasource(Shagerd shagerd) async {
       },
     );
   } catch (e) {
-    ;
     rethrow;
   }
 }

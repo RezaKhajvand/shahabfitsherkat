@@ -21,7 +21,6 @@ Future<String> addDaylimeal({required Trainer trainer}) async {
     print(record.toString());
     return record.toString();
   } catch (e) {
-    ;
     rethrow;
   }
 }

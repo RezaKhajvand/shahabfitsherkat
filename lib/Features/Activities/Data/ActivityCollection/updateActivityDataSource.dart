@@ -22,7 +22,6 @@ Future<String> updateActivity({
     print(record.toString());
     return record.toString();
   } catch (e) {
-    ;
     rethrow;
   }
 }

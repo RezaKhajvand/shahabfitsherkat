@@ -6,7 +6,6 @@ Future<String> getActivity({required String catId}) async {
         await pb.collection('activity').getFullList(filter: 'catId="$catId"');
     return response.toString();
   } catch (e) {
-    ;
     rethrow;
   }
 }

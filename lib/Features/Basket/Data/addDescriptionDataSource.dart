@@ -8,7 +8,6 @@ Future<String> addDescription(String text, DescriptionType type) async {
     print(record.toString());
     return record.toString();
   } catch (e) {
-    ;
     rethrow;
   }
 }

@@ -9,7 +9,6 @@ Future<String> getSystem() async {
     print(records.toString());
     return records.toString();
   } catch (e) {
-    ;
     rethrow;
   }
 }

@@ -12,7 +12,6 @@ Future<void> deleteLastJalaseDatasource(Shagerd shagerd) async {
       print('جلسه ندارد');
     }
   } catch (e) {
-    ;
     rethrow;
   }
 }

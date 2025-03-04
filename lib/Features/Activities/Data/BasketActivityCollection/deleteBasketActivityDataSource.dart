@@ -6,7 +6,6 @@ Future<void> deleteBasketActivity({
   try {
     await pb.collection('basketActivity').delete(basketActivityId);
   } catch (e) {
-    ;
     rethrow;
   }
 }

@@ -9,7 +9,6 @@ Future<String> getDescriptionList(DescriptionType type) async {
     print(records.toString());
     return records.toString();
   } catch (e) {
-    ;
     rethrow;
   }
 }

@@ -1,12 +1,11 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:shahabfit/Constants/BorderRadius.dart';
+import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
-import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/constants/colors.dart';
 import 'package:shahabfit/Features/Basket/Data/updateBasketDataSource.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
@@ -175,55 +174,55 @@ class _BasketPageState extends State<BasketPage>
                                       ],
                                     ),
                                     const SizedBox(height: 16),
-                                    TypeAheadField<DescriptionModel>(
-                                        controller: pdfTextController,
-                                        hideOnEmpty: true,
-                                        suggestionsCallback: (search) async {
-                                          if (descriptionList.isEmpty) {
-                                            return descriptionList =
-                                                descriptionFromJson(
-                                                    await getDescriptionList(
-                                                        DescriptionType
-                                                            .tamrin));
-                                          } else {
-                                            return descriptionList
-                                                .where((element) => element.text
-                                                    .contains(search))
-                                                .toList();
-                                          }
-                                        },
-                                        builder:
-                                            (context, controller, focusNode) {
-                                          return TextField(
-                                            controller: controller,
-                                            focusNode: focusNode,
-                                            autofocus: true,
-                                            maxLines: 3,
-                                            textAlignVertical:
-                                                TextAlignVertical.top,
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white),
-                                            decoration: const InputDecoration(
-                                                alignLabelWithHint: true,
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 10,
-                                                        vertical: 12),
-                                                label: Text('توضیحات برنامه'),
-                                                labelStyle:
-                                                    TextStyle(fontSize: 14)),
-                                          );
-                                        },
-                                        itemSeparatorBuilder:
-                                            (context, index) =>
-                                                const Divider(height: 2),
-                                        itemBuilder: (context, description) =>
-                                            ListTile(
-                                                dense: true,
-                                                title: Text(description.text)),
-                                        onSelected: (value) => pdfTextController
-                                            .text = value.text),
+                                    // TypeAheadField<DescriptionModel>(
+                                    //     controller: pdfTextController,
+                                    //     hideOnEmpty: true,
+                                    //     suggestionsCallback: (search) async {
+                                    //       if (descriptionList.isEmpty) {
+                                    //         return descriptionList =
+                                    //             descriptionFromJson(
+                                    //                 await getDescriptionList(
+                                    //                     DescriptionType
+                                    //                         .tamrin));
+                                    //       } else {
+                                    //         return descriptionList
+                                    //             .where((element) => element.text
+                                    //                 .contains(search))
+                                    //             .toList();
+                                    //       }
+                                    //     },
+                                    //     builder:
+                                    //         (context, controller, focusNode) {
+                                    //       return TextField(
+                                    //         controller: controller,
+                                    //         focusNode: focusNode,
+                                    //         autofocus: true,
+                                    //         maxLines: 3,
+                                    //         textAlignVertical:
+                                    //             TextAlignVertical.top,
+                                    //         style: const TextStyle(
+                                    //             fontSize: 14,
+                                    //             color: Colors.white),
+                                    //         decoration: const InputDecoration(
+                                    //             alignLabelWithHint: true,
+                                    //             contentPadding:
+                                    //                 EdgeInsets.symmetric(
+                                    //                     horizontal: 10,
+                                    //                     vertical: 12),
+                                    //             label: Text('توضیحات برنامه'),
+                                    //             labelStyle:
+                                    //                 TextStyle(fontSize: 14)),
+                                    //       );
+                                    //     },
+                                    //     itemSeparatorBuilder:
+                                    //         (context, index) =>
+                                    //             const Divider(height: 2),
+                                    //     itemBuilder: (context, description) =>
+                                    //         ListTile(
+                                    //             dense: true,
+                                    //             title: Text(description.text)),
+                                    //     onSelected: (value) => pdfTextController
+                                    //         .text = value.text),
                                   ],
                                 );
                               }),
