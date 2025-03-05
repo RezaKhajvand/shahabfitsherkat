@@ -4,37 +4,35 @@
   <base href="/">
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="شهاب فیت">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Chart Vault">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/Icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="icons/Icon-512.png">
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <meta name="apple-mobile-web-app-title" content="شهاب فیت">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="logo.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="logo.png">
+  <link rel="icon" type="image/png" href="logo.png"/>
   <link rel="manifest" href="manifest.json">
-  <title>ShahabFit</title>
+  <title>شهاب فیت</title>
   <script>
     const serviceWorkerVersion = "{{flutter_service_worker_version}}";
   </script>
 </head>
 <body>
+ <script src="flutter_bootstrap.js" async></script>
   <script>
-        {{flutter_bootstrap_js}}
-        {{flutter_js}}
-        {{flutter_build_config}}
-      const useCanvasKit = true;
-      window.addEventListener('load', function(ev) {
-      var serviceWorkerUrl =
-      'flutter_service_worker.js?v=' + serviceWorkerVersion;
-   _flutter.loader.load({
-        config: config,
-        serviceWorkerVersion: serviceWorkerUrl
-    }).then((engineInitializer) => {
-     engineInitializer.initializeEngine().then((appRunner) => {
-     appRunner.runApp();
-  });
-});
+    window.addEventListener('load', function(ev) {
+      var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+      _flutter.loader.load({
+        serviceWorkerVersion: serviceWorkerUrl,
+        config: {
+          renderer: "wasm", // استفاده از WebAssembly
+        }
+      }).then((engineInitializer) => {
+        engineInitializer.initializeEngine().then((appRunner) => {
+          appRunner.runApp();
+        });
+      });
     });
   </script>
 </body>
