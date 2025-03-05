@@ -18,14 +18,17 @@ import 'package:shahabfit/Features/barnameview/page/barnamedetail_screen.dart';
 import 'package:shahabfit/Features/barnameview/page/barnameview_screen.dart';
 import 'package:shahabfit/Features/landing/view/blog_screen.dart';
 import 'package:shahabfit/Features/landing/view/landing_screen.dart';
+import 'package:shahabfit/Features/login/view/loginpage.dart';
 import 'package:shahabfit/Features/oldversion/addpage.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/editpage.dart';
 import 'package:shahabfit/Features/oldversion/managepage.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
 import 'package:shahabfit/Features/oldversion/searchpage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const String landingPage = '/';
+const String loginPage = '/login';
 const String blogPage = '/blog';
 const String activitiesPage = '/activities';
 const String basketListPage = '/basketlist';
@@ -45,7 +48,19 @@ const String barnameViewPage = '/barnameview';
 const String barnameDetailPage = '/barnamedetailview';
 // GoRouter configuration
 final router = GoRouter(
-  initialLocation: splashPage,
+  initialLocation: loginPage,
+  redirect: (context, state) async {
+    final share = await SharedPreferences.getInstance();
+    final user = share.getString("user");
+
+    if (user == null) {
+      if (state.uri.path.contains(barnameViewPage) ||
+          state.uri.path.contains(barnameDetailPage)) {
+        return null;
+      }
+      return loginPage;
+    }
+  },
   routes: [
     //landing
     GoRoute(
@@ -62,6 +77,10 @@ final router = GoRouter(
       ),
     ),
     //mobile
+    GoRoute(
+      path: loginPage,
+      builder: (context, state) => MobileLayout(child: const LoginPage()),
+    ),
     GoRoute(
       path: splashPage,
       builder: (context, state) => MobileLayout(child: SplashScreen()),

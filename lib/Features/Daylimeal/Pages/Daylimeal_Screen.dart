@@ -4,12 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/Basket/Data/addDescriptionDataSource.dart';
-import 'package:shahabfit/Features/Basket/Data/getDescriptionListDataSource.dart.dart';
 import 'package:shahabfit/Features/Basket/Models/description_model.dart';
 import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
 import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
 import 'package:shahabfit/Features/Daylimeal/Data/add_daylimeal_datasource.dart';
-import 'package:shahabfit/Features/Daylimeal/Pages/pdfexport.dart';
 import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/pdftext_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
@@ -125,6 +123,7 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
               surfaceTintColor: Colors.transparent,
               title: Image.asset('images/logotype.png', height: 16),
               actions: [
+                const HomeButton(),
                 IconButton(
                     onPressed: () async {
                       List<Meal> mealList = List.generate(
@@ -138,159 +137,162 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
                       );
                       await showDialog(
                         context: context,
-                        builder: (context) => Dialog(
-                          backgroundColor: background,
-                          shape: RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.white12),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: SizedBox(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Wrap(
-                                runSpacing: 40,
-                                children: [
-                                  StatefulBuilder(builder: (context, setState) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          'انتخاب نام برنامه',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(color: Colors.white),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        TextFormField(
-                                            controller: pdfNameController,
+                        builder: (context) => MobileLayout(
+                          child: Dialog(
+                            backgroundColor: background,
+                            shape: RoundedRectangleBorder(
+                                side: const BorderSide(color: Colors.white12),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: SizedBox(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Wrap(
+                                  runSpacing: 40,
+                                  children: [
+                                    StatefulBuilder(
+                                        builder: (context, setState) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            'انتخاب نام برنامه',
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .labelSmall!
+                                                .titleLarge!
                                                 .copyWith(color: Colors.white),
-                                            decoration: const InputDecoration(
-                                                hintText: 'نام برنامه',
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 10))),
-                                        const SizedBox(height: 20),
-                                        // TypeAheadField<DescriptionModel>(
-                                        //     controller: pdfTextController,
-                                        //     hideOnEmpty: true,
-                                        //     suggestionsCallback:
-                                        //         (search) async {
-                                        //       if (descriptionList.isEmpty) {
-                                        //         return descriptionList =
-                                        //             descriptionFromJson(
-                                        //                 await getDescriptionList(
-                                        //                     DescriptionType
-                                        //                         .qazae));
-                                        //       } else {
-                                        //         return descriptionList
-                                        //             .where((element) => element
-                                        //                 .text
-                                        //                 .contains(search))
-                                        //             .toList();
-                                        //       }
-                                        //     },
-                                        //     builder: (context, controller,
-                                        //         focusNode) {
-                                        //       return TextField(
-                                        //         controller: controller,
-                                        //         focusNode: focusNode,
-                                        //         autofocus: true,
-                                        //         maxLines: 3,
-                                        //         textAlignVertical:
-                                        //             TextAlignVertical.top,
-                                        //         style: const TextStyle(
-                                        //             fontSize: 14,
-                                        //             color: Colors.white),
-                                        //         decoration:
-                                        //             const InputDecoration(
-                                        //                 alignLabelWithHint:
-                                        //                     true,
-                                        //                 contentPadding:
-                                        //                     EdgeInsets
-                                        //                         .symmetric(
-                                        //                             horizontal:
-                                        //                                 10,
-                                        //                             vertical:
-                                        //                                 12),
-                                        //                 label: Text(
-                                        //                     'توضیحات برنامه'),
-                                        //                 labelStyle: TextStyle(
-                                        //                     fontSize: 14)),
-                                        //       );
-                                        //     },
-                                        //     itemSeparatorBuilder:
-                                        //         (context, index) =>
-                                        //             const Divider(height: 2),
-                                        //     itemBuilder: (context,
-                                        //             description) =>
-                                        //         ListTile(
-                                        //             dense: true,
-                                        //             title:
-                                        //                 Text(description.text)),
-                                        //     onSelected: (value) =>
-                                        //         pdfTextController.text =
-                                        //             value.text),
-                                      ],
-                                    );
-                                  }),
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                        onPressed: () async {
-                                          if (!descriptionList.any((element) =>
-                                              element.text ==
-                                              pdfTextController.text)) {
-                                            addDescription(
-                                                pdfTextController.text,
-                                                DescriptionType.qazae);
-                                          }
-                                          pdfMealCreator(
-                                              mealList,
-                                              pdfNameController.text,
-                                              pdfTextController.text);
-                                          final t = widget.trainer;
-                                          addDaylimeal(
-                                            trainer: Trainer(
-                                              name: pdfNameController.text,
-                                              gender: t.gender,
-                                              goal: t.goal,
-                                              calories: t.calories,
-                                              weight: t.weight,
-                                              height: t.height,
-                                              wrist: t.wrist,
-                                              age: t.age,
-                                              protein: t.protein,
-                                              carbo: t.carbo,
-                                              fat: t.fat,
-                                              activity: t.activity,
-                                              daylimeal: List.generate(
-                                                mealList.length,
-                                                (index) {
-                                                  final meal = mealList[index];
-                                                  return {
-                                                    "meal": meal.mealName,
-                                                    "choices": List.generate(
-                                                      meal.choices.length,
-                                                      (chioceIndex) => {
-                                                        "text": meal.choices[
-                                                            chioceIndex]
-                                                      },
-                                                    )
-                                                  };
-                                                },
+                                          ),
+                                          const SizedBox(height: 20),
+                                          TextFormField(
+                                              controller: pdfNameController,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelSmall!
+                                                  .copyWith(
+                                                      color: Colors.white),
+                                              decoration: const InputDecoration(
+                                                  hintText: 'نام برنامه',
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 10))),
+                                          const SizedBox(height: 20),
+                                          // TypeAheadField<DescriptionModel>(
+                                          //     controller: pdfTextController,
+                                          //     hideOnEmpty: true,
+                                          //     suggestionsCallback:
+                                          //         (search) async {
+                                          //       if (descriptionList.isEmpty) {
+                                          //         return descriptionList =
+                                          //             descriptionFromJson(
+                                          //                 await getDescriptionList(
+                                          //                     DescriptionType
+                                          //                         .qazae));
+                                          //       } else {
+                                          //         return descriptionList
+                                          //             .where((element) => element
+                                          //                 .text
+                                          //                 .contains(search))
+                                          //             .toList();
+                                          //       }
+                                          //     },
+                                          //     builder: (context, controller,
+                                          //         focusNode) {
+                                          //       return TextField(
+                                          //         controller: controller,
+                                          //         focusNode: focusNode,
+                                          //         autofocus: true,
+                                          //         maxLines: 3,
+                                          //         textAlignVertical:
+                                          //             TextAlignVertical.top,
+                                          //         style: const TextStyle(
+                                          //             fontSize: 14,
+                                          //             color: Colors.white),
+                                          //         decoration:
+                                          //             const InputDecoration(
+                                          //                 alignLabelWithHint:
+                                          //                     true,
+                                          //                 contentPadding:
+                                          //                     EdgeInsets
+                                          //                         .symmetric(
+                                          //                             horizontal:
+                                          //                                 10,
+                                          //                             vertical:
+                                          //                                 12),
+                                          //                 label: Text(
+                                          //                     'توضیحات برنامه'),
+                                          //                 labelStyle: TextStyle(
+                                          //                     fontSize: 14)),
+                                          //       );
+                                          //     },
+                                          //     itemSeparatorBuilder:
+                                          //         (context, index) =>
+                                          //             const Divider(height: 2),
+                                          //     itemBuilder: (context,
+                                          //             description) =>
+                                          //         ListTile(
+                                          //             dense: true,
+                                          //             title:
+                                          //                 Text(description.text)),
+                                          //     onSelected: (value) =>
+                                          //         pdfTextController.text =
+                                          //             value.text),
+                                        ],
+                                      );
+                                    }),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                          onPressed: () async {
+                                            if (!descriptionList.any(
+                                                (element) =>
+                                                    element.text ==
+                                                    pdfTextController.text)) {
+                                              addDescription(
+                                                  pdfTextController.text,
+                                                  DescriptionType.qazae);
+                                            }
+                                        
+                                            final t = widget.trainer;
+                                            addDaylimeal(
+                                              trainer: Trainer(
+                                                name: pdfNameController.text,
+                                                gender: t.gender,
+                                                goal: t.goal,
+                                                calories: t.calories,
+                                                weight: t.weight,
+                                                height: t.height,
+                                                wrist: t.wrist,
+                                                age: t.age,
+                                                protein: t.protein,
+                                                carbo: t.carbo,
+                                                fat: t.fat,
+                                                activity: t.activity,
+                                                daylimeal: List.generate(
+                                                  mealList.length,
+                                                  (index) {
+                                                    final meal =
+                                                        mealList[index];
+                                                    return {
+                                                      "meal": meal.mealName,
+                                                      "choices": List.generate(
+                                                        meal.choices.length,
+                                                        (chioceIndex) => {
+                                                          "text": meal.choices[
+                                                              chioceIndex]
+                                                        },
+                                                      )
+                                                    };
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                          context.go(mainPage);
-                                        },
-                                        child: const Text('ذخیره برنامه')),
-                                  )
-                                ],
+                                            );
+                                            context.go(mainPage);
+                                          },
+                                          child: const Text('ذخیره برنامه')),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -298,7 +300,6 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
                       );
                     },
                     icon: const Icon(Icons.save)),
-                const HomeButton(),
               ],
             ),
             body: ReorderableListView.builder(

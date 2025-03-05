@@ -9,13 +9,11 @@ import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.da
 import 'package:shahabfit/Features/Activities/Models/CategoryModel.dart';
 import 'package:shahabfit/Features/Activities/Widgets/CategoryBottomSheet.dart';
 import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
-import 'package:shahabfit/Features/Home/Widgets/Drawer.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/CustomErrorWidget.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
-import 'package:shahabfit/Widgets/home_button.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
 class ActivitiesPage extends StatefulWidget {
@@ -97,14 +95,21 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                   .titleLarge!
                   .copyWith(color: Colors.white)),
           actions: [
-            const HomeButton(),
+            IconButton(
+              onPressed: () => context.pushReplacement(basketListPage),
+              icon: Icon(Icons.list_rounded),
+            ),
+            IconButton(
+              onPressed: () => context.pushReplacement(systemPage),
+              icon: Icon(Icons.settings),
+            ),
             IconButton(
                 onPressed: () async {
                   await context.push(
                       '$basketPage?basketId=$openBasketId&tabIndex=${_tabController.index}');
                   getActivityList();
                 },
-                icon: const Icon(Icons.shopping_basket))
+                icon: const Icon(Icons.shopping_basket)),
           ],
           bottom: PreferredSize(
               preferredSize: const Size.fromHeight(120),
@@ -249,7 +254,6 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                 ),
               )),
         ),
-        drawer: const CustomDrawer(),
         body: BlocConsumer<ActivityBloc, ActivityState>(
           listener: (context, state) {
             if (state is ActivityError) {
