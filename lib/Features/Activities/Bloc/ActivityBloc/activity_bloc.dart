@@ -123,7 +123,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
                 dayOfWeek: event.dayOfWeek,
                 activity: event.activityId,
                 activitySet: event.activitySet));
-
         updateActivity(
             activityId: event.activityId,
             title: event.title,
@@ -136,7 +135,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         updatedActivity.title = event.title;
         //
         openBasket.add(ActivityItem(
-          
             numberView: 0,
             activity: event.activityId,
             activitySet: event.activitySet,

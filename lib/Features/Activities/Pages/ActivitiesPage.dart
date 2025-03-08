@@ -380,7 +380,6 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                                                       _tabController.index &&
                                                   element.activity ==
                                                       activity.id);
-
                                           BlocProvider.of<ActivityBloc>(context)
                                               .add(DeleteBasketActivityEvent(
                                                   basketActivityId:

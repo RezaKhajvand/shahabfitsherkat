@@ -15,7 +15,6 @@ class InsertBasketActivity {
   String system;
   int systemSubId;
   DateTime updated;
-  String user;
 
   InsertBasketActivity({
     required this.activity,
@@ -29,7 +28,6 @@ class InsertBasketActivity {
     required this.system,
     required this.systemSubId,
     required this.updated,
-    required this.user,
   });
 
   factory InsertBasketActivity.fromJson(Map<String, dynamic> json) =>
@@ -46,6 +44,5 @@ class InsertBasketActivity {
         system: json["system"],
         systemSubId: json["systemSubId"],
         updated: DateTime.parse(json["updated"]),
-        user: json["user"],
       );
 }

@@ -60,6 +60,7 @@ final router = GoRouter(
       }
       return loginPage;
     }
+    return null;
   },
   routes: [
     //landing
