@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Di.dart';
+import 'package:shahabfit/Features/login/bloc/login_bloc.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/constants/router.dart';
 import 'package:shahabfit/constants/theme.dart';
 import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.dart';
@@ -16,6 +19,7 @@ import 'package:shahabfit/Utils/scrollbehavior.dart';
 final globalKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await getItInit();
   usePathUrlStrategy();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   runApp(
@@ -27,6 +31,7 @@ void main() async {
         BlocProvider(create: (context) => DaylimealListBloc()),
         BlocProvider(create: (context) => ShagerdBloc()),
         BlocProvider(create: (context) => UpdateShagerdBloc()),
+        BlocProvider(create: (context) => LoginBloc()),
       ],
       child: const MyApp(),
     ),

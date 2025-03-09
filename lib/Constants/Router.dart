@@ -25,7 +25,7 @@ import 'package:shahabfit/Features/oldversion/editpage.dart';
 import 'package:shahabfit/Features/oldversion/managepage.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
 import 'package:shahabfit/Features/oldversion/searchpage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 
 const String landingPage = '/';
 const String loginPage = '/login';
@@ -48,19 +48,23 @@ const String barnameViewPage = '/barnameview';
 const String barnameDetailPage = '/barnamedetailview';
 // GoRouter configuration
 final router = GoRouter(
-  initialLocation: loginPage,
+  initialLocation:
+      AuthManager.readAccessToken() != null ? splashPage : loginPage,
   redirect: (context, state) async {
-    final share = await SharedPreferences.getInstance();
-    final user = share.getString("user");
-
-    if (user == null) {
+    var path = state.uri.path;
+    print(path);
+    if (AuthManager.readAccessToken() != null) {
+      if (path == loginPage) {
+        return splashPage;
+      }
+      return null;
+    } else {
       if (state.uri.path.contains(barnameViewPage) ||
           state.uri.path.contains(barnameDetailPage)) {
         return null;
       }
       return loginPage;
     }
-    return null;
   },
   routes: [
     //landing

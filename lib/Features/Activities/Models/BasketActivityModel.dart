@@ -1,6 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:shahabfit/Features/Activities/Models/ActivityModel.dart';
-import 'package:shahabfit/Features/oldversion/data/shagerdlist_datasource.dart';
+import 'package:shahabfit/constants/url.dart';
 
 import 'dart:convert';
 

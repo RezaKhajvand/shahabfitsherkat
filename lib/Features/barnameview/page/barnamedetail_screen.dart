@@ -65,10 +65,7 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
             }
             if (state is BarnameViewError) {
               return Center(
-                child: Text(
-                  state.errormessage,
-                  style: context.anjomanLight,
-                ),
+                child: Text(state.errormessage, style: context.anjomanLight),
               );
             }
             return SizedBox();

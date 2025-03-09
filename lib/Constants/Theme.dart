@@ -49,7 +49,7 @@ ThemeData getTheme({required bool isFirstTheme}) {
             foregroundColor: primaryColor)),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       shape: RoundedRectangleBorder(borderRadius: cardBorderRadius),
       backgroundColor: primaryColor,
       foregroundColor: background,
@@ -74,7 +74,7 @@ ThemeData getTheme({required bool isFirstTheme}) {
         borderSide: const BorderSide(color: primary),
       ),
     ),
-    fontFamily: anjomanMedium.fontFamily,
+    fontFamily: anjomanLight.fontFamily,
     colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
     useMaterial3: true,
   );

@@ -133,20 +133,14 @@ class _TelegramPlayerState extends State<TelegramPlayer> {
                   offset: Offset(0, _showDescription ? 0 : 0.3),
                   curve: Curves.ease,
                   duration: animationTime,
-                  child: DraggableScrollableSheet(
-                    controller: _scrollController,
-                    initialChildSize: _minSheetSize,
-                    minChildSize: _minSheetSize,
-                    maxChildSize: _maxSheetSize,
-                    builder: (context, scrollController) => Material(
-                      color: Colors.black54,
-                      child: SingleChildScrollView(
-                        padding: EdgeInsets.all(16),
-                        controller: scrollController,
-                        child: Text(
-                          description,
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
+                  child: Material(
+                    color: Colors.black54,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(16),
+                      child: Text(
+                        description,
+                        textDirection: TextDirection.rtl,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   ),

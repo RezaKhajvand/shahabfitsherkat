@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
-import 'package:shahabfit/Features/oldversion/data/shagerdlist_datasource.dart';
+import 'package:shahabfit/constants/url.dart';
 
 List<ActivityRecord> activityListFromJson(String str) =>
     List<ActivityRecord>.from(

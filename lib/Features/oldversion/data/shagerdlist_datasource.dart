@@ -1,6 +1,6 @@
-import 'package:pocketbase/pocketbase.dart';
+import 'package:shahabfit/constants/url.dart';
 
-var pb = PocketBase('https://club.liara.run');
+
 
 Future<String> getShagerdList({
   bool? khosusi = false,

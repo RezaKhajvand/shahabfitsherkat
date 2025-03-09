@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:shahabfit/Features/oldversion/data/shagerdlist_datasource.dart';
+import 'package:shahabfit/constants/url.dart';
 
 List<Shagerd> shagerdFromJson(String str) =>
     List<Shagerd>.from(json.decode(str).map((x) => Shagerd.fromJson(x)));

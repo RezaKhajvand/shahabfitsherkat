@@ -5,7 +5,7 @@ TextTheme customTextTheme = const TextTheme(
   displayLarge: anjomanBlack,
   displayMedium: anjomanBold,
   displaySmall: anjomanExtraBold,
-  bodyLarge: anjomanUltraBold,
+  bodyLarge: anjomanRegular,
   bodyMedium: anjomanExtraLight,
   bodySmall: anjomanLight,
   titleLarge: anjomanRegular,
