@@ -184,14 +184,13 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                     final harkat = state.basketActivity;
                     List<List<ActivityItem>> groupedList = [];
                     Map<String, Map<int, List<ActivityItem>>> grouped = {};
-                    for (var movement in harkat) {
-                      print(movement.system);
-                      var key = movement.expand.system?.title ?? '';
+                    for (var i = 0; i < harkat.length; i++) {
+                      final movement = harkat[i];
+                      var key = movement.expand.system?.title ?? '$i';
                       grouped.putIfAbsent(key, () => {});
                       grouped[key]!.putIfAbsent(movement.systemSubId, () => []);
                       grouped[key]![movement.systemSubId]!.add(movement);
                     }
-
                     grouped.forEach((system, subsystems) {
                       subsystems.forEach((subsystem, list) {
                         groupedList.add(list);

@@ -28,49 +28,37 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF141414),
-        image: DecorationImage(
-          image: AssetImage('images/shahabbg.png'),
-          alignment: Alignment.topCenter,
-          fit: BoxFit.fitWidth,
-        ),
+    return Scaffold(
+      backgroundColor: background,
+      appBar: AppBar(
+        backgroundColor: background.withValues(alpha: 0.8),
+        title: Text('توضیحات حرکت', style: context.anjomanExtraBold),
       ),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: background.withValues(alpha: 0.8),
-          title: Text('توضیحات حرکت', style: context.anjomanExtraBold),
-        ),
-        body: BlocConsumer<BarnameViewBloc, BarnameViewState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            if (state is BarnameViewLoaded) {
-              final harkat = state.basketActivity.first;
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Builder(builder: (context) {
-                  final controller = harkat.chewieController;
-                  if (controller == null) {
-                    return LoadingWidget();
-                  }
-                  return Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: Chewie(controller: controller));
-                }),
-              );
-            }
-            if (state is BarnameViewLoading) {
-              return LoadingWidget();
-            }
-            if (state is BarnameViewError) {
-              return Center(
-                child: Text(state.errormessage, style: context.anjomanLight),
-              );
-            }
-            return SizedBox();
-          },
-        ),
+      body: BlocConsumer<BarnameViewBloc, BarnameViewState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is BarnameViewLoaded) {
+            final harkat = state.basketActivity.first;
+            return Builder(builder: (context) {
+              final controller = harkat.chewieController;
+              if (controller == null) {
+                return LoadingWidget();
+              }
+              return Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Chewie(controller: controller));
+            });
+          }
+          if (state is BarnameViewLoading) {
+            return LoadingWidget();
+          }
+          if (state is BarnameViewError) {
+            return Center(
+              child: Text(state.errormessage, style: context.anjomanLight),
+            );
+          }
+          return SizedBox();
+        },
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:shahabfit/constants/url.dart';
+import 'package:shahabfit/constants/pb.dart';
 
 Future<void> deleteBasketActivity({
   required String basketActivityId,

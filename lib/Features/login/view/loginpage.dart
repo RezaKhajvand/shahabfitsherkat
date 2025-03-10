@@ -6,6 +6,8 @@ import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/login/bloc/login_bloc.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
+import 'package:shahabfit/Widgets/customlinearloading.dart';
+import 'package:shahabfit/constants/values.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
 class LoginPage extends StatefulWidget {
@@ -44,11 +46,11 @@ class _LoginPageState extends State<LoginPage>
           }
         },
         builder: (context, state) {
-          return Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: AutofillGroup(
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: AutofillGroup(
+              child: Form(
+                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -74,7 +76,7 @@ class _LoginPageState extends State<LoginPage>
                     SizedBox(height: 10),
                     Text(
                         '''اینجا فیت شو و فیت بمون\nبرنامه هاتو مدیریت کن و به چیزایی که میخوای برس
-''',
+                              ''',
                         style: context.anjomanExtraLight
                             .copyWith(color: Colors.white54)),
                     TextFormField(
@@ -118,16 +120,12 @@ class _LoginPageState extends State<LoginPage>
                     SizedBox(height: 20),
                     Center(
                       child: AnimatedContainer(
-                          height: state is LoginLoading ? 4 : 45,
+                          height: state is LoginLoading ? animatedButtonHeight : fixButtonHeight,
                           width: double.infinity,
                           curve: Curves.ease,
                           duration: Duration(milliseconds: 300),
                           child: state is LoginLoading
-                              ? LinearProgressIndicator(
-                                  backgroundColor:
-                                      primary.withValues(alpha: 0.2),
-                                  color: primary,
-                                )
+                              ? CustomLinearLoading()
                               : ElevatedButton(
                                   onPressed: () async {
                                     if (_formKey.currentState!.validate()) {
@@ -150,3 +148,4 @@ class _LoginPageState extends State<LoginPage>
     return OutlineInputBorder(borderSide: BorderSide(color: Colors.white24));
   }
 }
+

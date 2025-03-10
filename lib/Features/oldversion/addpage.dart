@@ -6,7 +6,11 @@ import 'package:shahabfit/Features/OldVersion/getshomarefrestande.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
+import 'package:shahabfit/Widgets/CustomSnackbars.dart';
+import 'package:shahabfit/Widgets/customlinearloading.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
+import 'package:shahabfit/constants/values.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -50,7 +54,7 @@ class _AddPageState extends State<AddPage> {
   ];
   tarikhErsal() async {
     var resault =
-        await customModalSheet( context,const TarikhBottomSheetContent());
+        await customModalSheet(context, const TarikhBottomSheetContent());
     if (resault != null) {
       date = resault;
       print(date);
@@ -86,7 +90,6 @@ class _AddPageState extends State<AddPage> {
         child: Form(
           key: formGlobalKey,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
                   validator: (value) {
@@ -99,8 +102,6 @@ class _AddPageState extends State<AddPage> {
                     }
                     return null;
                   },
-                  onTapOutside: (event) =>
-                      FocusManager.instance.primaryFocus?.unfocus(),
                   controller: namecontroler,
                   style: const TextStyle(color: Colors.white, letterSpacing: 0),
                   decoration:
@@ -237,31 +238,50 @@ class _AddPageState extends State<AddPage> {
                 false,
               ),
               const SizedBox(height: 30),
-              SizedBox(
-                width: double.infinity,
-                height: 46,
-                child: ElevatedButton(
-                    onPressed: () async {
-                      if (formGlobalKey.currentState!.validate()) {
-                        BlocProvider.of<ShagerdBloc>(context)
-                            .add(CreateShagerdEvent(
-                                shagerd: Shagerd(
-                          name: namecontroler.text,
-                          jalase: 0,
-                          phone: replaceEnglishNumber(phonecontroler.text),
-                          khosusi: typeindex != 0,
-                          workouttime: timelist[workouttimeindex],
-                          plan: getplan(),
-                          registerdate: Jalali(
-                            date![2],
-                            date![1],
-                            date![0],
-                          ).toUtcDateTime(),
-                        )));
-                        context.pop();
-                      }
-                    },
-                    child: const Text('افزودن شاگرد')),
+              BlocConsumer<ShagerdBloc, ShagerdState>(
+                listener: (context, state) {
+                  if (state is ShagerdLoaded) {
+                    context.pop();
+                  }
+                  if (state is ShagerdError) {
+                    getErrorSnackbar(context, state.message);
+                  }
+                },
+                builder: (context, state) {
+                  return AnimatedContainer(
+                    curve: Curves.ease,
+                    duration: Duration(milliseconds: 300),
+                    width: double.infinity,
+                    height: state is ShagerdLoading
+                        ? animatedButtonHeight
+                        : fixButtonHeight,
+                    child: state is ShagerdLoading
+                        ? CustomLinearLoading()
+                        : ElevatedButton(
+                            onPressed: () async {
+                              if (formGlobalKey.currentState!.validate()) {
+                                BlocProvider.of<ShagerdBloc>(context)
+                                    .add(CreateShagerdEvent(
+                                        shagerd: Shagerd(
+                                  user: AuthManager.readUser() ?? '',
+                                  name: namecontroler.text,
+                                  jalase: 0,
+                                  phone:
+                                      replaceEnglishNumber(phonecontroler.text),
+                                  khosusi: typeindex != 0,
+                                  workouttime: timelist[workouttimeindex],
+                                  plan: getplan(),
+                                  registerdate: Jalali(
+                                    date![2],
+                                    date![1],
+                                    date![0],
+                                  ).toUtcDateTime(),
+                                )));
+                              }
+                            },
+                            child: const Text('افزودن شاگرد')),
+                  );
+                },
               )
             ],
           ),

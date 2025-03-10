@@ -1,5 +1,5 @@
 import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
-import 'package:shahabfit/constants/url.dart';
+import 'package:shahabfit/constants/pb.dart';
 
 Future<String> addDescription(String text, DescriptionType type) async {
   var body = {"text": text, "type": getDescriptionTitle(type)};

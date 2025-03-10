@@ -1,5 +1,5 @@
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
-import 'package:shahabfit/constants/url.dart';
+import 'package:shahabfit/constants/pb.dart';
 
 Future<String> addDaylimeal({required Trainer trainer}) async {
   var body = {

@@ -49,21 +49,15 @@ class TelegramPlayer extends StatefulWidget {
 }
 
 class _TelegramPlayerState extends State<TelegramPlayer> {
-  final DraggableScrollableController _scrollController =
-      DraggableScrollableController();
   bool _showDescription = true;
   Timer? _hideTimer;
-  final double _minSheetSize = 0.2; // مقدار اولیه کوچک
-  final double _maxSheetSize = 0.4; // مقدار بزرگ حداکثر
-  double _liveSheetSize = 0.2;
   final Duration animationTime = Duration(milliseconds: 300);
   void _startHideTimer() {
     _hideTimer?.cancel();
     _hideTimer = Timer(
         Duration(milliseconds: 2500),
         () => setState(() {
-              if (_liveSheetSize > _minSheetSize ||
-                  !widget.videoController.value.isPlaying) {
+              if (!widget.videoController.value.isPlaying) {
                 _hideTimer?.cancel();
               } else {
                 _showDescription = false;
@@ -101,15 +95,12 @@ class _TelegramPlayerState extends State<TelegramPlayer> {
   void initState() {
     super.initState();
     widget.videoController.addListener(() => setState(() {}));
-    _scrollController.addListener(() {
-      _liveSheetSize = _scrollController.size;
-      print(_liveSheetSize);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final description = widget.element.expand.activity?.description;
+    final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () => _toggleScreen(),
       child: Material(
@@ -119,6 +110,7 @@ class _TelegramPlayerState extends State<TelegramPlayer> {
           curve: Curves.ease,
           duration: animationTime,
           child: Stack(
+            alignment: Alignment.bottomCenter,
             children: [
               Center(
                   child: IconButton(
@@ -129,8 +121,8 @@ class _TelegramPlayerState extends State<TelegramPlayer> {
                               : Icons.play_circle_filled_rounded,
                           size: 60))),
               if (description != null && description.isNotEmpty)
-                AnimatedSlide(
-                  offset: Offset(0, _showDescription ? 0 : 0.3),
+                AnimatedContainer(
+                  height: _showDescription ? height / 3 : 0,
                   curve: Curves.ease,
                   duration: animationTime,
                   child: Material(

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:shahabfit/constants/url.dart';
+import 'package:shahabfit/constants/pb.dart';
 
 List<Shagerd> shagerdFromJson(String str) =>
     List<Shagerd>.from(json.decode(str).map((x) => Shagerd.fromJson(x)));
@@ -12,6 +12,7 @@ class Shagerd {
   final DateTime? created;
   final DateTime? updated;
   final String? profileimage;
+  String user;
   String name;
   int jalase;
   bool khosusi;
@@ -27,6 +28,7 @@ class Shagerd {
     this.created,
     this.updated,
     this.profileimage,
+    required this.user,
     required this.name,
     required this.jalase,
     required this.khosusi,
@@ -47,6 +49,7 @@ class Shagerd {
     String? workouttime,
     DateTime? registerdate,
     String? profileimage,
+    String? user,
   }) {
     return Shagerd(
         id: id,
@@ -59,6 +62,7 @@ class Shagerd {
         khosusi: khosusi ?? this.khosusi,
         plan: plan ?? this.plan,
         phone: phone ?? this.phone,
+        user: user ?? this.user,
         workouttime: workouttime ?? this.workouttime,
         registerdate: registerdate ?? this.registerdate,
         profileimage: profileimage ?? this.profileimage);
@@ -79,6 +83,7 @@ class Shagerd {
         registerdate: DateTime.parse(json["registerdate"]),
         profileimage:
             '${pb.baseURL}/api/files/${json["collectionId"]}/${json["id"]}/${json["profileimage"]}',
+        user: json["user"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -90,5 +95,6 @@ class Shagerd {
         "workouttime": workouttime,
         "registerdate": registerdate.toIso8601String(),
         "profileimage": profileimage,
+        "user": user,
       };
 }

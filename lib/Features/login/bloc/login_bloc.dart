@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:shahabfit/Features/login/data/login_datasource.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
-import 'package:shahabfit/constants/url.dart';
+import 'package:shahabfit/constants/pb.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -14,8 +14,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit((LoginLoading()));
       try {
         await login(phone: event.phone, password: event.password);
-        print(pb.authStore.isValid);
-        await AuthManager.saveAccessToken(pb.authStore.token);
+        await AuthManager.saveAuth(pb.authStore);
         emit((LoginSuccess()));
       } catch (e, s) {
         emit((LoginError(errormessage: handleException(e, s))));

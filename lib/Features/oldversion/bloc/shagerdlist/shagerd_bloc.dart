@@ -36,7 +36,6 @@ class ShagerdBloc extends Bloc<ShagerdEvent, ShagerdState> {
         emit((ShagerdError(message: handleException(e, s))));
       }
     });
-
     on<CreateShagerdEvent>((event, emit) async {
       emit((ShagerdLoading()));
       try {

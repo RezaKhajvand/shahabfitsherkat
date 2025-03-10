@@ -52,7 +52,6 @@ final router = GoRouter(
       AuthManager.readAccessToken() != null ? splashPage : loginPage,
   redirect: (context, state) async {
     var path = state.uri.path;
-    print(path);
     if (AuthManager.readAccessToken() != null) {
       if (path == loginPage) {
         return splashPage;

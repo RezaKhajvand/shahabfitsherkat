@@ -1,6 +1,7 @@
-import 'package:shahabfit/constants/url.dart';
-
-
+import 'package:pocketbase/pocketbase.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
+import 'package:shahabfit/Utils/handleemtyresponse.dart';
+import 'package:shahabfit/constants/pb.dart';
 
 Future<String> getShagerdList({
   bool? khosusi = false,
@@ -19,14 +20,16 @@ Future<String> getShagerdList({
   if (monqzi == true) {
     filters.add('registerdate < "$now"');
   }
-  String filterQuery = filters.join(' && '); // ترکیب شرایط
-
-  print("Filter Query: $filterQuery");
+  String filterQuery = filters.join(' && ');
   try {
     var response = await pb.collection('shagerd').getFullList(
           sort: '-registerdate',
           filter: filterQuery,
+          headers: AuthManager.header,
         );
+    if (response.isEmpty) {
+      handleEmptyResponse();
+    }
     print(response);
     return response.toString();
   } catch (e) {

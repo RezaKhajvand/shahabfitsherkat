@@ -1,9 +1,38 @@
+import 'package:pocketbase/pocketbase.dart';
 import 'package:shahabfit/Di.dart';
+import 'package:shahabfit/constants/pb.dart';
 import 'package:shahabfit/constants/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager {
+  static int expireTimeInSec = 60;
   static final SharedPreferences _prefs = locator.get();
+  static Map<String, String> header = {};
+  static saveAuth(AuthStore auth) async {
+    var now = DateTime.now();
+    header = {'Authorization': 'Bearer ${auth.token}'};
+    getSetting();
+    await saveAccessToken(auth.token);
+    await saveUser(auth.record?.id ?? '');
+    await saveLoginTime(now);
+  }
+
+  // Get setting
+  static getSetting() async {
+    final setting = await pb.settings.getAll(headers: header);
+    print(setting);
+  }
+
+  //Save user
+  static saveUser(String user) async {
+    await _prefs.setString('user', user);
+    print('save shod : $user');
+  }
+
+  //Read user
+  static String? readUser() {
+    return _prefs.getString('user');
+  }
 
   //Save access token
   static saveAccessToken(String accessToken) async {
@@ -16,8 +45,35 @@ class AuthManager {
     return _prefs.getString('accessToken');
   }
 
+  //Clear auth
   static Future clearAuthData() async {
+    header = {};
     await _prefs.clear();
+  }
+
+  //Login Time
+  static saveLoginTime(DateTime loginTime) async {
+    await _prefs.setString('loginTime', loginTime.toString());
+    print('save shod : $loginTime');
+  }
+
+  static DateTime? readLoginTime() {
+    var loginTime = _prefs.getString('loginTime');
+    return loginTime == null ? null : DateTime.parse(loginTime);
+  }
+
+  static bool isValid() {
+    var now = DateTime.now();
+    var tokenCreated = readLoginTime();
+    if (tokenCreated != null) {
+      if (now.difference(tokenCreated).inSeconds > expireTimeInSec) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
   }
 }
 
