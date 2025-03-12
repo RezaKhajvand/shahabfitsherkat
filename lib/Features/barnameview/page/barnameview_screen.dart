@@ -61,7 +61,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
       ),
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(56),
           child: BlocBuilder<BarnameViewBloc, BarnameViewState>(
             builder: (context, state) {
               return AppBar(
@@ -207,7 +207,8 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // هدر سیستم و زیرسیستم
-                              if (system.isNotEmpty)
+                              if (list.first.system != null &&
+                                  list.first.system!.isNotEmpty)
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,

@@ -1,4 +1,3 @@
-import 'package:chewie/chewie.dart';
 import 'package:shahabfit/Features/Activities/Models/ActivityModel.dart';
 import 'package:shahabfit/constants/pb.dart';
 
@@ -25,7 +24,6 @@ class ActivityItem {
   int systemSubId;
   DateTime updated;
   VideoPlayerController? videoController;
-  ChewieController? chewieController;
 
   ActivityItem({
     required this.activity,
@@ -42,7 +40,6 @@ class ActivityItem {
     required this.systemSubId,
     required this.updated,
     this.videoController,
-    this.chewieController,
   });
 
   factory ActivityItem.fromJson(Map<String, dynamic> json) => ActivityItem(

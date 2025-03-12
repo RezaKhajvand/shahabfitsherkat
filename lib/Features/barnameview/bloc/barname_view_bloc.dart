@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/getOpenBasketActivityDataSource.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
-import 'package:shahabfit/Features/barnameview/utils/setchewiecontroller.dart';
 import 'package:shahabfit/Features/barnameview/utils/setvideoplayercontroller.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 
@@ -15,9 +14,7 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
   @override
   Future<void> close() {
     for (var element in basketActivity) {
-      element.chewieController?.dispose();
       element.videoController?.dispose();
-      element.chewieController = null;
       element.videoController = null;
     }
     print("Bloc is closing...");
@@ -34,8 +31,6 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
         for (var element in basketActivity) {
           element.videoController = setVideoPlayerController(element);
           await element.videoController!.initialize().catchError(onError);
-          element.chewieController =
-              setChewieController(element, element.videoController!);
         }
         emit((BarnameViewLoaded(
           basketActivity: basketActivity,

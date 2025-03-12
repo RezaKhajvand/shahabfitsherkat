@@ -1,4 +1,3 @@
-import 'package:pocketbase/pocketbase.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Utils/handleemtyresponse.dart';
 import 'package:shahabfit/constants/pb.dart';

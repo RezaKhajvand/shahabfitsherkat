@@ -5,14 +5,15 @@ import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/Basket/Data/addDescriptionDataSource.dart';
 import 'package:shahabfit/Features/Basket/Models/description_model.dart';
-import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
 import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
+import 'package:shahabfit/Features/Basket/Utils/proxydecorator.dart';
 import 'package:shahabfit/Features/Daylimeal/Data/add_daylimeal_datasource.dart';
 import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/pdftext_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
+import 'package:shahabfit/Widgets/mobile_layout.dart';
 
 class DaylimealScreen extends StatefulWidget {
   final Trainer trainer;
@@ -252,7 +253,7 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
                                                   pdfTextController.text,
                                                   DescriptionType.qazae);
                                             }
-                                        
+
                                             final t = widget.trainer;
                                             addDaylimeal(
                                               trainer: Trainer(
