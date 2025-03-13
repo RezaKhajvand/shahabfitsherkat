@@ -18,27 +18,6 @@
 <body>
  <script src="flutter_bootstrap.js" async></script>
   <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-      console.log('Service Worker registered with scope:', registration.scope);
-
-      registration.onupdatefound = function() {
-        const installingWorker = registration.installing;
-        installingWorker.onstatechange = function() {
-          if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            // وقتی نسخه جدید نصب شد، صفحه دوباره بارگذاری می‌شود
-            alert('نسخه جدید در دسترس است! صفحه دوباره بارگذاری می‌شود.');
-            window.location.reload();
-          }
-        };
-      };
-    }).catch(function(error) {
-      console.log('Service Worker registration failed:', error);
-    });
-  });
-}
-
 window.addEventListener('load', function(ev) {
   // چک کردن فایل manifest برای نسخه جدید
   fetch('/manifest.json')
