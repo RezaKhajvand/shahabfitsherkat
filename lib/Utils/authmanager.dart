@@ -1,26 +1,21 @@
 import 'package:pocketbase/pocketbase.dart';
 import 'package:shahabfit/Di.dart';
-import 'package:shahabfit/constants/pb.dart';
 import 'package:shahabfit/constants/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager {
-  static int expireTimeInSec = 60;
+  static int expireTimeInSec = 3600;
   static final SharedPreferences _prefs = locator.get();
-  static Map<String, String> header = {};
+
+  static Map<String, String> readHeader() {
+    return {'Authorization': 'Bearer ${readAccessToken()}'};
+  }
+
   static saveAuth(AuthStore auth) async {
     var now = DateTime.now();
-    header = {'Authorization': 'Bearer ${auth.token}'};
-    getSetting();
     await saveAccessToken(auth.token);
     await saveUser(auth.record?.id ?? '');
     await saveLoginTime(now);
-  }
-
-  // Get setting
-  static getSetting() async {
-    final setting = await pb.settings.getAll(headers: header);
-    print(setting);
   }
 
   //Save user
@@ -47,7 +42,6 @@ class AuthManager {
 
   //Clear auth
   static Future clearAuthData() async {
-    header = {};
     await _prefs.clear();
   }
 

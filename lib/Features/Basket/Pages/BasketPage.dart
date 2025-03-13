@@ -256,8 +256,7 @@ class _BasketPageState extends State<BasketPage>
                   .toList();
               return ReorderableListView.builder(
                 buildDefaultDragHandles: false,
-                proxyDecorator: (child, index, animation) =>
-                    proxyDecorator(child, index, animation),
+                proxyDecorator: (child, __, _) => proxyDecorator(child),
                 onReorder: (oldIndex, newIndex) {
                   if (oldIndex < newIndex) {
                     newIndex -= 1;

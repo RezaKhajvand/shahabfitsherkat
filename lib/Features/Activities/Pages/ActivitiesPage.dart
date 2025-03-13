@@ -269,8 +269,7 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                 itemCount: activityList.length,
                 buildDefaultDragHandles: false,
                 key: Key(_tabController.index.toString()),
-                proxyDecorator: (child, index, animation) =>
-                    proxyDecorator(child, index, animation),
+                proxyDecorator: (child, __, _) => proxyDecorator(child),
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
                 onReorder: (oldIndex, newIndex) {
                   if (oldIndex < newIndex) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const double mobileWidth = 400;
-const double tabletWidth = 600;
+const double tabletWidth = 400;
 
 class MobileLayout extends StatelessWidget {
   final Widget child;

@@ -20,11 +20,12 @@ Future<String> getShagerdList({
     filters.add('registerdate < "$now"');
   }
   String filterQuery = filters.join(' && ');
+
   try {
     var response = await pb.collection('shagerd').getFullList(
           sort: '-registerdate',
           filter: filterQuery,
-          headers: AuthManager.header,
+          headers: AuthManager.readHeader(),
         );
     if (response.isEmpty) {
       handleEmptyResponse();

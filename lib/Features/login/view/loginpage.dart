@@ -47,96 +47,100 @@ class _LoginPageState extends State<LoginPage>
         },
         builder: (context, state) {
           return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: AutofillGroup(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 70.0),
+                    child: Image.asset(
+                      'images/render-min.png',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                  ),
+                ),
+                Row(
                   children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Image.asset(
-                          'images/render-min.png',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text('به  ', style: context.anjomanMedium),
-                        Text('شهاب فیت  ',
-                            style:
-                                context.anjomanBlack.copyWith(color: primary)),
-                        Text('خوش آمدید', style: context.anjomanMedium),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                        '''اینجا فیت شو و فیت بمون\nبرنامه هاتو مدیریت کن و به چیزایی که میخوای برس
-                              ''',
-                        style: context.anjomanExtraLight
-                            .copyWith(color: Colors.white54)),
-                    TextFormField(
-                      autofillHints: [AutofillHints.username],
-                      controller: userController,
-                      inputFormatters: [FarsiInputFormatter()],
-                      decoration: InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.phone,
-                            color: primary,
-                            size: 20,
-                          ),
-                          enabledBorder: inputBorder(),
-                          filled: true,
-                          label: Text('شماره همراه'),
-                          fillColor: Colors.black45),
-                    ),
-                    SizedBox(height: 20),
-                    TextFormField(
-                      autofillHints: [AutofillHints.password],
-                      controller: passController,
-                      obscureText: !_visibility,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: () =>
-                              setState(() => _visibility = !_visibility),
-                          icon: Icon(
-                            _visibility
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: primary,
-                            size: 20,
-                          ),
-                        ),
-                        enabledBorder: inputBorder(),
-                        filled: true,
-                        label: Text('رمز عبور'),
-                        fillColor: Colors.black45,
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Center(
-                      child: AnimatedContainer(
-                          height: state is LoginLoading ? animatedButtonHeight : fixButtonHeight,
-                          width: double.infinity,
-                          curve: Curves.ease,
-                          duration: Duration(milliseconds: 300),
-                          child: state is LoginLoading
-                              ? CustomLinearLoading()
-                              : ElevatedButton(
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      loginTap();
-                                    }
-                                  },
-                                  child: Text('ورود'))),
-                    )
+                    Text('به  ', style: context.anjomanMedium),
+                    Text('برمودا  ',
+                        style: context.anjomanBlack.copyWith(color: primary)),
+                    Text('خوش اومدی', style: context.anjomanMedium),
                   ],
                 ),
-              ),
+                SizedBox(height: 8),
+                Text('''این مثلث برمودا تا فیتت نکنه ول نمیکنه!''',
+                    style: context.anjomanExtraLight
+                        .copyWith(color: Colors.white54)),
+                SizedBox(height: 20),
+                Form(
+                  key: _formKey,
+                  child: AutofillGroup(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          autofillHints: [AutofillHints.username],
+                          controller: userController,
+                          inputFormatters: [FarsiInputFormatter()],
+                          decoration: InputDecoration(
+                              suffixIcon: Icon(
+                                Icons.phone,
+                                color: primary,
+                                size: 20,
+                              ),
+                              enabledBorder: inputBorder(),
+                              filled: true,
+                              label: Text('شماره همراه'),
+                              fillColor: Colors.black45),
+                        ),
+                        SizedBox(height: 14),
+                        TextFormField(
+                          autofillHints: [AutofillHints.password],
+                          controller: passController,
+                          obscureText: !_visibility,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              onPressed: () =>
+                                  setState(() => _visibility = !_visibility),
+                              icon: Icon(
+                                _visibility
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: primary,
+                                size: 20,
+                              ),
+                            ),
+                            enabledBorder: inputBorder(),
+                            filled: true,
+                            label: Text('رمز عبور'),
+                            fillColor: Colors.black45,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Center(
+                          child: AnimatedContainer(
+                              height: state is LoginLoading
+                                  ? animatedButtonHeight
+                                  : fixButtonHeight,
+                              width: double.infinity,
+                              curve: Curves.ease,
+                              duration: Duration(milliseconds: 300),
+                              child: state is LoginLoading
+                                  ? CustomLinearLoading()
+                                  : ElevatedButton(
+                                      onPressed: () async {
+                                        if (_formKey.currentState!.validate()) {
+                                          loginTap();
+                                        }
+                                      },
+                                      child: Text('ورود'))),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
           );
         },
@@ -148,4 +152,3 @@ class _LoginPageState extends State<LoginPage>
     return OutlineInputBorder(borderSide: BorderSide(color: Colors.white24));
   }
 }
-

@@ -63,18 +63,6 @@ class _HomePageState extends State<HomePage> {
                     width: double.infinity,
                   ),
                 ),
-                const SizedBox(height: 14),
-                InkWell(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).clearSnackBars();
-                    getErrorSnackbar(context, 'به زودی');
-                  },
-                  child: Image.asset(
-                    'images/fitnes.png',
-                    fit: BoxFit.fitWidth,
-                    width: double.infinity,
-                  ),
-                ),
               ],
             ),
           )),

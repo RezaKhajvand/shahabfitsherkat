@@ -73,27 +73,14 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                         final name =
                             state.basketActivity.first.expand.basket?.name ??
                                 '';
-                        final level =
-                            state.basketActivity.first.expand.basket?.level ??
-                                '';
                         final date =
                             state.basketActivity.first.expand.basket?.created;
                         return Row(
                           children: [
-                            Text(
-                              '$name  -  ',
-                              style: context.anjomanBold,
-                            ),
-                            Text(
-                              level,
-                              style:
-                                  context.anjomanLight.copyWith(color: primary),
-                            ),
+                            Text(name, style: context.anjomanBold),
                             Spacer(),
-                            Text(
-                              format1(Jalali.fromDateTime(date!)),
-                              style: context.anjomanLight,
-                            ),
+                            Text(format1(Jalali.fromDateTime(date!)),
+                                style: context.anjomanLight),
                           ],
                         );
                       })

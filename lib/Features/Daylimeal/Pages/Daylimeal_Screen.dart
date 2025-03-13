@@ -306,8 +306,8 @@ class _DaylimealScreenState extends State<DaylimealScreen> {
             body: ReorderableListView.builder(
               buildDefaultDragHandles: false,
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 70),
-              proxyDecorator: (child, index, animation) =>
-                  proxyDecorator(child, index, animation),
+              proxyDecorator: (child, __, _) =>
+                  proxyDecorator(child),
               itemBuilder: (context, mealIndex) {
                 String widget = mealWidgets[mealIndex];
                 return Column(

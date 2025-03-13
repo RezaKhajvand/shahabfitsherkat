@@ -1,10 +1,14 @@
 ((a,b,c)=>{a[b]=a[b]||{}
 a[b][c]=a[b][c]||[]
 a[b][c].push({p:"main.dart.js_95",e:"beginPart"})})(self,"$__dart_deferred_initializers__","eventLog")
-$__dart_deferred_initializers__.current=function(a,b,c,$){var B,A
+$__dart_deferred_initializers__.current=function(a,b,c,$){var B,A={hS:function hS(){},mX:function mX(){}}
 B=c[0]
-A=c[95]
-var z=a.updateTypes([]);(function constants(){A.Pp=new B.bW(57415,"MaterialIcons",null,!1)
-A.h6=new B.cI(A.Pp,null,null,null,null)})()};
+A=a.updateHolder(c[26],A)
+A.hS.prototype={}
+A.mX.prototype={}
+var z=a.updateTypes([]);(function inheritance(){var y=a.inherit
+y(A.hS,B.p)
+y(A.mX,A.hS)})()
+B.bb(b.typeUniverse,JSON.parse('{"mX":{"hS":[]}}'))};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_95",e:"endPart",h:b})})($__dart_deferred_initializers__,"NUNE40YjivxHbuUUtkZuGGt4SDk=");
+a.eventLog.push({p:"main.dart.js_95",e:"endPart",h:b})})($__dart_deferred_initializers__,"O4vWWeCCQdxjQieBtgYaJC4ps+8=");

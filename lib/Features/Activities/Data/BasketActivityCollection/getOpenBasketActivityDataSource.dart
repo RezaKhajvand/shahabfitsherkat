@@ -1,3 +1,4 @@
+import 'package:shahabfit/Utils/handleemtyresponse.dart';
 import 'package:shahabfit/constants/pb.dart';
 
 Future<String> getOpenBasketActivity(
@@ -21,6 +22,9 @@ Future<String> getOpenBasketActivity(
         expand: 'activity,basket,system,activity.catId');
 
     print(records.toString());
+    if (records.isEmpty) {
+      handleEmptyResponse();
+    }
     return records.toString();
   } catch (e) {
     rethrow;
