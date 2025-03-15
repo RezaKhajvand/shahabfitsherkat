@@ -18,28 +18,24 @@
 <body>
  <script src="flutter_bootstrap.js" async></script>
   <script>
-window.addEventListener('load', function(ev) {
-  // چک کردن فایل manifest برای نسخه جدید
+  window.addEventListener('load', function(ev) {
   fetch('/manifest.json')
     .then(response => response.json())
     .then(manifest => {
-      const currentVersion = manifest.version;  // نسخه جدید از manifest
+      const currentVersion = manifest.version;
+      const description = manifest.description;  // نسخه جدید از manifest
       const storedVersion = localStorage.getItem('currentVersion'); // نسخه ذخیره‌شده در localStorage
-
-      // اگر نسخه جدید از نسخه قبلی متفاوت باشد
-      if (currentVersion !== storedVersion) {  
-        alert('نسخه جدید در دسترس است! صفحه دوباره بارگذاری می‌شود.');
-        window.location.reload();
-
-        // ذخیره نسخه جدید در localStorage برای استفاده بعدی
+      if (storedVersion&& currentVersion !== storedVersion) {  
+        alert(`نسخه جدید در دسترس است! صفحه دوباره بارگذاری می‌شود.\n ${description}`);
         localStorage.setItem('currentVersion', currentVersion);
+        window.location.reload(true);
+      }else{
+         localStorage.setItem('currentVersion', currentVersion);
       }
     })
     .catch(error => {
       console.log('Error reading manifest:', error);
     });
-
-  // بارگذاری اپلیکیشن
   _flutter.loader.load({}).then((engineInitializer) => {
     engineInitializer.initializeEngine().then((appRunner) => {
       appRunner.runApp();

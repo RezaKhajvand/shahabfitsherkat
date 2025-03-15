@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale("fa", "IR")],
-      locale: const Locale("fa", "IR"), //
+      locale: const Locale("fa", "IR"), 
     );
   }
 }
