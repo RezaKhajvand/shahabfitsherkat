@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/constants/colors.dart';
 import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
-import 'package:shahabfit/Features/System/Models/ClubSystemModel.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
 
 class SystemPickerPage extends StatefulWidget {
+  final String recordId;
   const SystemPickerPage({
     super.key,
+    required this.recordId,
   });
 
   @override
@@ -82,10 +83,11 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
                             itemBuilder: (context, channelIndex) =>
                                 OutlinedButton(
                                     onPressed: () {
-                                      context.pop();
-                                      context.pop(PickedSystem(
-                                          system: systemList[index],
-                                          systemSubId: channelIndex + 1));
+                                      BlocProvider.of<BasketBloc>(context).add(
+                                          UpdateBasketActivityEvent(
+                                              basketActivityId: widget.recordId,
+                                              system: systemList[index],
+                                              systemSubId: channelIndex + 1));
                                     },
                                     child: Text(
                                         'کانال : ${replaceFarsiNumber((channelIndex + 1).toString())}')),

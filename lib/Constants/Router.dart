@@ -74,7 +74,16 @@ Widget deferredPageLoader(
       if (snapshot.connectionState == ConnectionState.done) {
         return builder();
       }
-      return const Center(child: CircularProgressIndicator());
+      return Scaffold(
+        body: const Center(
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('لطفا منتظر بمانید'),
+            CircularProgressIndicator(),
+          ],
+        )),
+      );
     },
   );
 }
@@ -142,10 +151,14 @@ final router = GoRouter(
     // System Picker Screen
     GoRoute(
       path: systemPickerPage,
-      builder: (context, state) => MobileLayout(
-        child: deferredPageLoader(
-            systempicker.loadLibrary, () => systempicker.SystemPickerPage()),
-      ),
+      builder: (context, state) {
+        final recordId = state.uri.queryParameters['recordId'] ?? 'recordId';
+
+        return MobileLayout(
+          child: deferredPageLoader(systempicker.loadLibrary,
+              () => systempicker.SystemPickerPage(recordId: recordId)),
+        );
+      },
     ),
     // Activities Screen
     GoRoute(

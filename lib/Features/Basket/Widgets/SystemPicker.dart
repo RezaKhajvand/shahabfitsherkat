@@ -31,41 +31,38 @@ class _SystemPickerState extends State<SystemPicker> {
                 foregroundColor: colorHex,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
-            onPressed: () async {
-              PickedSystem? resault = await context.push(systemPickerPage);
-              if (resault != null) {
-                BlocProvider.of<BasketBloc>(context).add(
-                    UpdateBasketActivityEvent(
-                        basketActivityId: widget.basketActivity.id,
-                        system: resault.system,
-                        systemSubId: resault.systemSubId));
-              }
-            },
+            onPressed: () async => await context
+                .push('$systemPickerPage?recordId=${widget.basketActivity.id}'),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
                     Text(widget.basketActivity.expand.system?.title ??
-                        'بدون سیستم'),               
-                  widget.basketActivity.systemSubId!=0?  Text(replaceFarsiNumber(
-                        '- کانال : ${(widget.basketActivity.systemSubId)}')):SizedBox()
+                        'بدون سیستم'),
+                    widget.basketActivity.systemSubId != 0
+                        ? Text(replaceFarsiNumber(
+                            '- کانال : ${(widget.basketActivity.systemSubId)}'))
+                        : SizedBox()
                   ],
                 ),
-               IconButton(
-            onPressed: () {
-              BlocProvider.of<BasketBloc>(context).add(
-                  UpdateBasketActivityEvent(
-                      basketActivityId: widget.basketActivity.id,
-                      system: null,
-                      systemSubId: 0));
-            },
-            icon: const Icon(Icons.close,size: 24,color: Colors.white60,))
+                IconButton(
+                    onPressed: () {
+                      BlocProvider.of<BasketBloc>(context).add(
+                          UpdateBasketActivityEvent(
+                              basketActivityId: widget.basketActivity.id,
+                              system: null,
+                              systemSubId: 0));
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      size: 24,
+                      color: Colors.white60,
+                    ))
               ],
             ),
           ),
         ),
-        
       ],
     );
   }
