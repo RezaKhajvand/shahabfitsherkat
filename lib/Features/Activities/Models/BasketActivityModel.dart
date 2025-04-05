@@ -157,6 +157,7 @@ class Basket {
   String name;
   DateTime updated;
   String user;
+  String description;
 
   Basket({
     required this.collectionId,
@@ -169,6 +170,7 @@ class Basket {
     required this.name,
     required this.updated,
     required this.user,
+    required this.description,
   });
 
   factory Basket.fromJson(Map<String, dynamic> json) => Basket(
@@ -182,6 +184,7 @@ class Basket {
         name: json["name"],
         updated: DateTime.parse(json["updated"]),
         user: json["user"],
+        description: json["description"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -195,5 +198,6 @@ class Basket {
         "name": name,
         "updated": updated.toIso8601String(),
         "user": user,
+        "description": description,
       };
 }

@@ -10,6 +10,7 @@ import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/customlinearloading.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
+import 'package:shahabfit/constants/Router.dart';
 import 'package:shahabfit/constants/values.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -80,7 +81,7 @@ class _AddPageState extends State<AddPage> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         title: const Text(
-          'ویرایش شاگرد',
+          'افزودن شاگرد',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
@@ -241,7 +242,7 @@ class _AddPageState extends State<AddPage> {
               BlocConsumer<ShagerdBloc, ShagerdState>(
                 listener: (context, state) {
                   if (state is ShagerdLoaded) {
-                    context.pop();
+                    context.go(managePage);
                   }
                   if (state is ShagerdError) {
                     getErrorSnackbar(context, state.message);
@@ -279,7 +280,7 @@ class _AddPageState extends State<AddPage> {
                                 )));
                               }
                             },
-                            child: const Text('افزودن شاگرد')),
+                            child: const Text('افزودن')),
                   );
                 },
               )

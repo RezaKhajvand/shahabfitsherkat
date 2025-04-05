@@ -5,8 +5,13 @@ import 'package:shahabfit/Features/OldVersion/bottomsheet_tarikh.dart';
 import 'package:shahabfit/Features/OldVersion/getshomarefrestande.dart';
 import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart';
+import 'package:shahabfit/Features/oldversion/utils/getplan.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Widgets/CustomSnackbars.dart';
+import 'package:shahabfit/Widgets/customlinearloading.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
+import 'package:shahabfit/constants/router.dart';
+import 'package:shahabfit/constants/values.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class EditPage extends StatefulWidget {
@@ -50,9 +55,7 @@ class _EditPageState extends State<EditPage> {
   ];
   tarikhErsal() async {
     var resault =
-        await customModalSheet( context,
-      const TarikhBottomSheetContent()
-    );
+        await customModalSheet(context, const TarikhBottomSheetContent());
     if (resault != null) {
       date = resault;
       print(date);
@@ -245,50 +248,55 @@ class _EditPageState extends State<EditPage> {
                 false,
               ),
               const SizedBox(height: 30),
-              SizedBox(
-                width: double.infinity,
-                height: 46,
-                child: ElevatedButton(
-                    onPressed: () async {
-                      if (formGlobalKey.currentState!.validate()) {
-                        BlocProvider.of<UpdateShagerdBloc>(context)
-                            .add(UpdateShagerdEvent(
-                                shagerd: widget.shagerd.copyWith(
-                                  name: namecontroler.text,
-                                  phone:
-                                      replaceEnglishNumber(phonecontroler.text),
-                                  khosusi: typeindex != 0,
-                                  workouttime: timelist[workouttimeindex],
-                                  plan: getplan(),
-                                  registerdate: Jalali(
-                                    date![2],
-                                    date![1],
-                                    date![0],
-                                  ).toUtcDateTime(),
-                                ),
-                                action: UpdateAction.update));
-                        context.pop();
-                      }
-                    },
-                    child: const Text('ویرایش')),
-              )
+              BlocConsumer<UpdateShagerdBloc, UpdateShagerdState>(
+                listener: (context, state) {
+                  if (state is UpdateShagerdSuccess) {
+                    context.go(managePage);
+                  }
+                  if (state is UpdateShagerdError) {
+                    getErrorSnackbar(context, state.message);
+                  }
+                },
+                builder: (context, state) {
+                  return AnimatedContainer(
+                    curve: Curves.ease,
+                    duration: Duration(milliseconds: 300),
+                    width: double.infinity,
+                    height: state is UpdateShagerdLoading
+                        ? animatedButtonHeight
+                        : fixButtonHeight,
+                    child: state is UpdateShagerdLoading
+                        ? CustomLinearLoading()
+                        : ElevatedButton(
+                            onPressed: () async {
+                              if (formGlobalKey.currentState!.validate()) {
+                                BlocProvider.of<UpdateShagerdBloc>(context)
+                                    .add(UpdateShagerdEvent(
+                                        shagerd: widget.shagerd.copyWith(
+                                          name: namecontroler.text,
+                                          phone: replaceEnglishNumber(
+                                              phonecontroler.text),
+                                          khosusi: typeindex != 0,
+                                          workouttime:
+                                              timelist[workouttimeindex],
+                                          plan: getplan(planindex),
+                                          registerdate: Jalali(
+                                            date![2],
+                                            date![1],
+                                            date![0],
+                                          ).toUtcDateTime(),
+                                        ),
+                                        action: UpdateAction.update));
+                              }
+                            },
+                            child: const Text('ویرایش')),
+                  );
+                },
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  String getplan() {
-    switch (planindex) {
-      case 0:
-        return '12';
-      case 1:
-        return '16';
-      case 2:
-        return '24';
-      default:
-        return '12';
-    }
   }
 }

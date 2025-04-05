@@ -33,7 +33,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             openBasketId = openBasketList.first.id;
           } else {
             openBasketId =
-                BasketRecord.fromJson(json.decode(await insertBasket())).id;
+                Basket.fromJson(json.decode(await insertBasket())).id;
           }
         }
 

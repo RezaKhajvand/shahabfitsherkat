@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
@@ -22,7 +23,7 @@ class BasketListPage extends StatefulWidget {
 
 class _BasketListPageState extends State<BasketListPage> {
   var now = DateTime.now();
-  Future<List<BasketRecord>> getBasketListFuture() async {
+  Future<List<Basket>> getBasketListFuture() async {
     return openBasketFromJson(await getBasketList());
   }
 
@@ -49,10 +50,9 @@ class _BasketListPageState extends State<BasketListPage> {
                   .copyWith(color: Colors.white)),
           actions: [
             HomeButton(),
-           
           ],
         ),
-        body: FutureBuilder<List<BasketRecord>>(
+        body: FutureBuilder<List<Basket>>(
             future: getBasketListFuture(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -140,7 +140,7 @@ class _BasketListPageState extends State<BasketListPage> {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        basketList[index].level ?? '',
+                                        basketList[index].level,
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelSmall!

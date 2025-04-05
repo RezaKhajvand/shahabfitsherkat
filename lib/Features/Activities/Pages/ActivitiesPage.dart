@@ -2,7 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/Basket/Utils/proxydecorator.dart';
+import 'package:shahabfit/Features/barnameview/utils/setvideoplayercontroller.dart';
+import 'package:shahabfit/Widgets/mobile_layout.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
@@ -15,6 +18,7 @@ import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
 import 'package:shahabfit/utils/texttheme.dart';
+import 'package:video_player/video_player.dart';
 
 class ActivitiesPage extends StatefulWidget {
   final String? openBasketId;
@@ -26,6 +30,7 @@ class ActivitiesPage extends StatefulWidget {
 
 class _ActivitiesPageState extends State<ActivitiesPage>
     with SingleTickerProviderStateMixin {
+  VideoPlayerController? videoController;
   Timer? _timer;
   late TabController _tabController;
   late String categoryId;
@@ -67,8 +72,22 @@ class _ActivitiesPageState extends State<ActivitiesPage>
     });
   }
 
+  Future<VideoPlayerController> setVideo(String video) async {
+    videoController = VideoPlayerController.networkUrl(
+      Uri.parse(
+        video.isEmpty ? testVideoLink : video,
+      ),
+    );
+    await videoController!.initialize();
+    videoController!.setLooping(true);
+    videoController!.play();
+    return videoController!;
+  }
+
   @override
   void dispose() {
+    videoController?.dispose();
+    videoController = null;
     _timer?.cancel();
     _timer = null;
     super.dispose();
@@ -281,122 +300,152 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                       .add(UpdateActivityEvent(activityList: activityList));
                 },
                 itemBuilder: (context, index) {
-                  return Container(
-                      key: Key(activityList[index].id),
-                      margin: EdgeInsets.only(
-                          bottom: index != activityList.length - 1 ? 14 : 0),
-                      decoration: ShapeDecoration(
-                        color: background,
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                            width: 1,
-                            color: borderColor,
-                          ),
-                          borderRadius: cardBorderRadius,
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(12),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ReorderableDragStartListener(
-                            key: ObjectKey(widget),
-                            index: index,
-                            child: const Icon(
-                              Icons.drag_handle,
-                              size: 30,
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  activityList[index].title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall!
-                                      .copyWith(color: Colors.white),
+                  return InkWell(
+                    key: Key(activityList[index].id),
+                    onLongPress: () {
+                      print('Long Press');
+                      showAdaptiveDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                                backgroundColor: background,
+                                child: SizedBox(
+                                  width: mobileWidth,
+                                  height: mobileWidth,
+                                  child: FutureBuilder(
+                                      future:
+                                          setVideo(activityList[index].video),
+                                      builder: (context, snapshot) {
+                                        return snapshot.data == null
+                                            ? Center(
+                                                child:
+                                                    CircularProgressIndicator())
+                                            : AspectRatio(
+                                                aspectRatio: 1,
+                                                child: VideoPlayer(
+                                                    videoController!),
+                                              );
+                                      }),
                                 ),
-                                Text(
-                                  'اولویت : ${replaceFarsiNumber(activityList[index].numberView.toString())}',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall!
-                                      .copyWith(color: Colors.grey),
+                              ));
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(
+                            bottom: index != activityList.length - 1 ? 14 : 0),
+                        decoration: ShapeDecoration(
+                          color: background,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              width: 1,
+                              color: borderColor,
+                            ),
+                            borderRadius: cardBorderRadius,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ReorderableDragStartListener(
+                              key: ObjectKey(widget),
+                              index: index,
+                              child: const Icon(
+                                Icons.drag_handle,
+                                size: 30,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    activityList[index].title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall!
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  Text(
+                                    'اولویت : ${replaceFarsiNumber(activityList[index].numberView.toString())}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall!
+                                        .copyWith(color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      BlocProvider.of<ActivityBloc>(context)
+                                          .add(DeleteActivityEvent(
+                                              activity: activityList[index]));
+                                    },
+                                    icon: const Icon(Icons.delete_outline)),
+                                const SizedBox(width: 5),
+                                SizedBox(
+                                  width: 50,
+                                  child: Builder(builder: (context) {
+                                    if (activityList[index].id ==
+                                        state.loadingItem) {
+                                      return const Center(
+                                        child: SizedBox(
+                                            height: 24,
+                                            width: 24,
+                                            child: CircularProgressIndicator()),
+                                      );
+                                    }
+                                    return Directionality(
+                                      textDirection: TextDirection.ltr,
+                                      child: Switch(
+                                        value: activityList[index].isInBasket,
+                                        onChanged: (value) async {
+                                          var activity = activityList[index];
+                                          if (value) {
+                                            BlocProvider.of<ActivityBloc>(
+                                                    context)
+                                                .add(InsertBasketActivityEvent(
+                                                    activitySet: [
+                                                  [3, 10]
+                                                ],
+                                                    dayOfWeek:
+                                                        _tabController.index,
+                                                    categoryId: categoryId,
+                                                    activityId: activity.id,
+                                                    title: activity.title,
+                                                    isInBasket: value));
+                                          } else {
+                                            var basketActivity = openBasket
+                                                .firstWhere((element) =>
+                                                    element.dayOfWeek ==
+                                                        _tabController.index &&
+                                                    element.activity ==
+                                                        activity.id);
+                                            BlocProvider.of<ActivityBloc>(
+                                                    context)
+                                                .add(DeleteBasketActivityEvent(
+                                                    basketActivityId:
+                                                        basketActivity.id,
+                                                    categoryId: categoryId,
+                                                    activityId: activity.id,
+                                                    title: activity.title,
+                                                    isInBasket: value));
+                                          }
+                                        },
+                                      ),
+                                    );
+                                  }),
                                 ),
                               ],
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    BlocProvider.of<ActivityBloc>(context).add(
-                                        DeleteActivityEvent(
-                                            activity: activityList[index]));
-                                  },
-                                  icon: const Icon(Icons.delete_outline)),
-                              const SizedBox(width: 5),
-                              SizedBox(
-                                width: 50,
-                                child: Builder(builder: (context) {
-                                  if (activityList[index].id ==
-                                      state.loadingItem) {
-                                    return const Center(
-                                      child: SizedBox(
-                                          height: 24,
-                                          width: 24,
-                                          child: CircularProgressIndicator()),
-                                    );
-                                  }
-                                  return Directionality(
-                                    textDirection: TextDirection.ltr,
-                                    child: Switch(
-                                      value: activityList[index].isInBasket,
-                                      onChanged: (value) async {
-                                        var activity = activityList[index];
-                                        if (value) {
-                                          BlocProvider.of<ActivityBloc>(context)
-                                              .add(InsertBasketActivityEvent(
-                                                  activitySet: [
-                                                [3, 10]
-                                              ],
-                                                  dayOfWeek:
-                                                      _tabController.index,
-                                                  categoryId: categoryId,
-                                                  activityId: activity.id,
-                                                  title: activity.title,
-                                                  isInBasket: value));
-                                        } else {
-                                          var basketActivity =
-                                              openBasket.firstWhere((element) =>
-                                                  element.dayOfWeek ==
-                                                      _tabController.index &&
-                                                  element.activity ==
-                                                      activity.id);
-                                          BlocProvider.of<ActivityBloc>(context)
-                                              .add(DeleteBasketActivityEvent(
-                                                  basketActivityId:
-                                                      basketActivity.id,
-                                                  categoryId: categoryId,
-                                                  activityId: activity.id,
-                                                  title: activity.title,
-                                                  isInBasket: value));
-                                        }
-                                      },
-                                    ),
-                                  );
-                                }),
-                              ),
-                            ],
-                          )
-                        ],
-                      ));
+                            )
+                          ],
+                        )),
+                  );
                 },
               );
             }

@@ -73,6 +73,10 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                         final name =
                             state.basketActivity.first.expand.basket?.name ??
                                 '';
+                        final description = state.basketActivity.first.expand
+                                .basket?.description ??
+                            '';
+
                         final date =
                             state.basketActivity.first.expand.basket?.created;
                         return Row(
@@ -81,6 +85,38 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                             Spacer(),
                             Text(format1(Jalali.fromDateTime(date!)),
                                 style: context.anjomanLight),
+                            SizedBox(width: 10),
+                            IconButton(
+                                onPressed: () => customModalSheet(
+                                      context,
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text('توضیحات',
+                                                style: context.anjomanBold),
+                                            SizedBox(
+                                                width: double.infinity,
+                                                height: 16),
+                                            Text(description),
+                                            SizedBox(height: 30),
+                                            Center(
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                child: OutlinedButton(
+                                                    onPressed: () =>
+                                                        context.pop(),
+                                                    child: Text('بستن')),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                icon: Icon(Icons.info_outlined))
                           ],
                         );
                       })

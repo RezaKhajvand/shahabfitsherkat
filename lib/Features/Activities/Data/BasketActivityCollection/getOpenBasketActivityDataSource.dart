@@ -17,7 +17,7 @@ Future<String> getOpenBasketActivity(
   print(filterQuery);
   try {
     final records = await pb.collection('basketActivity').getFullList(
-        sort: '+numberView,system',
+        sort: '+numberView,-created',
         filter: filterQuery,
         expand: 'activity,basket,system,activity.catId');
 

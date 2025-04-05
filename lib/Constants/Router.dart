@@ -254,7 +254,12 @@ final router = GoRouter(
     GoRoute(
       path: createShagerdPage,
       builder: (context, state) => MobileLayout(
-        child: deferredPageLoader(addpage.loadLibrary, () => addpage.AddPage()),
+        child: deferredPageLoader(
+            addpage.loadLibrary,
+            () => BlocProvider(
+                  create: (context) => ShagerdBloc(),
+                  child: addpage.AddPage(),
+                )),
       ),
     ),
     // Shagerd Search Screen with BlocProvider
