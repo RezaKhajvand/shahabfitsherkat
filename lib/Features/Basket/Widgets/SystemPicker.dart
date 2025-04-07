@@ -30,8 +30,8 @@ class _SystemPickerState extends State<SystemPicker> {
                 foregroundColor: colorHex,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
-            onPressed: () async => await context
-                .push('$systemPickerPage?recordId=${widget.basketActivity.id}'),
+            onPressed: () async => await context.push(
+                '$systemPickerPage?recordId=${widget.basketActivity.id}&basketId=${widget.basketActivity.basket}'),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

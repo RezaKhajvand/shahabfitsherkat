@@ -124,7 +124,7 @@ C.J5.prototype={
 I(d){var x=null
 return A.bB(A.a([E.hS("images/dumble.png",F.dc,x,45),N.ny,A.ak(this.c,x,x,x,x,B.em.j3(B.f,C.aPY(this.d)),x,x)],y.p),B.p,B.n,B.r,x)}}
 C.Sj.prototype={
-goT(){return Y.I9},
+goU(){return Y.I9},
 I(d){var x,w,v,u,t,s=null,r="images/logo.png",q=A.bh(d,s,y.w).w.a.a
 if(q<750){x=E.hS(r,s,s,120)
 w=q<600?80:150
@@ -147,7 +147,7 @@ return A.ex(!1,u,!0,A.bv(A.a([t,W.aZ,A.Y4(v,v,3,B.aV,v,v,!0,v,A.cF(A.a([w,A.cF(v
 $S:64}
 C.aHk.prototype={
 $0(){var x=$.abP()[this.b]
-return A.cm(this.a).iE("/blog/"+x.a,x,y.X)},
+return A.cg(this.a).iE("/blog/"+x.a,x,y.X)},
 $S:0}
 C.awm.prototype={
 $0(){var x=0,w=A.w(y.H),v,u=this
@@ -168,7 +168,7 @@ $S:0}
 C.afi.prototype={
 $0(){var x=0,w=A.w(y.H),v,u=this
 var $async$$0=A.r(function(d,e){if(d===1)return A.t(e,w)
-while(true)switch(x){case 0:v=A.cm(u.a).pi("/main",null)
+while(true)switch(x){case 0:v=A.cg(u.a).nD("/main",null)
 x=1
 break
 case 1:return A.u(v,w)}})
@@ -197,4 +197,4 @@ D.Ie=new A.aq(null,40,null,null)
 D.If=new A.aq(null,50,null,null)
 D.adF=new A.cq("\u0648\u0631\u0648\u062f \u0628\u0647 \u0627\u067e",null,null,null,null,null,null,null,null,null)})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_1",e:"endPart",h:b})})($__dart_deferred_initializers__,"mBjIo38FztGFAz+dkvW7PQaQRXI=");
+a.eventLog.push({p:"main.dart.js_1",e:"endPart",h:b})})($__dart_deferred_initializers__,"ZUAHhadISoSUUEEuxo68FhbPXzs=");

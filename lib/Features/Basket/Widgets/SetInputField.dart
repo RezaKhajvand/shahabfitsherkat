@@ -69,7 +69,8 @@ class _SetInputFieldState extends State<SetInputField> {
       child: Container(
         height: 50,
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.white), borderRadius: cardBorderRadius),
+            border: Border.all(color: Colors.white),
+            borderRadius: cardBorderRadius),
         alignment: Alignment.center,
         child: IndexedStack(
           alignment: Alignment.center,
@@ -117,7 +118,7 @@ class _SetInputFieldState extends State<SetInputField> {
                 onSelectedItemChanged: (value) => updateBasketActivity(value),
                 children: List.generate(
                     100,
-                    (index) => Text(replaceFarsiNumber(index.toString()),
+                    (index) => Text(replaceFarsiNumber((index + 1).toString()),
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge!

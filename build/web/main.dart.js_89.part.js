@@ -12,7 +12,7 @@ var z=a.updateTypes([])
 B.aks.prototype={
 $0(){var x=0,w=A.w(y.b),v,u=this
 var $async$$0=A.r(function(d,e){if(d===1)return A.t(e,w)
-while(true)switch(x){case 0:v=A.cm(u.a).pi("/main",null)
+while(true)switch(x){case 0:v=A.cg(u.a).nD("/main",null)
 x=1
 break
 case 1:return A.u(v,w)}})
@@ -24,4 +24,4 @@ A.bd(b.typeUniverse,JSON.parse('{"F9":{"a8":[],"d":[]}}'))
 var y={b:A.F("~")};(function constants(){C.PW=new A.bW(63477,"MaterialIcons",null,!1)
 C.Q8=new A.cJ(C.PW,null,null,null,null)})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_89",e:"endPart",h:b})})($__dart_deferred_initializers__,"rpxoFLTyXGJ3EikyVJRWvioTQtY=");
+a.eventLog.push({p:"main.dart.js_89",e:"endPart",h:b})})($__dart_deferred_initializers__,"AKQ4sCKkFcEc8AHKxjcKgUky9L4=");
