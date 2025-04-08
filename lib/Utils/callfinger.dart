@@ -1,17 +1,28 @@
-import 'dart:js_interop' as web;
+import 'dart:js_interop';
 
 import 'webauthn_interop.dart';
 
-void doAuth() {
-  final result = authenticateWithFingerprint();
+Future<void> registerThenAuth() async {
+  print("👣 شروع ثبت اثر انگشت...");
 
-  if (result is web.JSPromise) {
-    result.toDart.then((value) {
-      print('✅ نتیجه: $value');
-    }).onError((err, stack) {
-      print('❌ خطا: $err');
-    });
+  final reg = registerFingerprintCredential();
+  if (reg is JSPromise) {
+    try {
+      final regResult = await reg.toDart;
+      print("✅ ثبت موفق: $regResult");
+
+      print("🔒 حالا بریم برای احراز هویت...");
+      final auth = authenticateWithFingerprint();
+      if (auth is JSPromise) {
+        final authResult = await auth.toDart;
+        print("✅ احراز هویت موفق: $authResult");
+      } else {
+        print("❌ auth معتبر نبود");
+      }
+    } catch (err) {
+      print("❌ خطا در ثبت یا auth: $err");
+    }
   } else {
-    print('❗ نتیجه نا معتبر بود: $result');
+    print("❌ register معتبر نبود");
   }
 }
