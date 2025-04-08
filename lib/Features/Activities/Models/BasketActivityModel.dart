@@ -174,18 +174,17 @@ class Basket {
   });
 
   factory Basket.fromJson(Map<String, dynamic> json) => Basket(
-        collectionId: json["collectionId"],
-        collectionName: json["collectionName"],
-        created: DateTime.parse(json["created"]),
-        dayCount: json["dayCount"],
-        id: json["id"],
-        isOpen: json["isOpen"],
-        level: json["level"],
-        name: json["name"],
-        updated: DateTime.parse(json["updated"]),
-        user: json["user"],
-        description: json["description"]
-      );
+      collectionId: json["collectionId"],
+      collectionName: json["collectionName"],
+      created: DateTime.parse(json["created"]),
+      dayCount: json["dayCount"],
+      id: json["id"],
+      isOpen: json["isOpen"],
+      level: json["level"],
+      name: json["name"],
+      updated: DateTime.parse(json["updated"]),
+      user: json["user"],
+      description: json["description"]);
 
   Map<String, dynamic> toJson() => {
         "collectionId": collectionId,

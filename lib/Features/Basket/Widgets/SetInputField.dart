@@ -33,7 +33,8 @@ class _SetInputFieldState extends State<SetInputField> {
     super.initState();
     _controller = FixedExtentScrollController(
         initialItem: widget.basketActivity.activitySet[widget.setIndex]
-            [widget.fieldIndex]);
+                [widget.fieldIndex] -
+            1);
   }
 
   scrollToItem(int itemIndex) {
@@ -115,7 +116,8 @@ class _SetInputFieldState extends State<SetInputField> {
                 itemExtent: 25,
                 squeeze: 0.85,
                 diameterRatio: 1,
-                onSelectedItemChanged: (value) => updateBasketActivity(value),
+                onSelectedItemChanged: (value) =>
+                    updateBasketActivity(value + 1),
                 children: List.generate(
                     100,
                     (index) => Text(replaceFarsiNumber((index + 1).toString()),

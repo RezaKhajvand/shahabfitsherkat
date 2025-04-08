@@ -11,6 +11,7 @@ Future<String> insertBasketActivity({
     "dayOfWeek": dayOfWeek,
     "activity": activity,
     "activitySet": activitySet,
+    "numberView": 1000
   };
   try {
     final record = await pb.collection('basketActivity').create(body: body);

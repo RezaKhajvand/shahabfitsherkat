@@ -154,7 +154,6 @@ final router = GoRouter(
       builder: (context, state) {
         final recordId = state.uri.queryParameters['recordId'] ?? 'recordId';
            final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
-
         return MobileLayout(
           child: deferredPageLoader(systempicker.loadLibrary,
               () => systempicker.SystemPickerPage(recordId: recordId,basketId: basketId,)),

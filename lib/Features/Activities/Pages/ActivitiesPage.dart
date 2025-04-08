@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/Basket/Utils/proxydecorator.dart';
 import 'package:shahabfit/Features/barnameview/utils/setvideoplayercontroller.dart';
 import 'package:shahabfit/Widgets/mobile_layout.dart';
@@ -300,10 +299,9 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                       .add(UpdateActivityEvent(activityList: activityList));
                 },
                 itemBuilder: (context, index) {
-                  return InkWell(
+                  return GestureDetector(
                     key: Key(activityList[index].id),
                     onLongPress: () {
-                      print('Long Press');
                       showAdaptiveDialog(
                           context: context,
                           builder: (context) => Dialog(

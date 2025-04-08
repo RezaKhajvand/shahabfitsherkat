@@ -5,6 +5,7 @@ import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/login/bloc/login_bloc.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Utils/callfinger.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/customlinearloading.dart';
 import 'package:shahabfit/constants/values.dart';
@@ -29,6 +30,12 @@ class _LoginPageState extends State<LoginPage>
       phone: replaceEnglishNumber(userController.text),
       password: passController.text,
     ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    doAuth();
   }
 
   @override

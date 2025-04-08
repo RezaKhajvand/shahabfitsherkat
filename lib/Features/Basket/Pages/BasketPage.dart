@@ -322,10 +322,9 @@ class _BasketPageState extends State<BasketPage>
                             ],
                           ),
                           Divider(
-                            height: 30,
-                            thickness: 0.5,
-                            color: Colors.white24,
-                          ),
+                              height: 30,
+                              thickness: 0.5,
+                              color: Colors.white24),
                           SystemPicker(basketActivity: basketActivity[index]),
                           const SizedBox(height: 20),
                           ListView.separated(
