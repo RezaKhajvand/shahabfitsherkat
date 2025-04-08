@@ -10,15 +10,6 @@ Future<void> registerThenAuth() async {
     try {
       final regResult = await reg.toDart;
       print("✅ ثبت موفق: $regResult");
-
-      print("🔒 حالا بریم برای احراز هویت...");
-      final auth = authenticateWithFingerprint();
-      if (auth is JSPromise) {
-        final authResult = await auth.toDart;
-        print("✅ احراز هویت موفق: $authResult");
-      } else {
-        print("❌ auth معتبر نبود");
-      }
     } catch (err) {
       print("❌ خطا در ثبت یا auth: $err");
     }
