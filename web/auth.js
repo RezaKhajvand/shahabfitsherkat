@@ -2,10 +2,10 @@ async function registerFingerprintCredential() {
   const publicKey = {
     challenge: Uint8Array.from('someRandomChallenge', c => c.charCodeAt(0)),
     rp: {
-      name: "Example App",
+      name: "Example",
     },
     user: {
-      id: Uint8Array.from('userId1234', c => c.charCodeAt(0)),
+      id: Uint8Array.from('userId1234', c => c.charCodeAt(0)),  // ID کاربر که می‌تونه همون شماره تلفن باشه
       name: "user@example.com",
       displayName: "داش رضا",
     },
@@ -31,6 +31,7 @@ async function registerFingerprintCredential() {
   }
 }
 
+
 async function authenticateWithFingerprint() {
   const publicKey = {
     challenge: Uint8Array.from('someAuthChallenge', c => c.charCodeAt(0)),
@@ -45,3 +46,4 @@ async function authenticateWithFingerprint() {
     return `Error in auth: ${err.message}`;
   }
 }
+

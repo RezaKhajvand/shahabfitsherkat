@@ -5,7 +5,7 @@ import 'dart:js_interop';
 import 'package:js/js.dart';
 
 @JS('registerFingerprintCredential')
-external JSAny registerFingerprintCredential();
+external JSPromise registerFingerprintCredential();
 
 @JS('authenticateWithFingerprint')
-external JSAny authenticateWithFingerprint();
+external JSPromise authenticateWithFingerprint();
