@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:js_interop';
 
 import 'package:shahabfit/Features/login/data/finger_login_datasource.dart';
-import 'package:shahabfit/Utils/Exception.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Utils/webauthn_interop.dart';
 import 'package:shahabfit/constants/pb.dart';
@@ -26,9 +25,11 @@ Future<void> registerFingerprint() async {
 }
 
 Future<void> loginWithFingerprint() async {
-  final finger = AuthManager.readFinger();
+  final String? finger =
+      'AbgtgOabS_sslOahImXe5GCXpRbcgYhhUwsTNWw9-ttvK3tIdbcgNqLdmSnk2rgo_lvvFlKsTd8d-cQ50s-Mz88';
+
   if (finger == null) {
-    throw CustomException('اثر انگشت تعریف نشده است');
+    throw Exception('اثر انگشت تعریف نشده است');
   }
   try {
     final result = authenticateWithFingerprint(finger);
@@ -38,7 +39,7 @@ Future<void> loginWithFingerprint() async {
       await fingerLogin();
     } else {
       print("❌ خطا در اثر انگشت: ${credResult.toString()}");
-      throw CustomException('❌ خطا در اثر انگشت: ${credResult.toString()}');
+      throw Exception('❌ خطا در اثر انگشت: ${credResult.toString()}');
     }
   } catch (e) {
     print("❌ استثنا هنگام لاگین با اثر انگشت: $e");
