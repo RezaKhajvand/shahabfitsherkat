@@ -37,8 +37,8 @@ Future<void> loginWithFingerprint() async {
       print("✅ورود موفق با اثر انگشت");
       await fingerLogin();
     } else {
-      print("❌ خطا در اثر انگشت: ${result.toString()}");
-      throw CustomException('❌ خطا در اثر انگشت: ${result.toString()}');
+      print("❌ خطا در اثر انگشت: ${credResult.toString()}");
+      throw CustomException('❌ خطا در اثر انگشت: ${credResult.toString()}');
     }
   } catch (e) {
     print("❌ استثنا هنگام لاگین با اثر انگشت: $e");
