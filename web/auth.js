@@ -41,14 +41,12 @@ async function registerFingerprintCredential() {
   }
 }
 
-async function authenticateWithFingerprint(credentialIdBase64) {
-  const id = Uint8Array.from(atob(credentialIdBase64), (c) => c.charCodeAt(0));
-
+async function authenticateWithFingerprint(credentialId) {
   const publicKey = {
-    challenge: new Uint8Array(32), 
+    challenge: new Uint8Array(32),
     allowCredentials: [
       {
-        id: id,
+        id: credentialId,
         type: "public-key",
         transports: ["internal"],
       },
