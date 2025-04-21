@@ -51,7 +51,11 @@ class AuthManager {
 
   //Clear auth
   static Future clearAuthData() async {
+    final readFinger = AuthManager.readFinger();
     await _prefs.clear();
+    if (readFinger != null) {
+      await AuthManager.saveFinger(readFinger);
+    }
   }
 
   //Login Time
@@ -81,9 +85,7 @@ class AuthManager {
 }
 
 logOut() async {
-  final readFinger = AuthManager.readFinger();
   await AuthManager.clearAuthData();
-  await AuthManager.saveFinger(readFinger!);
   while (router.canPop()) {
     router.pop();
   }

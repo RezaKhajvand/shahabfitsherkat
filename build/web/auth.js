@@ -2,35 +2,30 @@ function bufferToBase64(buffer) {
   return btoa(String.fromCharCode(...new Uint8Array(buffer)));
 }
 
-async function registerFingerprintCredential() {
-  const challenge = new Uint8Array(32);
-  crypto.getRandomValues(challenge);
-
+async function authenticateWithFingerprint(credentialIdBase64) {
   const publicKey = {
-    challenge: challenge,
-    rp: {
-      name: "Your App",
-    },
-    user: {
-      id: Uint8Array.from("user-fingerprint", (c) => c.charCodeAt(0)),
-      name: "user@yourapp.com",
-      displayName: "داش رضا",
-    },
-    pubKeyCredParams: [{ type: "public-key", alg: -7 }],
-    authenticatorSelection: {
-      authenticatorAttachment: "platform",
-      userVerification: "required",
-    },
+    challenge: Uint8Array.from("someAuthChallenge", (c) => c.charCodeAt(0)),
     timeout: 60000,
-    attestation: "none",
+    allowCredentials: [
+      {
+        id: Uint8Array.from(atob(credentialIdBase64), (c) => c.charCodeAt(0)),
+        type: "public-key",
+        transports: ["internal"],
+      },
+    ],
+    userVerification: "required",
   };
 
   try {
-    const credential = await navigator.credentials.create({ publicKey });
-    const id = btoa(String.fromCharCode(...new Uint8Array(credential.rawId)));
-    return id; // credentialId base64 شده
+    const assertion = await navigator.credentials.get({ publicKey });
+    const parsed = {
+      id: assertion.id,
+      rawId: bufferToBase64(assertion.rawId),
+    };
+
+    return JSON.stringify(parsed);
   } catch (err) {
-    return `error:${err.message}`;
+    return `Error in auth: ${err.message}`;
   }
 }
 
