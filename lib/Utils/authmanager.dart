@@ -18,6 +18,15 @@ class AuthManager {
     await saveLoginTime(now);
   }
 
+  static saveFinger(String id) async {
+    await _prefs.setString('finger', id);
+    print('save shod : $id');
+  }
+
+  static String? readFinger() {
+    return _prefs.getString('finger');
+  }
+
   //Save user
   static saveUser(String user) async {
     await _prefs.setString('user', user);

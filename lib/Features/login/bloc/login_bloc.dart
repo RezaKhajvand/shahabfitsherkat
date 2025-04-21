@@ -20,12 +20,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             {
               await login(phone: event.phone, password: event.password);
             }
-
             break;
           case LoginType.finger:
             {
-              final resault = await loginWithFingerprint();
-              await fingerLogin(credentialId: resault);
+              await loginWithFingerprint();
             }
         }
         await AuthManager.saveAuth(pb.authStore);

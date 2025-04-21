@@ -8,4 +8,4 @@ import 'package:js/js.dart';
 external JSPromise registerFingerprintCredential();
 
 @JS('authenticateWithFingerprint')
-external JSPromise authenticateWithFingerprint();
+external JSPromise authenticateWithFingerprint(String? readFinger);
