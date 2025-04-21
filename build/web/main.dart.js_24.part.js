@@ -3,17 +3,17 @@ a[b][c]=a[b][c]||[]
 a[b][c].push({p:"main.dart.js_24",e:"beginPart"})})(self,"$__dart_deferred_initializers__","eventLog")
 $__dart_deferred_initializers__.current=function(a,b,c,$){var B,D,A={z_:function z_(d,e){this.a=d
 this.b=e},aBJ:function aBJ(){},ag9:function ag9(){},
-bmV(d){switch(d.a){case 0:return D.n5
+bmV(d){switch(d.a){case 0:return D.n4
 case 2:return D.GZ
 case 1:return D.GY
-case 3:return C.a5y
+case 3:return C.a5x
 case 4:return D.H_}},
 aSR(d,e){var x=0,w=B.y(y.a),v,u
 var $async$aSR=B.u(function(f,g){if(f===1)return B.v(g,w)
-while(true)switch(x){case 0:if(e===C.Rz||e===C.RA)u=!(d.geT()==="https"||d.geT()==="http")
+while(true)switch(x){case 0:if(e===C.Ry||e===C.Rz)u=!(d.geT()==="https"||d.geT()==="http")
 else u=!1
 if(u)throw B.d(B.hA(d,"url","To use an in-app web view, you must provide an http(s) URL."))
-v=$.aYD().yS(d.j(0),new B.Vd(A.bmV(e),new B.UV(!0,!0,D.bJ),null))
+v=$.aYD().yR(d.j(0),new B.Vd(A.bmV(e),new B.UV(!0,!0,D.bJ),null))
 x=1
 break
 case 1:return B.w(v,w)}})
@@ -31,10 +31,10 @@ x(A.z_,B.ey)
 w(B.t,[A.aBJ,A.ag9])})()
 var y={a:B.G("A")};(function constants(){C.ajs=new A.ag9()
 C.ajw=new A.aBJ()
-C.Ry=new A.z_(0,"platformDefault")
-C.Rz=new A.z_(1,"inAppWebView")
-C.RA=new A.z_(2,"inAppBrowserView")
-C.RB=new A.z_(3,"externalApplication")
-C.a5y=new B.vA(3,"externalApplication")})()};
+C.Rx=new A.z_(0,"platformDefault")
+C.Ry=new A.z_(1,"inAppWebView")
+C.Rz=new A.z_(2,"inAppBrowserView")
+C.RA=new A.z_(3,"externalApplication")
+C.a5x=new B.vA(3,"externalApplication")})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_24",e:"endPart",h:b})})($__dart_deferred_initializers__,"BklON2oTNdUxV7XT80UIlVoZoiE=");
+a.eventLog.push({p:"main.dart.js_24",e:"endPart",h:b})})($__dart_deferred_initializers__,"diLkR16Bpb6aOLXmm9FkoVnvWRc=");

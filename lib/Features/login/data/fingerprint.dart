@@ -1,6 +1,6 @@
-import 'dart:convert';
+
 import 'dart:js_interop';
-import 'dart:typed_data';
+
 
 import 'package:shahabfit/Features/login/data/finger_login_datasource.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
@@ -11,37 +11,34 @@ Future<void> registerFingerprint() async {
   final id = AuthManager.readUser()!;
   try {
     final res = registerFingerprintCredential();
-    final credResult = await res.toDart;
-    final json = jsonDecode(credResult.toString());
-    final credentialId = json['id']; // ✅ اصلاح شد
-    await AuthManager.saveFinger(credentialId);
-    final body = <String, dynamic>{
-      "credentialId": credentialId,
-    };
+    final credId = await res.toDart;
+    await AuthManager.saveFinger(credId.toString());
+    final body = {"credentialId": credId};
     await pb.collection('users').update(
           id,
           body: body,
           headers: AuthManager.readHeader(),
         );
-
     print("✅ اثر انگشت برای کاربر $id ثبت شد");
   } catch (e) {
     print("❌ خطا در ثبت اثر انگشت: $e");
   }
 }
 
-Future<String> loginWithFingerprint() async {
-  try {
-    Uint8List decodedId = base64Url.decode(AuthManager.readFinger()!);
-    final result = authenticateWithFingerprint(decodedId);
-    final credResult = await result.toDart;
-    final json = jsonDecode(credResult.toString());
-    final credentialId = json['id'];
+Future<void> loginWithFingerprint() async {
+  final credentialId = AuthManager.readFinger();
+  if (credentialId == null) {
+    print("❌ credentialId یافت نشد");
+    return;
+  }
+
+  final res = authenticateWithFingerprint(credentialId);
+  final result = await res.toDart;
+
+  if (result.toString() == "ok") {
+    print("✅ ورود موفق با اثر انگشت");
     await fingerLogin(credentialId: credentialId);
-    print("✅ احراز هویت با اثر انگشت موفق بود: $credentialId");
-    return credentialId;
-  } catch (e) {
-    print("❌ استثنا هنگام لاگین با اثر انگشت: $e");
-    rethrow;
+  } else {
+    print("❌ خطا در ورود: ${result.toString()}");
   }
 }

@@ -3,86 +3,57 @@ function bufferToBase64(buffer) {
 }
 
 async function registerFingerprintCredential() {
+  const challenge = new Uint8Array(32);
+  crypto.getRandomValues(challenge);
+
   const publicKey = {
-    challenge: Uint8Array.from("someRandomChallenge", (c) => c.charCodeAt(0)),
+    challenge: challenge,
     rp: {
-      name: "Example",
+      name: "Your App",
     },
     user: {
-      id: Uint8Array.from("userId1234", (c) => c.charCodeAt(0)), // این باید یکتا و ثابت باشه برای هر کاربر
-      name: "user@example.com",
+      id: Uint8Array.from("user-fingerprint", (c) => c.charCodeAt(0)),
+      name: "user@yourapp.com",
       displayName: "داش رضا",
     },
-    pubKeyCredParams: [
-      {
-        type: "public-key",
-        alg: -7, // ES256
-      },
-    ],
-    timeout: 60000,
-    attestation: "direct",
+    pubKeyCredParams: [{ type: "public-key", alg: -7 }],
     authenticatorSelection: {
       authenticatorAttachment: "platform",
       userVerification: "required",
     },
+    timeout: 60000,
+    attestation: "none",
   };
 
   try {
     const credential = await navigator.credentials.create({ publicKey });
-
-    const parsed = {
-      id: credential.id,
-      rawId: bufferToBase64(credential.rawId),
-      type: credential.type,
-      response: {
-        attestationObject: bufferToBase64(
-          credential.response.attestationObject
-        ),
-        clientDataJSON: bufferToBase64(credential.response.clientDataJSON),
-      },
-    };
-
-    return JSON.stringify(parsed);
+    const id = btoa(String.fromCharCode(...new Uint8Array(credential.rawId)));
+    return id; // credentialId base64 شده
   } catch (err) {
-    return `Error in registration: ${err.message}`;
+    return `error:${err.message}`;
   }
 }
 
-
-
 async function authenticateWithFingerprint(credentialIdBase64) {
+  const id = Uint8Array.from(atob(credentialIdBase64), (c) => c.charCodeAt(0));
+
   const publicKey = {
-    challenge: Uint8Array.from("someAuthChallenge", (c) => c.charCodeAt(0)),
-    timeout: 60000,
+    challenge: new Uint8Array(32), // challenge جعلی چون سمت سرور نداریم
     allowCredentials: [
       {
-        id: Uint8Array.from(atob(credentialIdBase64), (c) => c.charCodeAt(0)),
+        id: id,
         type: "public-key",
         transports: ["internal"],
       },
     ],
     userVerification: "required",
+    timeout: 60000,
   };
 
   try {
     const assertion = await navigator.credentials.get({ publicKey });
-
-    const parsed = {
-      id: assertion.id,
-      rawId: bufferToBase64(assertion.rawId),
-      type: assertion.type,
-      response: {
-        authenticatorData: bufferToBase64(assertion.response.authenticatorData),
-        clientDataJSON: bufferToBase64(assertion.response.clientDataJSON),
-        signature: bufferToBase64(assertion.response.signature),
-        userHandle: assertion.response.userHandle
-          ? bufferToBase64(assertion.response.userHandle)
-          : null,
-      },
-    };
-
-    return JSON.stringify(parsed);
+    return "ok";
   } catch (err) {
-    return `Error in auth: ${err.message}`;
+    return `error:${err.message}`;
   }
 }
