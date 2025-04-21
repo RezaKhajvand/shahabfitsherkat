@@ -38,7 +38,7 @@ async function authenticateWithFingerprint(credentialIdBase64) {
   const id = Uint8Array.from(atob(credentialIdBase64), (c) => c.charCodeAt(0));
 
   const publicKey = {
-    challenge: new Uint8Array(32), // challenge جعلی چون سمت سرور نداریم
+    challenge: new Uint8Array(32),
     allowCredentials: [
       {
         id: id,

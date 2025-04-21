@@ -49,18 +49,18 @@ Ud:function Ud(d,e){this.a=d
 this.b=e}},C
 B=c[0]
 D=c[2]
-A=a.updateHolder(c[91],A)
-C=c[110]
+A=a.updateHolder(c[90],A)
+C=c[109]
 A.tZ.prototype={
 M(){return"BoxFit."+this.b}}
 A.Ud.prototype={}
 var z=a.updateTypes([]);(function inheritance(){var y=a.inherit
 y(A.tZ,B.ey)
-y(A.Ud,B.t)})();(function constants(){C.dc=new A.tZ(3,"fitWidth")
+y(A.Ud,B.u)})();(function constants(){C.dc=new A.tZ(3,"fitWidth")
 C.db=new A.tZ(2,"cover")
 C.Ks=new A.tZ(0,"fill")
-C.ajq=new A.tZ(1,"contain")
+C.ajr=new A.tZ(1,"contain")
 C.i0=new A.tZ(6,"scaleDown")
 C.Po=new A.Ud(D.L,D.L)})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_13",e:"endPart",h:b})})($__dart_deferred_initializers__,"Zl+ySJxC07NImHjPKlr0AhPrdAQ=");
+a.eventLog.push({p:"main.dart.js_13",e:"endPart",h:b})})($__dart_deferred_initializers__,"ZLmyPFlH3U7ZmIXys93XDpCAsdY=");
