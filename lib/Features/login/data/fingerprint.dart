@@ -25,18 +25,13 @@ Future<void> registerFingerprint() async {
 }
 
 Future<void> loginWithFingerprint() async {
-  final String? finger =
-      'AbgtgOabS_sslOahImXe5GCXpRbcgYhhUwsTNWw9-ttvK3tIdbcgNqLdmSnk2rgo_lvvFlKsTd8d-cQ50s-Mz88';
-
-  if (finger == null) {
-    throw Exception('اثر انگشت تعریف نشده است');
-  }
+  final String finger =AuthManager.readFinger()!;
   try {
     final result = authenticateWithFingerprint(finger);
     final credResult = await result.toDart;
     if (credResult.toString() == "ok") {
       print("✅ورود موفق با اثر انگشت");
-      await fingerLogin();
+    await fingerLogin(credentialId: finger);
     } else {
       print("❌ خطا در اثر انگشت: ${credResult.toString()}");
       throw Exception('❌ خطا در اثر انگشت: ${credResult.toString()}');

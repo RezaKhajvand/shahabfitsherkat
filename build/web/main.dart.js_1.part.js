@@ -119,21 +119,21 @@ p=y.p
 return A.et(new C.Tf(o.ga5x(),v,n),B.U,M.ol(A.bE(A.a([m,D.Ig,new A.bj(new A.al(w,0,w,0),new C.JG("\u0645\u0637\u0627\u0644\u0628 \u0622\u0645\u0648\u0632\u0634\u06cc",l,n),o.f),D.If,u,D.Ig,A.bz(n,A.bE(A.a([new C.JG("\u0627\u0631\u062a\u0628\u0627\u0637 \u0628\u0627 \u0645\u0627",l,n),D.If,A.xL(A.aZz(A.bz(n,A.bE(A.a([A.aq("\u0628\u0627 \u0634\u0647\u0627\u0628 \u0641\u06cc\u062a \u062f\u0631 \u062a\u0645\u0627\u0633 \u0628\u0627\u0634\u06cc\u062f",n,n,n,n,B.em.j3(B.a3,C.aSr(l)),B.dF,n),D.Ie,A.aq("\u0634\u0645\u0627 \u0647\u0631 \u0633\u0648\u0627\u0644\u06cc \u062f\u0627\u0634\u062a\u0647 \u0628\u0627\u0634\u06cc\u062f \u0645\u06cc\u062a\u0648\u0646\u06cc\u062f \u062a\u0648 \u067e\u06cc\u0627\u0645 \u0631\u0633\u0627\u0646 \u0647\u0627\u06cc \u0632\u06cc\u0631 \u0627\u0632\u0645 \u0628\u067e\u0631\u0633\u06cc\u062f \u0648 \u0627\u0648\u0646 \u0686\u06cc\u0632\u06cc \u06a9\u0647 \u0628\u0631\u0627\u06cc \u0628\u062f\u0646\u062a\u0648\u0646 \u0645\u0641\u06cc\u062f \u062a\u0631\u0647 \u0631\u0648 \u0627\u0646\u062c\u0627\u0645 \u0628\u062f\u06cc\u062f",n,n,n,n,B.aB.j3(B.f,C.aSr(l)-2),B.dF,n),D.Ie,P.aBO(I.J4,A.a([new C.J2("https://www.instagram.com/shahabfit1","images/instagram.png","Instagram",n),new C.J2("https://web.telegram.org/k/#@Shahabfit","images/telegram.png","Telegram",n)],p),I.J5,w,w)],p),B.p,n,B.n,B.r,0,n),B.m,n,n,new A.cl(q,n,s,r,n,n,B.a2),n,n,n,n,D.OM,n,n,1/0),!0,t),B.J,n)],p),B.p,n,B.n,B.r,0,n),B.m,n,n,D.Kn,n,n,o.r,n,new A.al(w,0,w,w),n,n,1/0)],p),B.p,n,B.n,B.r,0,n),n,B.R,n,n,B.Z),n,!0,n,n)}}
 C.J2.prototype={
 J(d){var x=null,w=A.el(50)
-return A.eV(!1,x,!0,A.bz(x,A.bL(A.a([E.i6(this.d,x,x,30),U.d1,A.aq(this.e,x,x,x,x,B.aB.aF(B.U),x,x)],y.p),B.p,B.n,B.aA,x),B.m,x,x,new A.cl(B.f,x,x,w,x,x,B.a2),x,x,x,x,D.P2,x,x,x),x,!0,x,x,x,x,x,x,x,x,x,new C.ayK(this,d),x,x,x,x,x,x,x)}}
+return A.eV(!1,x,!0,A.bz(x,A.bK(A.a([E.i6(this.d,x,x,30),U.d1,A.aq(this.e,x,x,x,x,B.aB.aF(B.U),x,x)],y.p),B.p,B.n,B.aA,x),B.m,x,x,new A.cl(B.f,x,x,w,x,x,B.a2),x,x,x,x,D.P2,x,x,x),x,!0,x,x,x,x,x,x,x,x,x,new C.ayK(this,d),x,x,x,x,x,x,x)}}
 C.JG.prototype={
 J(d){var x=null
-return A.bL(A.a([E.i6("images/dumble.png",F.dc,x,45),N.nz,A.aq(this.c,x,x,x,x,B.em.j3(B.f,C.aSr(this.d)),x,x)],y.p),B.p,B.n,B.r,x)}}
+return A.bK(A.a([E.i6("images/dumble.png",F.dc,x,45),N.nz,A.aq(this.c,x,x,x,x,B.em.j3(B.f,C.aSr(this.d)),x,x)],y.p),B.p,B.n,B.r,x)}}
 C.Tf.prototype={
 goT(){return Y.Ia},
 J(d){var x,w,v,u,t,s=null,r="images/logo.png",q=A.bp(d,s,y.w).w.a.a
 if(q<750){x=E.i6(r,s,s,120)
 w=q<600?80:150
 v=G.adG(q)
-return A.fc(s,B.U,s,!0,s,s,A.bL(A.a([new A.bj(new A.al(v,0,v,0),A.eV(!1,A.el(10),!0,D.Q4,s,!0,s,s,s,s,s,s,s,s,s,new C.ahx(),s,s,s,s,s,s,s),s)],y.p),B.p,B.n,B.aA,s),w,s,s,x,70)}x=G.adG(q)
+return A.fc(s,B.U,s,!0,s,s,A.bK(A.a([new A.bj(new A.al(v,0,v,0),A.eV(!1,A.el(10),!0,D.Q4,s,!0,s,s,s,s,s,s,s,s,s,new C.ahx(),s,s,s,s,s,s,s),s)],y.p),B.p,B.n,B.aA,s),w,s,s,x,70)}x=G.adG(q)
 w=E.i6(r,s,s,120)
 u=J.ee(3,y.l)
 for(v=this.d,t=0;t<3;++t)u[t]=A.a02(A.aq(v[t].a,s,s,s,s,B.d4.j3(B.f,C.aSr(q)-4),s,s),new C.ahy(this,t),s)
-return A.fc(s,B.U,s,!0,s,s,new A.bj(new A.al(x,0,x,0),A.bL(A.a([w,new A.e4(new A.a2(0,q/2,0,1/0),A.bL(u,B.p,B.CP,B.r,s),s),L.qQ(D.adI,new C.ahz(d),s)],y.p),B.p,B.bn,B.r,s),s),1/0,s,s,s,70)}}
+return A.fc(s,B.U,s,!0,s,s,new A.bj(new A.al(x,0,x,0),A.bK(A.a([w,new A.e4(new A.a2(0,q/2,0,1/0),A.bK(u,B.p,B.CP,B.r,s),s),L.qQ(D.adI,new C.ahz(d),s)],y.p),B.p,B.bn,B.r,s),s),1/0,s,s,s,70)}}
 var z=a.updateTypes(["~(dx<Q<L>>)"])
 C.aJN.prototype={
 $2(d,e){var x,w,v=null,u=A.el(10),t=A.el(10),s=$.ae4()
@@ -197,4 +197,4 @@ D.If=new A.ax(null,40,null,null)
 D.Ig=new A.ax(null,50,null,null)
 D.adI=new A.cC("\u0648\u0631\u0648\u062f \u0628\u0647 \u0627\u067e",null,null,null,null,null,null,null,null,null)})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_1",e:"endPart",h:b})})($__dart_deferred_initializers__,"6SmCl7n36DEX6KAVzlq5w1ZTBDM=");
+a.eventLog.push({p:"main.dart.js_1",e:"endPart",h:b})})($__dart_deferred_initializers__,"i6ERmvlL+VG2FZ5JvfdN0gqi/co=");
