@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:js_interop';
+import 'dart:typed_data';
 
 import 'package:shahabfit/Features/login/data/finger_login_datasource.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
@@ -31,7 +32,8 @@ Future<void> registerFingerprint() async {
 
 Future<String> loginWithFingerprint() async {
   try {
-    final result = authenticateWithFingerprint(AuthManager.readFinger());
+    Uint8List decodedId = base64Url.decode(AuthManager.readFinger()!);
+    final result = authenticateWithFingerprint(decodedId);
     final credResult = await result.toDart;
     final json = jsonDecode(credResult.toString());
     final credentialId = json['id'];
