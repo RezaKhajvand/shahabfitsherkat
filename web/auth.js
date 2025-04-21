@@ -68,12 +68,8 @@ async function authenticateWithFingerprint(credentialIdBase64) {
   };
 
   try {
-    const assertion = await navigator.credentials.get({ publicKey });
-    return JSON.stringify({
-      id: assertion.id,
-      rawId: bufferToBase64(assertion.rawId),
-      type: assertion.type,
-    });
+    await navigator.credentials.get({ publicKey });
+    return "ok";
   } catch (err) {
     return `error:${err.message}`;
   }
