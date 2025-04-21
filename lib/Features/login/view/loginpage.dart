@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/login/bloc/login_bloc.dart';
+import 'package:shahabfit/Features/login/data/fingerprint.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/customlinearloading.dart';
@@ -26,10 +27,16 @@ class _LoginPageState extends State<LoginPage>
 
   loginTap() {
     BlocProvider.of<LoginBloc>(context).add(LoginEvent(
-      phone: replaceEnglishNumber(userController.text),
-      password: passController.text,
-    ));
+        phone: replaceEnglishNumber(userController.text),
+        password: passController.text,
+        type: LoginType.userPass));
   }
+
+  fingerLogin() {
+    BlocProvider.of<LoginBloc>(context)
+        .add(LoginEvent(phone: "", password: "", type: LoginType.finger));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,7 +141,14 @@ class _LoginPageState extends State<LoginPage>
                                         }
                                       },
                                       child: Text('ورود'))),
-                        )
+                        ),
+                        SizedBox(height: 80),
+                        IconButton(
+                            onPressed: () => registerFingerprint(),
+                            icon: Icon(
+                              Icons.fingerprint,
+                              size: 60,
+                            )),
                       ],
                     ),
                   ),

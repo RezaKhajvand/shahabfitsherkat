@@ -5,7 +5,7 @@ Future<void> createJalaseDatasource(Shagerd shagerd) async {
   try {
     final response =
         await pb.collection('jalase').create(body: {"shagerd": shagerd.id});
-    print(response);
+    print(shagerd.toJson());
   } catch (e) {
     rethrow;
   }

@@ -75,26 +75,16 @@ class UpdateShagerdBloc extends Bloc<UpdateShagerdEvent, UpdateShagerdState> {
 
   // =======
   Future<Shagerd> increaseJalase(Shagerd shagerd) async {
-    var updatingShagerd = shagerd.copyWith(jalase: shagerd.jalase + 1);
-    final responses = await Future.wait([
-      createJalaseDatasource(shagerd),
-      updateShagerdDatasource(updatingShagerd)
-    ]);
-    final resault = responses.last as String;
-    shagerd = Shagerd.fromJson(json.decode(resault));
-    return shagerd;
+    var updatingShagerd = shagerd.copyWith(jalase: ++shagerd.jalase);
+    createJalaseDatasource(shagerd);
+    return updatingShagerd;
   }
 
   // =======
   Future<Shagerd> decreaseJalase(Shagerd shagerd) async {
-    var updatingShagerd = shagerd.copyWith(jalase: shagerd.jalase - 1);
-    final responses = await Future.wait([
-      deleteLastJalaseDatasource(shagerd),
-      updateShagerdDatasource(updatingShagerd)
-    ]);
-    final resault = responses.last as String;
-    shagerd = Shagerd.fromJson(json.decode(resault));
-    return shagerd;
+    var updatingShagerd = shagerd.copyWith(jalase: --shagerd.jalase);
+    deleteLastJalaseDatasource(shagerd);
+    return updatingShagerd;
   }
 
   // =======

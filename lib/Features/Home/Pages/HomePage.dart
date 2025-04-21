@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/Router.dart';
+import 'package:shahabfit/Features/login/data/fingerprint.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +30,10 @@ class _HomePageState extends State<HomePage> {
             title: Image.asset('images/logotype.png', height: 16),
             actions: [
               IconButton(
-                  onPressed: () => logOut(), icon: Icon(Icons.logout_rounded))
+                  onPressed: () => registerFingerprint(),
+                  icon: Icon(Icons.fingerprint)),
+              IconButton(
+                  onPressed: () => logOut(), icon: Icon(Icons.logout_rounded)),
             ],
           ),
           body: SingleChildScrollView(

@@ -1,3 +1,6 @@
 import 'package:pocketbase/pocketbase.dart';
 
-var pb = PocketBase('https://club.liara.run');
+// http://127.0.0.1:8090/
+// https://bermooda.liara.run
+
+var pb = PocketBase('http://127.0.0.1:8090');

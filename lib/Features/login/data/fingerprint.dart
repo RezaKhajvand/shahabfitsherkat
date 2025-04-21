@@ -22,3 +22,17 @@ Future<void> registerFingerprint() async {
     print("❌ خطا در ثبت اثر انگشت: $e");
   }
 }
+
+Future<String> loginWithFingerprint() async {
+  try {
+    final result = authenticateWithFingerprint();
+    final credResult = await result.toDart;
+    final json = jsonDecode(credResult.toString());
+
+    print("✅ احراز هویت با اثر انگشت موفق بود");
+    return json['credentialId'];
+  } catch (e) {
+    print("❌ استثنا هنگام لاگین با اثر انگشت: $e");
+    rethrow;
+  }
+}

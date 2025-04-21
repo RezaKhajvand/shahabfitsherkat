@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:shahabfit/Features/login/data/finger_login_datasource.dart';
 import 'package:shahabfit/Features/login/data/login_datasource.dart';
+import 'package:shahabfit/Features/login/data/fingerprint.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/constants/pb.dart';
@@ -13,7 +15,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginEvent>((event, emit) async {
       emit((LoginLoading()));
       try {
-        await login(phone: event.phone, password: event.password);
+        switch (event.type) {
+          case LoginType.userPass:
+            {
+              await login(phone: event.phone, password: event.password);
+            }
+
+            break;
+          case LoginType.finger:
+            {
+              final resault = await loginWithFingerprint();
+              await fingerLogin(credentialId: resault);
+            }
+        }
         await AuthManager.saveAuth(pb.authStore);
         emit((LoginSuccess()));
       } catch (e, s) {
