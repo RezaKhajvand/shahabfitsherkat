@@ -85,6 +85,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: PageView(
           controller: controller,
+          physics: NeverScrollableScrollPhysics(),
           children: [
             ManagePage(),
             BasketListPage(),

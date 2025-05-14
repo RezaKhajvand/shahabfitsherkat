@@ -13,7 +13,7 @@ var $async$aUG=B.u(function(f,g){if(f===1)return B.v(g,w)
 while(true)switch(x){case 0:if(e===C.Rr||e===C.Rs)u=!(d.geU()==="https"||d.geU()==="http")
 else u=!1
 if(u)throw B.e(B.hA(d,"url","To use an in-app web view, you must provide an http(s) URL."))
-v=$.b_y().z2(d.j(0),new B.VU(A.bp9(e),new B.VB(!0,!0,D.bF),null))
+v=$.b_y().z2(d.j(0),new B.VV(A.bp9(e),new B.VC(!0,!0,D.bF),null))
 x=1
 break
 case 1:return B.w(v,w)}})
@@ -37,4 +37,4 @@ C.Rs=new A.z6(2,"inAppBrowserView")
 C.Rt=new A.z6(3,"externalApplication")
 C.a5x=new B.vD(3,"externalApplication")})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_18",e:"endPart",h:b})})($__dart_deferred_initializers__,"L0a6UOMA6AeD5aExFantakNG4KU=");
+a.eventLog.push({p:"main.dart.js_18",e:"endPart",h:b})})($__dart_deferred_initializers__,"E2vclXNkyiyug1SzqRSFhxu/oDA=");

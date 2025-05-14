@@ -42,10 +42,10 @@ if(y.a>s)y=new B.B(s,s/t)
 x=e
 break
 default:x=null
-y=null}return new A.UO(x,y)},
+y=null}return new A.UP(x,y)},
 u_:function u_(d,e){this.a=d
 this.b=e},
-UO:function UO(d,e){this.a=d
+UP:function UP(d,e){this.a=d
 this.b=e}},C
 B=c[0]
 D=c[2]
@@ -53,14 +53,14 @@ A=a.updateHolder(c[67],A)
 C=c[82]
 A.u_.prototype={
 M(){return"BoxFit."+this.b}}
-A.UO.prototype={}
+A.UP.prototype={}
 var z=a.updateTypes([]);(function inheritance(){var y=a.inherit
 y(A.u_,B.hT)
-y(A.UO,B.D)})();(function constants(){C.fK=new A.u_(3,"fitWidth")
+y(A.UP,B.D)})();(function constants(){C.fK=new A.u_(3,"fitWidth")
 C.di=new A.u_(2,"cover")
 C.Kk=new A.u_(0,"fill")
 C.ajw=new A.u_(1,"contain")
 C.i6=new A.u_(6,"scaleDown")
-C.Pd=new A.UO(D.J,D.J)})()};
+C.Pd=new A.UP(D.J,D.J)})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_13",e:"endPart",h:b})})($__dart_deferred_initializers__,"jxODWivI1Vt2FaQCKakEiRpBTCs=");
+a.eventLog.push({p:"main.dart.js_13",e:"endPart",h:b})})($__dart_deferred_initializers__,"VVlaDnJkHYmOdMiK8pvjeS406jE=");
