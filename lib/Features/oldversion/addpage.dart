@@ -87,7 +87,7 @@ class _AddPageState extends State<AddPage> {
       ),
       backgroundColor: const Color(0xFF141414),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+        padding: const EdgeInsets.all(20),
         child: Form(
           key: formGlobalKey,
           child: Column(
@@ -242,7 +242,7 @@ class _AddPageState extends State<AddPage> {
               BlocConsumer<ShagerdBloc, ShagerdState>(
                 listener: (context, state) {
                   if (state is ShagerdLoaded) {
-                    context.go(managePage);
+                    context.pop();
                   }
                   if (state is ShagerdError) {
                     getErrorSnackbar(context, state.message);

@@ -253,7 +253,7 @@ class _OutlinedButtonFieldState extends State<TarikhBottomSheetContent> {
                     resault.add(selectedroozindex + 1);
                     resault.add(selectedmahindex + 1);
                     resault.add(selectedsalindex + now.year);
-                    context.pop();
+                    context.pop(resault);
                   },
                   child: const Text('تایید تاریخ')),
             ),

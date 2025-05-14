@@ -12,7 +12,6 @@ import 'package:shahabfit/Features/Basket/Widgets/SystemPicker.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/CustomErrorWidget.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
-import 'package:shahabfit/Widgets/home_button.dart';
 
 class BasketPage extends StatefulWidget {
   final BasketInputs basketInputs;
@@ -68,7 +67,6 @@ class _BasketPageState extends State<BasketPage>
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
           actions: [
-            const HomeButton(),
             IconButton(
                 onPressed: () => context.push(
                     '$barnameViewPage?basketId=${widget.basketInputs.basketId}&tabIndex=0'),
