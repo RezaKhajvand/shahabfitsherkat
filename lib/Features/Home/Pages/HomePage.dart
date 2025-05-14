@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:shahabfit/Constants/Router.dart';
+import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/Features/BasketList/Pages/BasketListPage.dart';
+import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_list_screen.dart';
 import 'package:shahabfit/Features/login/data/fingerprint.dart';
+import 'package:shahabfit/Features/oldversion/managepage.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
+import 'package:shahabfit/utils/texttheme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,63 +15,94 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int currentPageIndex = 0;
+  NavigationDestinationLabelBehavior labelBehavior =
+      NavigationDestinationLabelBehavior.onlyShowSelected;
+  final PageController controller = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF141414),
-        image: DecorationImage(
-          image: AssetImage('images/shahabbg.png'),
-          alignment: Alignment.topCenter,
-          fit: BoxFit.fitWidth,
-        ),
-      ),
-      child: Scaffold(
-          appBar: AppBar(
-            shadowColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            title: Image.asset('images/logotype.png', height: 16),
-            actions: [
-              IconButton(
-                  onPressed: () => registerFingerprint(),
-                  icon: Icon(Icons.fingerprint)),
-              IconButton(
-                  onPressed: () => logOut(), icon: Icon(Icons.logout_rounded)),
-            ],
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () => context.push(managePage),
-                  child: Image.asset(
-                    'images/manage.png',
-                    fit: BoxFit.fitWidth,
-                    width: double.infinity,
-                  ),
-                ),
-                const SizedBox(height: 14),
-                InkWell(
-                  onTap: () => context.push(activitiesPage),
-                  child: Image.asset(
-                    'images/gym.png',
-                    fit: BoxFit.fitWidth,
-                    width: double.infinity,
-                  ),
-                ),
-                const SizedBox(height: 14),
-                InkWell(
-                  onTap: () => context.push(trainerPage),
-                  child: Image.asset(
-                    'images/food.png',
-                    fit: BoxFit.fitWidth,
-                    width: double.infinity,
-                  ),
-                ),
-              ],
+    return Scaffold(
+        bottomNavigationBar: NavigationBar(
+          backgroundColor: navigationColor,
+          indicatorColor: primary,
+          surfaceTintColor: Colors.white,
+          overlayColor: WidgetStateProperty.all(Colors.white10),
+          labelTextStyle: WidgetStateProperty.all(context.anjomanLight
+              .copyWith(fontSize: 14, color: Colors.white60)),
+          labelBehavior: labelBehavior,
+          selectedIndex: currentPageIndex,
+          onDestinationSelected: (int index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+            controller.animateToPage(index,
+                duration: Duration(milliseconds: 300), curve: Curves.ease);
+          },
+          destinations: const <Widget>[
+            NavigationDestination(
+              selectedIcon: Icon(
+                Icons.list_alt_rounded,
+                color: Colors.black,
+              ),
+              icon: Icon(
+                Icons.list_alt_rounded,
+                color: Colors.white30,
+                size: 25,
+              ),
+              label: 'حضورغیاب',
             ),
-          )),
-    );
+            NavigationDestination(
+              selectedIcon: Icon(
+                Icons.fitness_center_rounded,
+                color: Colors.black,
+              ),
+              icon: Icon(
+                Icons.fitness_center_rounded,
+                color: Colors.white30,
+                size: 25,
+              ),
+              label: 'تمرینی',
+            ),
+            NavigationDestination(
+              icon: Icon(
+                Icons.fastfood_outlined,
+                color: Colors.white30,
+                size: 25,
+              ),
+              selectedIcon: Icon(Icons.fastfood),
+              label: 'غذایی',
+            ),
+            NavigationDestination(
+              icon: Icon(
+                Icons.person_4_outlined,
+                color: Colors.white30,
+                size: 25,
+              ),
+              selectedIcon: Icon(Icons.person_4),
+              label: 'کاربری',
+            ),
+          ],
+        ),
+        body: PageView(
+          controller: controller,
+          children: [
+            ManagePage(),
+            BasketListPage(),
+            DayliMealListScreen(),
+            Scaffold(
+                appBar: AppBar(
+                  actions: [
+                    IconButton(
+                        onPressed: () => registerFingerprint(),
+                        icon: Icon(Icons.fingerprint)),
+                    IconButton(
+                        onPressed: () => logOut(),
+                        icon: Icon(Icons.logout_rounded)),
+                  ],
+                ),
+                backgroundColor: background,
+                body: Center(child: Text('کاربری')))
+          ],
+        ));
   }
 }

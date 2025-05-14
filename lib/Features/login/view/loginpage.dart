@@ -20,8 +20,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController userController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
+  final TextEditingController userController =
+      TextEditingController(text: 'rezakhajvand77@gmail.com');
+  final TextEditingController passController =
+      TextEditingController(text: 'Ss123456');
   bool _visibility = false;
 
   loginTap() {

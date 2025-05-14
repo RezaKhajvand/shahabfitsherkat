@@ -5,7 +5,6 @@ import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/oldversion/utils/shagerdtype.dart';
 import 'package:shahabfit/Features/oldversion/widgets/shagerdlist.dart';
-import 'package:shahabfit/Widgets/home_button.dart';
 import 'package:shahabfit/main.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
@@ -40,7 +39,6 @@ class _ManagePageState extends State<ManagePage> {
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
               actions: [
-                const HomeButton(),
                 // IconButton(
                 //     onPressed: () async {
                 //       // await Navigator.push(
@@ -62,7 +60,7 @@ class _ManagePageState extends State<ManagePage> {
                       color: Colors.white,
                     )),
               ],
-              title: Text('حضور و غیاب', style: context.anjomanBlack),
+              title: Text('حضورغیاب', style: context.anjomanBlack),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(70),
                 child: Container(

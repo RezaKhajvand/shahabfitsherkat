@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
+import 'package:shahabfit/Utils/fotmat2.dart';
+import 'package:shahabfit/Utils/texttheme.dart';
+import 'package:shahabfit/constants/Router.dart';
 import 'package:shahabfit/constants/borderradius.dart';
-import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
 import 'package:shahabfit/Features/Basket/Models/OpenBasketModel.dart';
 import 'package:shahabfit/Features/Basket/Data/deleteBasketDataSource.dart';
 import 'package:shahabfit/Features/BasketList/Data/getBasketListDataSource.dart';
-import 'package:shahabfit/Features/Home/Widgets/Drawer.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
-import 'package:shahabfit/Widgets/home_button.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
 class BasketListPage extends StatefulWidget {
@@ -39,17 +39,22 @@ class _BasketListPageState extends State<BasketListPage> {
         ),
       ),
       child: Scaffold(
-        drawer: const CustomDrawer(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: primary,
+          onPressed: () => context.push(createTamrinPage),
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        ),
         appBar: AppBar(
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
-          title: Text('لیست برنامه ها',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge!
-                  .copyWith(color: Colors.white)),
+          title: Text('تمرینی', style: context.anjomanBlack),
+          actionsPadding: EdgeInsets.only(left: 10),
           actions: [
-            HomeButton(),
+            IconButton(
+              onPressed: () => context.push(systemPage),
+              icon: Icon(Icons.settings),
+            ),
           ],
         ),
         body: FutureBuilder<List<Basket>>(
@@ -58,12 +63,12 @@ class _BasketListPageState extends State<BasketListPage> {
               if (snapshot.hasData) {
                 var basketList = snapshot.data!;
                 return ListView.separated(
+                  padding: EdgeInsets.all(20),
                   itemCount: basketList.length,
-                  padding: const EdgeInsets.all(16),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () => context.push(activitiesPage,
-                          extra: basketList[index].id),
+                      onTap: () => context.push(
+                          '$activitiesPage?basketId=${basketList[index].id}'),
                       child: Container(
                           decoration: ShapeDecoration(
                             color: background,
@@ -72,24 +77,63 @@ class _BasketListPageState extends State<BasketListPage> {
                                     width: 1, color: borderColor),
                                 borderRadius: cardBorderRadius),
                           ),
-                          padding: const EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(12),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        basketList[index].name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(color: Colors.white),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            basketList[index].name,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelSmall!
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(width: 10),
+                                          now
+                                                      .difference(
+                                                          basketList[index]
+                                                              .updated)
+                                                      .inDays >=
+                                                  27
+                                              ? Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 5),
+                                                  clipBehavior: Clip.antiAlias,
+                                                  decoration: ShapeDecoration(
+                                                    color:
+                                                        const Color(0xFF00EFFF),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          tabBorderRadius,
+                                                    ),
+                                                  ),
+                                                  child: const Text(
+                                                    'منقضی',
+                                                    style: TextStyle(
+                                                      color: background,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                        ],
                                       ),
-                                      const SizedBox(height: 4),
+                                      const SizedBox(height: 8),
                                       Text(
                                         'تعداد روز : ${replaceFarsiNumber(basketList[index].dayCount.toString())}',
                                         style: Theme.of(context)
@@ -99,58 +143,12 @@ class _BasketListPageState extends State<BasketListPage> {
                                       ),
                                     ],
                                   ),
-                                  const Spacer(),
-                                  now
-                                              .difference(
-                                                  basketList[index].updated)
-                                              .inDays >=
-                                          27
-                                      ? Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 5),
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: ShapeDecoration(
-                                            color: const Color(0xFF00EFFF),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: tabBorderRadius,
-                                            ),
-                                          ),
-                                          child: const Text(
-                                            'منقضی',
-                                            style: TextStyle(
-                                              color: background,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                  const SizedBox(width: 14),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        format2(basketList[index]
-                                            .updated
-                                            .toJalali()),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(color: Colors.white),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        basketList[index].level,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(
-                                              color: const Color(0xFF00EFFF),
-                                            ),
-                                      ),
-                                    ],
+                                  Spacer(),
+                                  IconButton(
+                                    onPressed: () => context.push(
+                                        '$barnameViewPage?basketId=${basketList[index].id}&tabIndex=0'),
+                                    icon: Icon(Icons.share),
                                   ),
-                                  const SizedBox(width: 5),
                                   IconButton(
                                       onPressed: () async {
                                         customModalSheet(
@@ -205,7 +203,32 @@ class _BasketListPageState extends State<BasketListPage> {
                                           ),
                                         );
                                       },
-                                      icon: const Icon(Icons.delete_outline))
+                                      icon: const Icon(Icons.delete_outline)),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    basketList[index].level,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall!
+                                        .copyWith(
+                                          color: const Color(0xFF00EFFF),
+                                        ),
+                                  ),
+                                  Text(
+                                    format2(
+                                        basketList[index].updated.toJalali()),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall!
+                                        .copyWith(color: Colors.white),
+                                  ),
                                 ],
                               ),
                             ],
@@ -222,9 +245,4 @@ class _BasketListPageState extends State<BasketListPage> {
       ),
     );
   }
-}
-
-String format2(Date d) {
-  final f = d.formatter;
-  return replaceFarsiNumber('${f.d} / ${f.m} / ${f.yyyy}');
 }

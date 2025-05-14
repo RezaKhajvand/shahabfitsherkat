@@ -6,13 +6,14 @@ class GetActivityEvent extends ActivityEvent {
   final String categoryId;
   final int dayOfWeek;
   final String? searchValue;
-  final String? openBasketId;
+  final String basketId;
 
-  GetActivityEvent(
-      {required this.categoryId,
-      required this.dayOfWeek,
-      this.searchValue,
-      this.openBasketId});
+  GetActivityEvent({
+    required this.categoryId,
+    required this.dayOfWeek,
+    required this.basketId,
+    this.searchValue,
+  });
 }
 
 class InsertActivityEvent extends ActivityEvent {
@@ -25,10 +26,9 @@ class InsertActivityEvent extends ActivityEvent {
 }
 
 class UpdateActivityEvent extends ActivityEvent {
- final List<ActivityRecord> activityList;
+  final List<ActivityRecord> activityList;
 
   UpdateActivityEvent({required this.activityList});
-
 }
 
 class DeleteActivityEvent extends ActivityEvent {
@@ -44,14 +44,17 @@ class InsertBasketActivityEvent extends ActivityEvent {
   final bool isInBasket;
   final int dayOfWeek;
   final List<List<int>> activitySet;
+  final String basketId;
 
-  InsertBasketActivityEvent(
-      {required this.categoryId,
-      required this.activityId,
-      required this.title,
-      required this.isInBasket,
-      required this.dayOfWeek,
-      required this.activitySet});
+  InsertBasketActivityEvent({
+    required this.categoryId,
+    required this.activityId,
+    required this.title,
+    required this.isInBasket,
+    required this.dayOfWeek,
+    required this.activitySet,
+    required this.basketId,
+  });
 }
 
 class DeleteBasketActivityEvent extends ActivityEvent {

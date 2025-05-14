@@ -6,7 +6,6 @@ import 'package:shahabfit/Features/Daylimeal/utils/activityfactor.dart';
 import 'package:shahabfit/Features/Daylimeal/utils/getinputformatter.dart';
 import 'package:shahabfit/Features/Daylimeal/widgets/sliderwidget.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
-import 'package:shahabfit/Widgets/home_button.dart';
 
 class TrainerScreen extends StatefulWidget {
   final Trainer? trainer;
@@ -153,15 +152,7 @@ class TrainerScreenState extends State<TrainerScreen> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('محاسبه کالری'),
-            actions: [
-              IconButton(
-                  onPressed: () => context.replace(daylimealListPage),
-                  icon: const Icon(Icons.list)),
-              const HomeButton(),
-            ],
-          ),
+          appBar: AppBar(title: const Text('محاسبه کالری')),
           body: Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -377,7 +368,7 @@ class TrainerScreenState extends State<TrainerScreen> {
                                   dayliMealPage,
                                   extra: Trainer(
                                     name: '',
-                                    goal:goalList[_typeIndex],
+                                    goal: goalList[_typeIndex],
                                     wrist: int.parse(replaceEnglishNumber(
                                         _wristController.text)),
                                     activity: _activityFactor.title,

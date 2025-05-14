@@ -20,8 +20,8 @@ import 'package:shahabfit/utils/texttheme.dart';
 import 'package:video_player/video_player.dart';
 
 class ActivitiesPage extends StatefulWidget {
-  final String? openBasketId;
-  const ActivitiesPage({super.key, this.openBasketId});
+  final String basketId;
+  const ActivitiesPage({super.key, required this.basketId});
 
   @override
   State<ActivitiesPage> createState() => _ActivitiesPageState();
@@ -33,7 +33,7 @@ class _ActivitiesPageState extends State<ActivitiesPage>
   Timer? _timer;
   late TabController _tabController;
   late String categoryId;
-  late String? openBasketId;
+  late String basketId;
 
   final Map<int, String> weekDays = {
     0: 'جلسه اول',
@@ -48,14 +48,14 @@ class _ActivitiesPageState extends State<ActivitiesPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: weekDays.length, vsync: this);
-    openBasketId = widget.openBasketId;
+    basketId = widget.basketId;
     categoryId = categoryList.first.id;
     getActivityList();
   }
 
   getActivityList() {
     BlocProvider.of<ActivityBloc>(context).add(GetActivityEvent(
-        openBasketId: openBasketId,
+        basketId: basketId,
         categoryId: categoryId,
         dayOfWeek: _tabController.index));
   }
@@ -65,6 +65,7 @@ class _ActivitiesPageState extends State<ActivitiesPage>
     _timer = null;
     _timer = Timer(const Duration(milliseconds: 1000), () {
       BlocProvider.of<ActivityBloc>(context).add(GetActivityEvent(
+          basketId: basketId,
           categoryId: categoryId,
           dayOfWeek: _tabController.index,
           searchValue: value));
@@ -113,18 +114,11 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                   .titleLarge!
                   .copyWith(color: Colors.white)),
           actions: [
-            IconButton(
-              onPressed: () => context.pushReplacement(basketListPage),
-              icon: Icon(Icons.list_rounded),
-            ),
-            IconButton(
-              onPressed: () => context.pushReplacement(systemPage),
-              icon: Icon(Icons.settings),
-            ),
+
             IconButton(
                 onPressed: () async {
                   await context.push(
-                      '$basketPage?basketId=$openBasketId&tabIndex=${_tabController.index}');
+                      '$basketPage?basketId=$basketId&tabIndex=${_tabController.index}');
                   getActivityList();
                 },
                 icon: const Icon(Icons.shopping_basket)),
@@ -282,7 +276,6 @@ class _ActivitiesPageState extends State<ActivitiesPage>
             if (state is ActivityLoaded) {
               var activityList = state.activity;
               var openBasket = state.openBasket;
-              openBasketId = state.openBasketId;
               return ReorderableListView.builder(
                 itemCount: activityList.length,
                 buildDefaultDragHandles: false,
@@ -408,9 +401,10 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                                             BlocProvider.of<ActivityBloc>(
                                                     context)
                                                 .add(InsertBasketActivityEvent(
+                                                    basketId: basketId,
                                                     activitySet: [
-                                                  [3, 10]
-                                                ],
+                                                      [3, 10]
+                                                    ],
                                                     dayOfWeek:
                                                         _tabController.index,
                                                     categoryId: categoryId,

@@ -4,7 +4,7 @@ import 'package:shahabfit/constants/pb.dart';
 Future<String> getOpenBasket() async {
   try {
     final records =
-        await pb.collection('basket').getFullList(filter: 'isOpen=true');
+        await pb.collection('basket').getFullList();
     print(records.toString());
     if (records.isEmpty) {
       handleEmptyResponse();

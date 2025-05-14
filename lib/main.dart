@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -18,6 +19,10 @@ import 'package:shahabfit/Utils/scrollbehavior.dart';
 final globalKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // فقط حالت عمودی رو به بالا
+  ]);
+
   await getItInit();
   usePathUrlStrategy();
   GoRouter.optionURLReflectsImperativeAPIs = true;
@@ -65,7 +70,7 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale("fa", "IR")],
-      locale: const Locale("fa", "IR"), 
+      locale: const Locale("fa", "IR"),
     );
   }
 }

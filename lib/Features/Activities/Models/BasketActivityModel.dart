@@ -152,7 +152,7 @@ class Basket {
   DateTime created;
   int dayCount;
   String id;
-  bool isOpen;
+
   String level;
   String name;
   DateTime updated;
@@ -165,7 +165,6 @@ class Basket {
     required this.created,
     required this.dayCount,
     required this.id,
-    required this.isOpen,
     required this.level,
     required this.name,
     required this.updated,
@@ -179,7 +178,6 @@ class Basket {
       created: DateTime.parse(json["created"]),
       dayCount: json["dayCount"],
       id: json["id"],
-      isOpen: json["isOpen"],
       level: json["level"],
       name: json["name"],
       updated: DateTime.parse(json["updated"]),
@@ -192,7 +190,6 @@ class Basket {
         "created": created.toIso8601String(),
         "dayCount": dayCount,
         "id": id,
-        "isOpen": isOpen,
         "level": level,
         "name": name,
         "updated": updated.toIso8601String(),

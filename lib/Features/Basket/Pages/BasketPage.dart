@@ -2,25 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Basket/Utils/proxydecorator.dart';
-import 'package:shahabfit/Features/Basket/Widgets/descriptioninput.dart';
-import 'package:shahabfit/Widgets/custommodalsheet.dart';
-import 'package:shahabfit/Widgets/mobile_layout.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
-import 'package:shahabfit/Features/Basket/Data/updateBasketDataSource.dart';
-import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
-import 'package:shahabfit/Features/Basket/Data/addDescriptionDataSource.dart';
-import 'package:shahabfit/Features/Basket/Models/description_model.dart';
 import 'package:shahabfit/Features/Basket/Utils/basketinput.dart';
-import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
 import 'package:shahabfit/Features/Basket/Widgets/SetRow.dart';
 import 'package:shahabfit/Features/Basket/Widgets/SystemPicker.dart';
-import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/CustomErrorWidget.dart';
-import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/home_button.dart';
 
@@ -34,11 +24,9 @@ class BasketPage extends StatefulWidget {
 
 class _BasketPageState extends State<BasketPage>
     with SingleTickerProviderStateMixin {
-  final TextEditingController pdfNameController = TextEditingController();
-  final TextEditingController pdfTextController = TextEditingController();
   late TabController _tabController;
   late int categiryIndex;
-  List<ActivityItem> pdfItems = [];
+
   final Map<int, String> weekDays = {
     0: 'جلسه اول',
     1: 'جلسه دوم',
@@ -85,126 +73,6 @@ class _BasketPageState extends State<BasketPage>
                 onPressed: () => context.push(
                     '$barnameViewPage?basketId=${widget.basketInputs.basketId}&tabIndex=0'),
                 icon: Icon(Icons.share)),
-            IconButton(
-                onPressed: () async {
-                  List<DescriptionModel> descriptionList = [];
-                  pdfNameController.clear();
-                  bool isOpen = false;
-                  int chipIndex = 0;
-                  await customModalSheet(
-                    context,
-                    MobileLayout(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: StatefulBuilder(builder: (context, setState) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'انتخاب نام برنامه',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(color: Colors.white),
-                              ),
-                              const SizedBox(height: 20),
-                              TextFormField(
-                                  controller: pdfNameController,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall!
-                                      .copyWith(color: Colors.white),
-                                  decoration: const InputDecoration(
-                                      hintText: 'نام برنامه',
-                                      contentPadding: EdgeInsets.symmetric(
-                                          horizontal: 10))),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'بستن برنامه',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .copyWith(
-                                            color: Colors.white, fontSize: 12),
-                                  ),
-                                  Directionality(
-                                    textDirection: TextDirection.ltr,
-                                    child: Switch(
-                                        value: isOpen,
-                                        onChanged: (value) =>
-                                            setState(() => isOpen = value)),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  ChoiceChip(
-                                      label: const Text('مبتدی'),
-                                      onSelected: (value) =>
-                                          setState(() => chipIndex = 0),
-                                      selected: chipIndex == 0),
-                                  const SizedBox(width: 14),
-                                  ChoiceChip(
-                                      label: const Text('حرفه ای'),
-                                      onSelected: (value) =>
-                                          setState(() => chipIndex = 1),
-                                      selected: chipIndex == 1),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              AutocompleteExample(),
-                              SizedBox(height: 100),
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                    onPressed: () async {
-                                      if (!descriptionList.any((element) =>
-                                          element.text ==
-                                          pdfTextController.text)) {
-                                        addDescription(pdfTextController.text,
-                                            DescriptionType.tamrin);
-                                      }
-
-                                      try {
-                                        var dayCount = 0;
-                                        for (var i = 0; i < 7; i++) {
-                                          if (pdfItems
-                                              .where((element) =>
-                                                  element.dayOfWeek == i)
-                                              .isNotEmpty) {
-                                            ++dayCount;
-                                          }
-                                        }
-                                        await updateBasket(
-                                            basketId:
-                                                widget.basketInputs.basketId,
-                                            isOpen: isOpen,
-                                            name: pdfNameController.text,
-                                            dayCount: dayCount,
-                                            level: chipIndex == 0
-                                                ? 'مبتدی'
-                                                : 'حرفه ای');
-                                      } catch (e, s) {
-                                        getErrorSnackbar(
-                                            context, handleException(e, s));
-                                      }
-                                    },
-                                    child: const Text('ذخیره برنامه')),
-                              )
-                            ],
-                          );
-                        }),
-                      ),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.save)),
           ],
           title: Text('سبد تمرین',
               style: Theme.of(context)
@@ -250,7 +118,6 @@ class _BasketPageState extends State<BasketPage>
         body: BlocBuilder<BasketBloc, BasketState>(
           builder: (context, state) {
             if (state is BasketLoaded) {
-              pdfItems = state.basketActivity;
               var basketActivity = state.basketActivity
                   .where((element) => element.dayOfWeek == _tabController.index)
                   .toList();

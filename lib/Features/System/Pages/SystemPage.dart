@@ -5,10 +5,8 @@ import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/constants/colors.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
-import 'package:shahabfit/Features/Home/Widgets/Drawer.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
-import 'package:shahabfit/Widgets/home_button.dart';
 
 class SystemPage extends StatefulWidget {
   const SystemPage({super.key});
@@ -36,16 +34,14 @@ class _SystemPageState extends State<SystemPage> {
         ),
       ),
       child: Scaffold(
-        drawer: const CustomDrawer(),
         appBar: AppBar(
           shadowColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
-          title: Text('لیست برنامه ها',
+          title: Text('سیستم ها',
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
                   .copyWith(color: Colors.white)),
-          actions: const [HomeButton()],
         ),
         body: BlocBuilder<SystemBloc, SystemState>(
           builder: (context, state) {

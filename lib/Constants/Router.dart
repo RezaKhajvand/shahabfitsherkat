@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Basket/Utils/basketinput.dart';
+import 'package:shahabfit/Features/Basket/Widgets/descriptioninput.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Widgets/mobile_layout.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart'; // بلاک
@@ -64,6 +65,7 @@ const String editShagerdPage = '/editshagerd';
 const String createShagerdPage = '/createshagerd';
 const String barnameViewPage = '/barnameview';
 const String barnameDetailPage = '/barnamedetailview';
+const String createTamrinPage = '/createtamrin';
 
 /// Helper widget for deferred loading using FutureBuilder.
 Widget deferredPageLoader(
@@ -108,6 +110,13 @@ final router = GoRouter(
     }
   },
   routes: [
+    GoRoute(
+      path: createTamrinPage,
+      builder: (context, state) => MobileLayout(
+        child: AutoCompleteWithScroll(),
+      ),
+    ),
+
     // Landing Screen
     GoRoute(
       path: landingPage,
@@ -153,23 +162,27 @@ final router = GoRouter(
       path: systemPickerPage,
       builder: (context, state) {
         final recordId = state.uri.queryParameters['recordId'] ?? 'recordId';
-           final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
+        final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
         return MobileLayout(
-          child: deferredPageLoader(systempicker.loadLibrary,
-              () => systempicker.SystemPickerPage(recordId: recordId,basketId: basketId,)),
+          child: deferredPageLoader(
+              systempicker.loadLibrary,
+              () => systempicker.SystemPickerPage(
+                    recordId: recordId,
+                    basketId: basketId,
+                  )),
         );
       },
     ),
     // Activities Screen
     GoRoute(
-      path: activitiesPage,
-      builder: (context, state) => MobileLayout(
-        child: deferredPageLoader(
-            activities.loadLibrary,
-            () => activities.ActivitiesPage(
-                openBasketId: state.extra as String?)),
-      ),
-    ),
+        path: activitiesPage,
+        builder: (context, state) {
+          final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
+          return MobileLayout(
+            child: deferredPageLoader(activities.loadLibrary,
+                () => activities.ActivitiesPage(basketId: basketId)),
+          );
+        }),
     // Basket Screen
     GoRoute(
       path: basketPage,

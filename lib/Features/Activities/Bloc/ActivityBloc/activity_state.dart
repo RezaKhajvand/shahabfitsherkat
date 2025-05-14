@@ -7,11 +7,11 @@ final class ActivityLoading extends ActivityState {}
 final class ActivityLoaded extends ActivityState {
   final  List<ActivityRecord> activity;
   final List<ActivityItem> openBasket;
-  final String openBasketId;
+ 
   final String? loadingItem;
 
   ActivityLoaded({
-    required this.openBasketId,
+
     required this.activity,
     required this.openBasket,
     this.loadingItem,

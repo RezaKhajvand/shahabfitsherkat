@@ -6,13 +6,10 @@ import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/dele
 import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/getOpenBasketActivityDataSource.dart';
 import 'package:shahabfit/Features/Activities/Data/ActivityCollection/insertActivityDataSource.dart';
 import 'package:shahabfit/Features/Activities/Data/ActivityCollection/updateActivityDataSource.dart';
-import 'package:shahabfit/Features/Basket/Data/getOpenBasketDataSource.dart';
-import 'package:shahabfit/Features/Basket/Data/insertBasketDataSource.dart';
 import 'package:shahabfit/Features/Activities/Models/ActivityModel.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
 import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/insertBasketActivityDataSource.dart';
 import 'package:shahabfit/Features/Activities/Models/InsertBasketActivityModel.dart';
-import 'package:shahabfit/Features/Basket/Models/OpenBasketModel.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 part 'activity_event.dart';
 part 'activity_state.dart';
@@ -20,26 +17,14 @@ part 'activity_state.dart';
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   late List<ActivityRecord> activity;
   late List<ActivityItem> openBasket;
-  late String openBasketId;
+
   ActivityBloc() : super(ActivityLoading()) {
     on<GetActivityEvent>((event, emit) async {
       emit((ActivityLoading()));
       try {
-        if (event.openBasketId != null) {
-          openBasketId = event.openBasketId!;
-        } else {
-          var openBasketList = openBasketFromJson(await getOpenBasket());
-          if (openBasketList.isNotEmpty) {
-            openBasketId = openBasketList.first.id;
-          } else {
-            openBasketId =
-                Basket.fromJson(json.decode(await insertBasket())).id;
-          }
-        }
-
         var futureResault = await Future.wait([
           getActivity(catId: event.categoryId),
-          getOpenBasketActivity(basketId: openBasketId)
+          getOpenBasketActivity(basketId: event.basketId)
         ]);
         activity = activityListFromJson(futureResault.first);
         openBasket = basketActivityFromJson(futureResault.last);
@@ -61,7 +46,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         emit((ActivityLoaded(
             openBasket: openBasket,
             activity: activity,
-            openBasketId: openBasketId)));
+          )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -75,7 +60,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         emit((ActivityLoaded(
             openBasket: openBasket,
             activity: activity,
-            openBasketId: openBasketId)));
+            )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -92,7 +77,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         emit((ActivityLoaded(
             openBasket: openBasket,
             activity: activity,
-            openBasketId: openBasketId)));
+          )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -105,7 +90,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         emit((ActivityLoaded(
             openBasket: openBasket,
             activity: activity,
-            openBasketId: openBasketId)));
+          )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -114,12 +99,12 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       emit((ActivityLoaded(
           openBasket: openBasket,
           activity: activity,
-          openBasketId: openBasketId,
+    
           loadingItem: event.activityId)));
       try {
         var insertedBasketActivity = insertBasketActivityFromJson(
             await insertBasketActivity(
-                basket: openBasketId,
+                basket: event.basketId,
                 dayOfWeek: event.dayOfWeek,
                 activity: event.activityId,
                 activitySet: event.activitySet));
@@ -138,7 +123,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             numberView: 0,
             activity: event.activityId,
             activitySet: event.activitySet,
-            basket: openBasketId,
+            basket: event.basketId,
             dayOfWeek: event.dayOfWeek,
             collectionId: insertedBasketActivity.collectionId,
             collectionName: insertedBasketActivity.collectionName,
@@ -151,7 +136,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         emit((ActivityLoaded(
             openBasket: openBasket,
             activity: activity,
-            openBasketId: openBasketId)));
+          )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -174,7 +159,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         emit((ActivityLoaded(
             openBasket: openBasket,
             activity: activity,
-            openBasketId: openBasketId)));
+          )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
