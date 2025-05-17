@@ -7,6 +7,7 @@ import 'package:shahabfit/constants/colors.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/utils/texttheme.dart';
 
 class DayliMealListScreen extends StatefulWidget {
   const DayliMealListScreen({super.key});
@@ -36,7 +37,7 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
         ),
       ),
       child: Scaffold(
-        appBar: AppBar(title: const Text('محاسبه کالری')),
+        appBar: AppBar(title: Text('غذایی', style: context.anjomanBlack)),
         body: BlocBuilder<DaylimealListBloc, DaylimealListState>(
           builder: (context, state) {
             if (state is DaylimealListLoaded) {

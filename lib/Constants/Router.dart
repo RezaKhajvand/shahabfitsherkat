@@ -1,8 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/Basket/Utils/basketinput.dart';
 import 'package:shahabfit/Features/Basket/Widgets/descriptioninput.dart';
+import 'package:shahabfit/Features/BasketList/Pages/BasketListPage.dart';
+import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_list_screen.dart';
+import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
+import 'package:shahabfit/Features/login/data/fingerprint.dart';
+import 'package:shahabfit/Features/oldversion/managepage.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Widgets/mobile_layout.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart'; // بلاک
@@ -17,15 +24,10 @@ import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart'
     deferred as basket;
 import 'package:shahabfit/Features/Basket/Widgets/SystemPickerPage.dart'
     deferred as systempicker;
-import 'package:shahabfit/Features/BasketList/Pages/BasketListPage.dart'
-    deferred as basketlist;
 import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_screen.dart'
     deferred as daylimeal;
 import 'package:shahabfit/Features/Daylimeal/Pages/trainer_screen.dart'
     deferred as trainer;
-import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_list_screen.dart'
-    deferred as daylimeallist;
-import 'package:shahabfit/Features/Home/Pages/HomePage.dart' deferred as home;
 import 'package:shahabfit/Features/Splash/SplashPage.dart' deferred as splash;
 import 'package:shahabfit/Features/System/Pages/SystemPage.dart'
     deferred as system;
@@ -41,8 +43,6 @@ import 'package:shahabfit/Features/login/view/loginpage.dart' deferred as login;
 import 'package:shahabfit/Features/oldversion/addpage.dart' deferred as addpage;
 import 'package:shahabfit/Features/oldversion/editpage.dart'
     deferred as editpage;
-import 'package:shahabfit/Features/oldversion/managepage.dart'
-    deferred as manage;
 import 'package:shahabfit/Features/oldversion/searchpage.dart'
     deferred as searchpage;
 
@@ -53,7 +53,6 @@ const String activitiesPage = '/activities';
 const String basketListPage = '/basketlist';
 const String systemPage = '/system';
 const String managePage = '/manage';
-const String mainPage = '/main';
 const String splashPage = '/splash';
 const String basketPage = '/basket';
 const String systemPickerPage = '/systempicker';
@@ -66,6 +65,10 @@ const String createShagerdPage = '/createshagerd';
 const String barnameViewPage = '/barnameview';
 const String barnameDetailPage = '/barnamedetailview';
 const String createTamrinPage = '/createtamrin';
+const String profilePage = '/profile';
+//
+final GlobalKey<NavigatorState> _shellNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 /// Helper widget for deferred loading using FutureBuilder.
 Widget deferredPageLoader(
@@ -110,6 +113,51 @@ final router = GoRouter(
     }
   },
   routes: [
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      builder: (BuildContext context, GoRouterState state, Widget child) {
+        return MobileLayout(child: HomePage(child: child));
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: managePage,
+          builder: (BuildContext context, GoRouterState state) {
+            return const ManagePage();
+          },
+        ),
+        GoRoute(
+          path: basketListPage,
+          builder: (BuildContext context, GoRouterState state) {
+            return const BasketListPage();
+          },
+        ),
+        GoRoute(
+          path: daylimealListPage,
+          builder: (BuildContext context, GoRouterState state) {
+            return const DayliMealListScreen();
+          },
+        ),
+        GoRoute(
+          path: profilePage,
+          builder: (BuildContext context, GoRouterState state) {
+            return Scaffold(
+                appBar: AppBar(
+                  actions: [
+                    IconButton(
+                        onPressed: () => registerFingerprint(),
+                        icon: Icon(Icons.fingerprint)),
+                    IconButton(
+                        onPressed: () => logOut(),
+                        icon: Icon(Icons.logout_rounded)),
+                  ],
+                ),
+                backgroundColor: background,
+                body: const Center(child: Text('کاربری')));
+          },
+        ),
+      ],
+    ),
+
     GoRoute(
       path: createTamrinPage,
       builder: (context, state) => MobileLayout(
@@ -149,14 +197,7 @@ final router = GoRouter(
             deferredPageLoader(splash.loadLibrary, () => splash.SplashScreen()),
       ),
     ),
-    // Manage Screen
-    GoRoute(
-      path: managePage,
-      builder: (context, state) => MobileLayout(
-        child:
-            deferredPageLoader(manage.loadLibrary, () => manage.ManagePage()),
-      ),
-    ),
+
     // System Picker Screen
     GoRoute(
       path: systemPickerPage,
@@ -207,21 +248,18 @@ final router = GoRouter(
             deferredPageLoader(system.loadLibrary, () => system.SystemPage()),
       ),
     ),
-    // Basket List Screen
-    GoRoute(
-      path: basketListPage,
-      builder: (context, state) => MobileLayout(
-        child: deferredPageLoader(
-            basketlist.loadLibrary, () => basketlist.BasketListPage()),
-      ),
-    ),
+
     // Home Screen
-    GoRoute(
-      path: mainPage,
-      builder: (context, state) => MobileLayout(
-        child: deferredPageLoader(home.loadLibrary, () => home.HomePage()),
-      ),
-    ),
+    // GoRoute(
+    //   path: mainPage,
+    //   builder: (context, state) {
+    //     final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
+    //     return MobileLayout(
+    //       child: deferredPageLoader(
+    //           home.loadLibrary, () => home.HomePage(tabIndex: tabIndex)),
+    //     );
+    //   },
+    // ),
     // Daylimeal Screen (با Trainer به عنوان extra)
     GoRoute(
       path: dayliMealPage,
@@ -244,14 +282,7 @@ final router = GoRouter(
         );
       },
     ),
-    // Daylimeal List Screen
-    GoRoute(
-      path: daylimealListPage,
-      builder: (context, state) => MobileLayout(
-        child: deferredPageLoader(daylimeallist.loadLibrary,
-            () => daylimeallist.DayliMealListScreen()),
-      ),
-    ),
+
     // Edit Shagerd Screen
     GoRoute(
       path: editShagerdPage,

@@ -78,7 +78,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                   )),
             ),
             OutlinedButton(
-                onPressed: () async => context.go(mainPage),
+                onPressed: () async => context.go(splashPage),
                 child: const Text('ورود به اپ'))
           ],
         ),

@@ -114,7 +114,6 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                   .titleLarge!
                   .copyWith(color: Colors.white)),
           actions: [
-
             IconButton(
                 onPressed: () async {
                   await context.push(

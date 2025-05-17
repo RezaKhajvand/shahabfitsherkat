@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   goToMainPage() async {
     await Future.delayed(const Duration(milliseconds: 2000),
-        () => context.pushReplacement(mainPage));
+        () => context.pushReplacement(managePage));
   }
 
   @override
