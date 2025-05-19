@@ -209,7 +209,9 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                     Map<String, Map<int, List<ActivityItem>>> grouped = {};
                     for (var i = 0; i < harkat.length; i++) {
                       final movement = harkat[i];
-                      var key = movement.expand.system?.title ?? '$i';
+                      final key =
+                          '${movement.expand.system?.title ?? i}-${movement.systemSubId}';
+
                       grouped.putIfAbsent(key, () => {});
                       grouped[key]!.putIfAbsent(movement.systemSubId, () => []);
                       grouped[key]![movement.systemSubId]!.add(movement);
@@ -219,7 +221,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                         groupedList.add(list);
                       });
                     });
-
+                    print('$grouped=======>$grouped');
                     List<Widget> movementWidgets = [];
                     grouped.forEach((system, subsystems) {
                       subsystems.forEach((subsystem, list) {

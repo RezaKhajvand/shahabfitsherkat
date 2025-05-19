@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Basket/Utils/proxydecorator.dart';
+import 'package:shahabfit/Features/barnameview/utils/updateurl.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
@@ -47,6 +48,7 @@ class _BasketPageState extends State<BasketPage>
   }
 
   void getBasketItems() {
+    updatePageUrl(_tabController.index);
     BlocProvider.of<BasketBloc>(context)
         .add(GetBasketEvent(basketId: widget.basketInputs.basketId));
   }
@@ -212,7 +214,9 @@ class _BasketPageState extends State<BasketPage>
             }
             if (state is BasketError) {
               return CustomErrorWidget(
-                  errormsg: state.errormsg, onPressed: getBasketItems);
+                errormsg: state.errormsg,
+                onPressed: () => getBasketItems(),
+              );
             }
             return LoadingWidget();
           },

@@ -8,11 +8,11 @@ import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
-import 'package:shahabfit/constants/router.dart';
 
 class SystemPickerPage extends StatefulWidget {
   final String recordId;
   final String basketId;
+
   const SystemPickerPage({
     super.key,
     required this.recordId,
@@ -92,8 +92,8 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
                                               basketActivityId: widget.recordId,
                                               system: systemList[index],
                                               systemSubId: channelIndex + 1));
-                                      context.go(
-                                          '$basketPage?basketId=${widget.basketId}&tabIndex=0');
+                                      context.pop();
+                                      context.pop();
                                     },
                                     child: Text(
                                         'کانال : ${replaceFarsiNumber((channelIndex + 1).toString())}')),
