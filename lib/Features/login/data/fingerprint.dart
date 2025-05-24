@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:js_interop';
 
+import 'package:pocketbase/pocketbase.dart';
 import 'package:shahabfit/Features/login/data/finger_login_datasource.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Utils/webauthn_interop.dart';
@@ -25,19 +26,18 @@ Future<void> registerFingerprint() async {
 }
 
 Future<void> loginWithFingerprint() async {
-  final String finger =AuthManager.readFinger()!;
+  final String finger = AuthManager.readFinger() ?? '';
   try {
     final result = authenticateWithFingerprint(finger);
     final credResult = await result.toDart;
     if (credResult.toString() == "ok") {
-      print("✅ورود موفق با اثر انگشت");
-    await fingerLogin(credentialId: finger);
+      await fingerLogin(credentialId: finger);
     } else {
-      print("❌ خطا در اثر انگشت: ${credResult.toString()}");
-      throw Exception('❌ خطا در اثر انگشت: ${credResult.toString()}');
+      throw ClientException(
+          statusCode: 400, response: {'message': " ${credResult.toString()}"});
     }
   } catch (e) {
-    print("❌ استثنا هنگام لاگین با اثر انگشت: $e");
-    rethrow;
+    print(e);
+    throw ClientException(statusCode: 400, response: {'message': e.toString()});
   }
 }
