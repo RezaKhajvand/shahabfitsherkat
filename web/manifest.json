@@ -7,7 +7,7 @@
     "theme_color": "#0175C2",
     "description": "۱-افزودن آپدیت اجباری\n۲-برطرف شدن مشکل ویدیو پلیر",
     "orientation": "portrait-primary",
-    "version": "2.0",
+    "version": "1.0.5",
     "prefer_related_applications": false,
     "icons": [
         {
