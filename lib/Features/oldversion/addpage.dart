@@ -10,6 +10,7 @@ import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/customlinearloading.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
+import 'package:shahabfit/constants/Router.dart';
 import 'package:shahabfit/constants/values.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -77,6 +78,10 @@ class _AddPageState extends State<AddPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () =>
+                Router.neglect(context, () => context.go(managePage)),
+            icon: Icon(Icons.close)),
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         title: const Text(
@@ -241,7 +246,7 @@ class _AddPageState extends State<AddPage> {
               BlocConsumer<ShagerdBloc, ShagerdState>(
                 listener: (context, state) {
                   if (state is ShagerdLoaded) {
-                    context.pop();
+                    Router.neglect(context, () => context.go(managePage));
                   }
                   if (state is ShagerdError) {
                     getErrorSnackbar(context, state.message);

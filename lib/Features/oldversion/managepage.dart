@@ -39,20 +39,6 @@ class _ManagePageState extends State<ManagePage> {
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
               actions: [
-                // IconButton(
-                //     onPressed: () async {
-                //       // await Navigator.push(
-                //       //   context,
-                //       //   MaterialPageRoute(
-                //       //     fullscreenDialog: true,
-                //       //     builder: (context) => TimePage(),
-                //       //   ),
-                //       // );
-                //     },
-                //     icon: const Icon(
-                //       Icons.watch_later,
-                //       color: Colors.white,
-                //     )),
                 IconButton(
                     onPressed: () async => context.push(shagerdSearchPage),
                     icon: const Icon(
@@ -107,7 +93,8 @@ class _ManagePageState extends State<ManagePage> {
             ),
             floatingActionButton: FloatingActionButton(
               backgroundColor: primary,
-              onPressed: () => context.push(createShagerdPage),
+              onPressed: () => Router.neglect(
+                  context, () => context.go(createShagerdPage)),
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),

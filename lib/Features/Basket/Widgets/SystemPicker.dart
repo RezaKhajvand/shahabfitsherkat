@@ -9,8 +9,10 @@ import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber
 import 'package:shahabfit/Utils/ColorExtension.dart';
 
 class SystemPicker extends StatefulWidget {
+  final int tabIndex;
   final ActivityItem basketActivity;
-  const SystemPicker({super.key, required this.basketActivity});
+  const SystemPicker(
+      {super.key, required this.basketActivity, required this.tabIndex});
 
   @override
   State<SystemPicker> createState() => _SystemPickerState();
@@ -30,8 +32,12 @@ class _SystemPickerState extends State<SystemPicker> {
                 foregroundColor: colorHex,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
-            onPressed: () async => await context.push(
-                '$systemPickerPage?recordId=${widget.basketActivity.id}&basketId=${widget.basketActivity.basket}'),
+            onPressed: () => Router.neglect(
+              context,
+              () => context.go(
+                '$systemPickerPage?recordId=${widget.basketActivity.id}&basketId=${widget.basketActivity.basket}&tabIndex=${widget.tabIndex}',
+              ),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

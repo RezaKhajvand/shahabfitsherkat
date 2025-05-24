@@ -204,12 +204,15 @@ final router = GoRouter(
       builder: (context, state) {
         final recordId = state.uri.queryParameters['recordId'] ?? 'recordId';
         final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
+        final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
+
         return MobileLayout(
           child: deferredPageLoader(
               systempicker.loadLibrary,
               () => systempicker.SystemPickerPage(
                     recordId: recordId,
                     basketId: basketId,
+                    tabIndex: tabIndex,
                   )),
         );
       },
@@ -248,19 +251,6 @@ final router = GoRouter(
             deferredPageLoader(system.loadLibrary, () => system.SystemPage()),
       ),
     ),
-
-    // Home Screen
-    // GoRoute(
-    //   path: mainPage,
-    //   builder: (context, state) {
-    //     final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
-    //     return MobileLayout(
-    //       child: deferredPageLoader(
-    //           home.loadLibrary, () => home.HomePage(tabIndex: tabIndex)),
-    //     );
-    //   },
-    // ),
-    // Daylimeal Screen (با Trainer به عنوان extra)
     GoRoute(
       path: dayliMealPage,
       builder: (context, state) {

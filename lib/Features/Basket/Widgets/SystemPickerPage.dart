@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/constants/colors.dart';
@@ -12,11 +13,13 @@ import 'package:shahabfit/Widgets/custommodalsheet.dart';
 class SystemPickerPage extends StatefulWidget {
   final String recordId;
   final String basketId;
+  final String tabIndex;
 
   const SystemPickerPage({
     super.key,
     required this.recordId,
     required this.basketId,
+    required this.tabIndex,
   });
 
   @override
@@ -35,7 +38,10 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
     return Scaffold(
       backgroundColor: background,
       appBar: AppBar(
-          title: const Text('انتخاب سیستم'), backgroundColor: background),
+          leading: IconButton(
+              onPressed: () => backToBasket(context), icon: Icon(Icons.close)),
+          title: const Text('انتخاب سیستم'),
+          backgroundColor: background),
       body: BlocBuilder<SystemBloc, SystemState>(
         builder: (context, state) {
           if (state is SystemLoaded) {
@@ -92,8 +98,7 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
                                               basketActivityId: widget.recordId,
                                               system: systemList[index],
                                               systemSubId: channelIndex + 1));
-                                      context.pop();
-                                      context.pop();
+                                      backToBasket(context);
                                     },
                                     child: Text(
                                         'کانال : ${replaceFarsiNumber((channelIndex + 1).toString())}')),
@@ -131,4 +136,9 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
       ),
     );
   }
+
+  void backToBasket(BuildContext context) => Router.neglect(
+      context,
+      () => context.go(
+          '$basketPage?basketId=${widget.basketId}&tabIndex=${widget.tabIndex}'));
 }
