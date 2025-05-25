@@ -11,13 +11,13 @@ import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/constants/Router.dart';
 
-class AutoCompleteWithScroll extends StatefulWidget {
-  const AutoCompleteWithScroll({super.key});
+class CreateTamrinPage extends StatefulWidget {
+  const CreateTamrinPage({super.key});
   @override
-  State<AutoCompleteWithScroll> createState() => _AutoCompleteWithScrollState();
+  State<CreateTamrinPage> createState() => _CreateTamrinPageState();
 }
 
-class _AutoCompleteWithScrollState extends State<AutoCompleteWithScroll> {
+class _CreateTamrinPageState extends State<CreateTamrinPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   List<DescriptionModel> descriptionList = [];

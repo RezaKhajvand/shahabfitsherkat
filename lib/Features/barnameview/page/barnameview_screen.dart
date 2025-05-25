@@ -340,7 +340,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                         child: SizedBox(
                                           height: itemHeight,
                                           child: InkWell(
-                                            onTap: () => context.push(
+                                            onTap: () => context.go(
                                                 '$barnameDetailPage?recordId=${list[index].id}'),
                                             child: ClipRect(
                                               child: BackdropFilter(

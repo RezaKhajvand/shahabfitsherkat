@@ -37,6 +37,12 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
         ),
       ),
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: primary,
+          onPressed: () => context.push(trainerPage),
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        ),
         appBar: AppBar(title: Text('غذایی', style: context.anjomanBlack)),
         body: BlocBuilder<DaylimealListBloc, DaylimealListState>(
           builder: (context, state) {
@@ -47,77 +53,66 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                 itemCount: daylimealList.length,
                 itemBuilder: (context, index) {
                   final meal = daylimealList[index];
-
-                  return Container(
-                    decoration: ShapeDecoration(
-                      color: background,
-                      shape: RoundedRectangleBorder(
-                          side: const BorderSide(width: 1, color: borderColor),
-                          borderRadius: cardBorderRadius),
-                    ),
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  meal.name,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall!
-                                      .copyWith(color: Colors.white),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'کالری  ${replaceFarsiNumber(meal.calories.toString())}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall!
-                                      .copyWith(color: Colors.grey),
-                                ),
-                              ],
+                  return InkWell(
+                    onTap: () => context.replace(
+                      trainerPage,
+                      extra: Trainer(
+                        goal: meal.goal,
+                        name: meal.name,
+                        wrist: meal.wrist,
+                        activity: meal.activity,
+                        calories: meal.calories,
+                        gender: meal.gender,
+                        weight: meal.weight,
+                        height: meal.height,
+                        age: meal.age,
+                        carbo: meal.carbo,
+                        fat: meal.fat,
+                        protein: meal.protein,
+                        daylimeal: List.generate(
+                          meal.daylimeal.length,
+                          (index) => {
+                            "meal": meal.daylimeal[index].meal,
+                            "choices": List.generate(
+                              meal.daylimeal[index].choices.length,
+                              (choiceIndex) => {
+                                "text": meal
+                                    .daylimeal[index].choices[choiceIndex].text
+                              },
                             ),
-                            const Spacer(),
-                            IconButton(
-                                onPressed: () => context.replace(
-                                      trainerPage,
-                                      extra: Trainer(
-                                        goal: meal.goal,
-                                        name: meal.name,
-                                        wrist: meal.wrist,
-                                        activity: meal.activity,
-                                        calories: meal.calories,
-                                        gender: meal.gender,
-                                        weight: meal.weight,
-                                        height: meal.height,
-                                        age: meal.age,
-                                        carbo: meal.carbo,
-                                        fat: meal.fat,
-                                        protein: meal.protein,
-                                        daylimeal: List.generate(
-                                          meal.daylimeal.length,
-                                          (index) => {
-                                            "meal": meal.daylimeal[index].meal,
-                                            "choices": List.generate(
-                                              meal.daylimeal[index].choices
-                                                  .length,
-                                              (choiceIndex) => {
-                                                "text": meal.daylimeal[index]
-                                                    .choices[choiceIndex].text
-                                              },
-                                            ),
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                icon: const Icon(Icons.arrow_forward))
-                          ],
+                          },
                         ),
-                      ],
+                      ),
+                    ),
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        color: background,
+                        shape: RoundedRectangleBorder(
+                            side:
+                                const BorderSide(width: 1, color: borderColor),
+                            borderRadius: cardBorderRadius),
+                      ),
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            meal.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall!
+                                .copyWith(color: Colors.white),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'کالری  ${replaceFarsiNumber(meal.calories.toString())}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall!
+                                .copyWith(color: Colors.grey),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

@@ -5,11 +5,11 @@ import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
 class HomePage extends StatefulWidget {
-  // final String tabIndex;
+  final int tabIndex;
   final Widget child;
   const HomePage({
     super.key,
-    // required this.tabIndex,
+    required this.tabIndex,
     required this.child,
   });
 
@@ -26,14 +26,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    var tabIndex = 0;
-    //  int.parse(widget.tabIndex);
-    controller = PageController(initialPage: tabIndex);
-    currentPageIndex = tabIndex;
+
+    controller = PageController(initialPage: currentPageIndex);
   }
 
   @override
   Widget build(BuildContext context) {
+    currentPageIndex = widget.tabIndex;
     return Scaffold(
         bottomNavigationBar: StatefulBuilder(builder: (context, setState) {
           return NavigationBar(
@@ -46,7 +45,6 @@ class _HomePageState extends State<HomePage> {
             labelBehavior: labelBehavior,
             selectedIndex: currentPageIndex,
             onDestinationSelected: (int index) {
-              setState(() => currentPageIndex = index);
               _onItemTapped(index, context);
             },
             destinations: const <Widget>[

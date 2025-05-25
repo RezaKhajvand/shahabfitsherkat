@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Basket/Utils/proxydecorator.dart';
 import 'package:shahabfit/Features/barnameview/utils/setvideoplayercontroller.dart';
+import 'package:shahabfit/Features/barnameview/utils/updateurl.dart';
 import 'package:shahabfit/Widgets/mobile_layout.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
@@ -21,7 +22,9 @@ import 'package:video_player/video_player.dart';
 
 class ActivitiesPage extends StatefulWidget {
   final String basketId;
-  const ActivitiesPage({super.key, required this.basketId});
+  final String tabIndex;
+  const ActivitiesPage(
+      {super.key, required this.basketId, required this.tabIndex});
 
   @override
   State<ActivitiesPage> createState() => _ActivitiesPageState();
@@ -47,13 +50,17 @@ class _ActivitiesPageState extends State<ActivitiesPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: weekDays.length, vsync: this);
+    _tabController = TabController(
+        length: weekDays.length,
+        vsync: this,
+        initialIndex: int.parse(widget.tabIndex));
     basketId = widget.basketId;
     categoryId = categoryList.first.id;
     getActivityList();
   }
 
   getActivityList() {
+    updatePageUrl(_tabController.index);
     BlocProvider.of<ActivityBloc>(context).add(GetActivityEvent(
         basketId: basketId,
         categoryId: categoryId,
@@ -115,11 +122,8 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                   .copyWith(color: Colors.white)),
           actions: [
             IconButton(
-                onPressed: () async {
-                  await context.push(
-                      '$basketPage?basketId=$basketId&tabIndex=${_tabController.index}');
-                  getActivityList();
-                },
+                onPressed: () => context.go(
+                    '$basketPage?basketId=$basketId&tabIndex=${_tabController.index}'),
                 icon: const Icon(Icons.shopping_basket)),
           ],
           bottom: PreferredSize(

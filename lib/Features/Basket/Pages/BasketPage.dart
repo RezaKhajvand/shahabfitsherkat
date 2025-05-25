@@ -192,7 +192,10 @@ class _BasketPageState extends State<BasketPage>
                               height: 30,
                               thickness: 0.5,
                               color: Colors.white24),
-                          SystemPicker(basketActivity: basketActivity[index],tabIndex: _tabController.index,),
+                          SystemPicker(
+                            basketActivity: basketActivity[index],
+                            tabIndex: _tabController.index,
+                          ),
                           const SizedBox(height: 20),
                           ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),

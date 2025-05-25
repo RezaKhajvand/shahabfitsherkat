@@ -52,7 +52,7 @@ class _BasketListPageState extends State<BasketListPage> {
           actionsPadding: EdgeInsets.only(left: 10),
           actions: [
             IconButton(
-              onPressed: () => context.push(systemPage),
+              onPressed: () => context.go(systemPage),
               icon: Icon(Icons.settings),
             ),
           ],
@@ -67,7 +67,7 @@ class _BasketListPageState extends State<BasketListPage> {
                   itemCount: basketList.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () => context.push(
+                      onTap: () => context.go(
                           '$activitiesPage?basketId=${basketList[index].id}'),
                       child: Container(
                           decoration: ShapeDecoration(

@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
 import 'package:shahabfit/Features/Basket/Utils/basketinput.dart';
-import 'package:shahabfit/Features/Basket/Widgets/descriptioninput.dart';
+import 'package:shahabfit/Features/Basket/Widgets/createtamrinpage.dart';
 import 'package:shahabfit/Features/BasketList/Pages/BasketListPage.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_list_screen.dart';
 import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
@@ -20,8 +20,7 @@ import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart'; // Ù…Ø
 // Deferred imports for lazy loading
 import 'package:shahabfit/Features/Activities/Pages/ActivitiesPage.dart'
     deferred as activities;
-import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart'
-    deferred as basket;
+
 import 'package:shahabfit/Features/Basket/Widgets/SystemPickerPage.dart'
     deferred as systempicker;
 import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_screen.dart'
@@ -116,7 +115,27 @@ final router = GoRouter(
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (BuildContext context, GoRouterState state, Widget child) {
-        return MobileLayout(child: HomePage(child: child));
+        print(state.fullPath);
+        int tabIndex = 0;
+        switch (state.fullPath) {
+          case managePage:
+            tabIndex = 0;
+            break;
+          case basketListPage:
+            tabIndex = 1;
+            break;
+          case daylimealListPage:
+            tabIndex = 2;
+            break;
+          case profilePage:
+            tabIndex = 3;
+            break;
+        }
+        return MobileLayout(
+            child: HomePage(
+          tabIndex: tabIndex,
+          child: child,
+        ));
       },
       routes: <RouteBase>[
         GoRoute(
@@ -161,9 +180,11 @@ final router = GoRouter(
     GoRoute(
       path: createTamrinPage,
       builder: (context, state) => MobileLayout(
-        child: AutoCompleteWithScroll(),
+        child: CreateTamrinPage(),
       ),
     ),
+
+
 
     // Landing Screen
     GoRoute(
@@ -222,9 +243,14 @@ final router = GoRouter(
         path: activitiesPage,
         builder: (context, state) {
           final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
+          final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
           return MobileLayout(
-            child: deferredPageLoader(activities.loadLibrary,
-                () => activities.ActivitiesPage(basketId: basketId)),
+            child: deferredPageLoader(
+                activities.loadLibrary,
+                () => activities.ActivitiesPage(
+                      basketId: basketId,
+                      tabIndex: tabIndex,
+                    )),
           );
         }),
     // Basket Screen
@@ -235,11 +261,9 @@ final router = GoRouter(
         final tabIndex =
             int.parse(state.uri.queryParameters['tabIndex'] ?? '0');
         return MobileLayout(
-          child: deferredPageLoader(
-              basket.loadLibrary,
-              () => basket.BasketPage(
-                  basketInputs:
-                      BasketInputs(basketId: basketId, tabIndex: tabIndex))),
+          child: BasketPage(
+              basketInputs:
+                  BasketInputs(basketId: basketId, tabIndex: tabIndex)),
         );
       },
     ),
@@ -329,6 +353,7 @@ final router = GoRouter(
       path: barnameDetailPage,
       builder: (context, state) {
         final recordId = state.uri.queryParameters['recordId'] ?? 'recordId';
+
         return deferredPageLoader(
           barnamedetail.loadLibrary,
           () => BlocProvider(
