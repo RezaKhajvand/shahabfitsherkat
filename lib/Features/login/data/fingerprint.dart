@@ -26,15 +26,15 @@ Future<void> registerFingerprint() async {
 Future<RecordAuth> loginWithFingerprint() async {
   final String finger = AuthManager.readFinger() ?? '';
   try {
-    // final result = authenticateWithFingerprint(finger);
-    // final credResult = await result.toDart;
-    // if (credResult.toString() == "ok") {
-    final auth = await fingerLogin(credentialId: finger);
-    return auth;
-    // } else {
-    //   throw ClientException(
-    //       statusCode: 400, response: {'message': " ${credResult.toString()}"});
-    // }
+    final result = authenticateWithFingerprint(finger);
+    final credResult = await result.toDart;
+    if (credResult.toString() == "ok") {
+      final auth = await fingerLogin(credentialId: finger);
+      return auth;
+    } else {
+      throw ClientException(
+          statusCode: 400, response: {'message': " ${credResult.toString()}"});
+    }
   } catch (e) {
     print(e);
     throw ClientException(statusCode: 400, response: {'message': e.toString()});

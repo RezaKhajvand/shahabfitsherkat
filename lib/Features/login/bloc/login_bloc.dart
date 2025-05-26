@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:pocketbase/pocketbase.dart';
 import 'package:shahabfit/Features/login/data/fingerprint.dart';
 import 'package:shahabfit/Features/login/data/login_datasource.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
