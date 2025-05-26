@@ -1,5 +1,3 @@
-import 'package:shahabfit/Utils/authmanager.dart';
-import 'package:shahabfit/Utils/handleemtyresponse.dart';
 import 'package:shahabfit/constants/pb.dart';
 
 Future<String> getShagerdList({
@@ -22,14 +20,10 @@ Future<String> getShagerdList({
   String filterQuery = filters.join(' && ');
 
   try {
-    var response = await pb.collection('shagerd').getFullList(
-          sort: '-registerdate',
-          filter: filterQuery,
-          headers: AuthManager.readHeader(),
-        );
-    if (response.isEmpty) {
-      handleEmptyResponse();
-    }
+    var response = await pb
+        .collection('shagerd')
+        .getFullList(sort: '-registerdate', filter: filterQuery);
+
     print(response);
     return response.toString();
   } catch (e) {

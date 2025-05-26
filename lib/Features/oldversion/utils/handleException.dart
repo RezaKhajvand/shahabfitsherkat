@@ -1,5 +1,4 @@
 import 'package:pocketbase/pocketbase.dart';
-import 'package:shahabfit/Utils/authmanager.dart';
 
 handleException(dynamic e, StackTrace s) {
   if (e is ClientException) {
@@ -7,9 +6,6 @@ handleException(dynamic e, StackTrace s) {
         e.response['data']?['name']?['message'] ?? e.response['message'];
     print('\x1B[31mError: $message\x1B[0m');
     print('\x1B[33m${s.toString().split('\n').join('\n\x1B[33m')}\x1B[0m');
-    if (e.statusCode == 401) {
-      logOut();
-    }
     return message;
   } else {
     print(e);

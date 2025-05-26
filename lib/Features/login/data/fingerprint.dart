@@ -15,9 +15,7 @@ Future<void> registerFingerprint() async {
     final json = jsonDecode(credResult.toString());
     final credentialId = json['id'];
     final body = {"credentialId": credentialId};
-    await pb
-        .collection('users')
-        .update(id, body: body, headers: AuthManager.readHeader());
+    await pb.collection('users').update(id, body: body);
     await AuthManager.saveFinger(credentialId);
     print("✅ اثر انگشت برای کاربر $id ثبت شد");
   } catch (e) {

@@ -1,4 +1,3 @@
-import 'package:shahabfit/Utils/handleemtyresponse.dart';
 import 'package:shahabfit/constants/pb.dart';
 
 Future<String> getOpenBasketActivity(
@@ -17,14 +16,12 @@ Future<String> getOpenBasketActivity(
   print(filterQuery);
   try {
     final records = await pb.collection('basketActivity').getFullList(
-        sort: '+numberView',
-        filter: filterQuery,
-        expand: 'activity,basket,system,activity.catId');
+          sort: '+numberView',
+          filter: filterQuery,
+          expand: 'activity,basket,system,activity.catId',
+        );
 
     print(records.toString());
-    if (records.isEmpty) {
-      handleEmptyResponse();
-    }
     return records.toString();
   } catch (e) {
     rethrow;
