@@ -41,7 +41,7 @@ class _BasketListPageState extends State<BasketListPage> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: primary,
-          onPressed: () => context.push(createTamrinPage),
+          onPressed: () => context.go(createTamrinPage),
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),

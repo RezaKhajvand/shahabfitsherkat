@@ -5,7 +5,6 @@ import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
-import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
@@ -54,36 +53,8 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                 itemBuilder: (context, index) {
                   final meal = daylimealList[index];
                   return InkWell(
-                    onTap: () => context.replace(
-                      trainerPage,
-                      extra: Trainer(
-                        goal: meal.goal,
-                        name: meal.name,
-                        wrist: meal.wrist,
-                        activity: meal.activity,
-                        calories: meal.calories,
-                        gender: meal.gender,
-                        weight: meal.weight,
-                        height: meal.height,
-                        age: meal.age,
-                        carbo: meal.carbo,
-                        fat: meal.fat,
-                        protein: meal.protein,
-                        daylimeal: List.generate(
-                          meal.daylimeal.length,
-                          (index) => {
-                            "meal": meal.daylimeal[index].meal,
-                            "choices": List.generate(
-                              meal.daylimeal[index].choices.length,
-                              (choiceIndex) => {
-                                "text": meal
-                                    .daylimeal[index].choices[choiceIndex].text
-                              },
-                            ),
-                          },
-                        ),
-                      ),
-                    ),
+                    onTap: () =>
+                        context.go('$trainerPage?barnameId=${meal.id}'),
                     child: Container(
                       decoration: ShapeDecoration(
                         color: background,

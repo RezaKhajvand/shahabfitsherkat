@@ -122,9 +122,10 @@ class _CreateTamrinPageState extends State<CreateTamrinPage> {
                           name: nameController.text,
                           level: chipIndex == 0 ? 'مبتدی' : 'حرفه ای',
                           description: descController.text);
-
-                      context.pushReplacement(
-                          '$activitiesPage?basketId=${reasult.id}');
+                      Router.neglect(
+                          context,
+                          () => context
+                              .go('$activitiesPage?basketId=${reasult.id}'));
                     } catch (e, s) {
                       getErrorSnackbar(context, handleException(e, s));
                     }

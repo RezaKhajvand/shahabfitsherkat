@@ -1,15 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/Router.dart';
+import 'package:shahabfit/Features/Daylimeal/Data/add_daylimeal_datasource.dart';
+import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
+import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/Daylimeal/utils/activityfactor.dart';
 import 'package:shahabfit/Features/Daylimeal/utils/getinputformatter.dart';
 import 'package:shahabfit/Features/Daylimeal/widgets/sliderwidget.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/utils/texttheme.dart';
 
 class TrainerScreen extends StatefulWidget {
-  final Trainer? trainer;
-  const TrainerScreen({super.key, this.trainer});
+  final String? barnameId;
+  const TrainerScreen({super.key, this.barnameId});
 
   @override
   TrainerScreenState createState() => TrainerScreenState();
@@ -43,7 +50,7 @@ class TrainerScreenState extends State<TrainerScreen> {
   // متغیر برای ذخیره ضریب فعالیت
   late ActivityFactor _activityFactor;
   int _typeIndex = 0;
-  List<Map<String, dynamic>> daylimeal = [];
+  List<Daylimeal> daylimeal = [];
   final goalList = const ['کاهش وزن', 'تثبیت وزن', 'افزایش وزن'];
   // تابع محاسبه کالری
   void _calculateCalories() {
@@ -118,23 +125,9 @@ class TrainerScreenState extends State<TrainerScreen> {
   void initState() {
     super.initState();
     _activityFactor = activityList[2];
-    final trainer = widget.trainer;
-    if (trainer != null) {
-      _nameController.text = trainer.name;
-      _heightController.text = replaceFarsiNumber(trainer.height.toString());
-      _weightController.text = replaceFarsiNumber(trainer.weight.toString());
-      _wristController.text = replaceFarsiNumber(trainer.wrist.toString());
-      _ageController.text = replaceFarsiNumber(trainer.age.toString());
-      _caloriesController.text =
-          replaceFarsiNumber(trainer.calories.toString());
-      _selectedGender = trainer.gender;
-      protein = trainer.protein.toDouble();
-      carbs = trainer.carbo.toDouble();
-      fat = trainer.fat.toDouble();
-      _activityFactor = activityList.firstWhere(
-        (element) => element.title == trainer.activity,
-      );
-      daylimeal = trainer.daylimeal;
+    if (widget.barnameId != null) {
+      BlocProvider.of<DaylimealListBloc>(context)
+          .add(DaylimealListEvent(barnameId: widget.barnameId));
     }
   }
 
@@ -157,330 +150,385 @@ class TrainerScreenState extends State<TrainerScreen> {
             key: _formKey,
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  DropdownButtonFormField<int>(
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelLarge
-                        ?.copyWith(color: Colors.white),
-                    dropdownColor: Colors.black,
-                    value: _typeIndex,
-                    decoration: const InputDecoration(labelText: 'هدف'),
-                    items: List.generate(
-                      goalList.length,
-                      (index) => DropdownMenuItem(
-                          value: index, child: Text(goalList[index])),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        _typeIndex = value!;
-                      });
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return 'لطفا هدف خود را انتخاب کنید';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              child: BlocBuilder<DaylimealListBloc, DaylimealListState>(
+                builder: (context, state) {
+                  print(state);
+                  if (state is DaylimealListLoaded) {
+                    final trainer = state.daylimelaList.first;
+
+                    _nameController.text = trainer.name;
+                    _heightController.text =
+                        replaceFarsiNumber(trainer.height.toString());
+                    _weightController.text =
+                        replaceFarsiNumber(trainer.weight.toString());
+                    _wristController.text =
+                        replaceFarsiNumber(trainer.wrist.toString());
+                    _ageController.text =
+                        replaceFarsiNumber(trainer.age.toString());
+                    _caloriesController.text =
+                        replaceFarsiNumber(trainer.calories.toString());
+                    _selectedGender = trainer.gender;
+                    protein = trainer.protein.toDouble();
+                    carbs = trainer.carbo.toDouble();
+                    fat = trainer.fat.toDouble();
+                    _activityFactor = activityList.firstWhere(
+                      (element) => element.title == trainer.activity,
+                    );
+                    daylimeal = trainer.daylimeal;
+                  }
+                  return Column(
                     children: [
-                      Expanded(
-                        child: DropdownButtonFormField<ActivityFactor>(
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Colors.white),
-                          dropdownColor: Colors.black,
-                          value: _activityFactor,
-                          decoration:
-                              const InputDecoration(labelText: 'میزان فعالیت'),
-                          items: List.generate(
-                            activityList.length,
-                            (index) => DropdownMenuItem(
-                              value: activityList[index],
-                              child: Text(activityList[index].title),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              textDirection: TextDirection.rtl,
+                              style: context.anjomanLight,
+                              controller: _nameController,
+                              decoration:
+                                  const InputDecoration(labelText: 'نام'),
                             ),
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              _activityFactor = value!;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null) {
-                              return 'لطفا میزان فعالیت خود را انتخاب کنید';
-                            }
-                            return null;
-                          },
-                        ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: DropdownButtonFormField<int>(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: Colors.white),
+                              dropdownColor: Colors.black,
+                              value: _typeIndex,
+                              decoration:
+                                  const InputDecoration(labelText: 'هدف'),
+                              items: List.generate(
+                                goalList.length,
+                                (index) => DropdownMenuItem(
+                                    value: index, child: Text(goalList[index])),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  _typeIndex = value!;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'لطفا هدف خود را انتخاب کنید';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: TextFormField(
-                          textDirection: TextDirection.ltr,
-                          textAlign: TextAlign.left,
-                          inputFormatters: getInputFormatter,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Colors.white),
-                          controller: _ageController,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(labelText: 'سن'),
-                        ),
+                      const SizedBox(height: 15),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: DropdownButtonFormField<ActivityFactor>(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: Colors.white),
+                              dropdownColor: Colors.black,
+                              value: _activityFactor,
+                              decoration: const InputDecoration(
+                                  labelText: 'میزان فعالیت'),
+                              items: List.generate(
+                                activityList.length,
+                                (index) => DropdownMenuItem(
+                                  value: activityList[index],
+                                  child: Text(activityList[index].title),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  _activityFactor = value!;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'لطفا میزان فعالیت خود را انتخاب کنید';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: TextFormField(
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.left,
+                              inputFormatters: getInputFormatter,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: Colors.white),
+                              controller: _ageController,
+                              keyboardType: TextInputType.number,
+                              decoration:
+                                  const InputDecoration(labelText: 'سن'),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Colors.white),
-                          dropdownColor: Colors.black,
-                          value: _selectedGender,
-                          decoration: const InputDecoration(labelText: 'جنسیت'),
-                          items: ['مرد', 'زن'].map((gender) {
-                            return DropdownMenuItem(
-                              value: gender,
-                              child: Text(gender),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedGender = value!;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null) {
-                              return 'لطفا جنسیت خود را انتخاب کنید';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: TextFormField(
-                          inputFormatters: getInputFormatter,
-                          textDirection: TextDirection.ltr,
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Colors.white),
-                          controller: _heightController,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                              labelText: 'قد (سانتی‌متر)'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'لطفا قد خود را وارد کنید';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          textDirection: TextDirection.ltr,
-                          textAlign: TextAlign.left,
-                          inputFormatters: getInputFormatter,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Colors.white),
-                          controller: _weightController,
-                          keyboardType: TextInputType.number,
-                          decoration:
-                              const InputDecoration(labelText: 'وزن (کیلوگرم)'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'لطفا وزن خود را وارد کنید';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: TextFormField(
-                          textDirection: TextDirection.ltr,
-                          textAlign: TextAlign.left,
-                          inputFormatters: getInputFormatter,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Colors.white),
-                          controller: _wristController,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                              labelText: 'دور مچ (سانتی‌متر)'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'لطفا دور مچ خود را وارد کنید';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  NutritionSlider(
-                      carbs: carbs,
-                      protein: protein,
-                      fat: fat,
-                      onValuesChanged: (p0, p1, p2) => setState(() {
-                            protein = p0;
-                            carbs = p1;
-                            fat = p2;
-                          })),
-                  const SizedBox(height: 15),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                            onPressed: _calculateCalories,
-                            child: const Text('محاسبه کالری')),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: OutlinedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _calculateCalories();
-                                context.push(
-                                  dayliMealPage,
-                                  extra: Trainer(
-                                    name: '',
-                                    goal: goalList[_typeIndex],
-                                    wrist: int.parse(replaceEnglishNumber(
-                                        _wristController.text)),
-                                    activity: _activityFactor.title,
-                                    calories: int.parse(replaceEnglishNumber(
-                                        _caloriesController.text)),
-                                    gender: _selectedGender,
-                                    weight: int.parse(replaceEnglishNumber(
-                                        _weightController.text)),
-                                    height: int.parse(replaceEnglishNumber(
-                                        _heightController.text)),
-                                    age: int.parse(replaceEnglishNumber(
-                                        _ageController.text)),
-                                    carbo: carbs.toInt(),
-                                    fat: fat.toInt(),
-                                    protein: protein.toInt(),
-                                    daylimeal: daylimeal,
-                                  ),
+                      const SizedBox(height: 15),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: Colors.white),
+                              dropdownColor: Colors.black,
+                              value: _selectedGender,
+                              decoration:
+                                  const InputDecoration(labelText: 'جنسیت'),
+                              items: ['مرد', 'زن'].map((gender) {
+                                return DropdownMenuItem(
+                                  value: gender,
+                                  child: Text(gender),
                                 );
-                              }
-                            },
-                            child: const Text('برنامه غذایی')),
-                      )
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedGender = value!;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'لطفا جنسیت خود را انتخاب کنید';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: TextFormField(
+                              inputFormatters: getInputFormatter,
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.left,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: Colors.white),
+                              controller: _heightController,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                  labelText: 'قد (سانتی‌متر)'),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'لطفا قد خود را وارد کنید';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.left,
+                              inputFormatters: getInputFormatter,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: Colors.white),
+                              controller: _weightController,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                  labelText: 'وزن (کیلوگرم)'),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'لطفا وزن خود را وارد کنید';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: TextFormField(
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.left,
+                              inputFormatters: getInputFormatter,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(color: Colors.white),
+                              controller: _wristController,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                  labelText: 'دور مچ (سانتی‌متر)'),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'لطفا دور مچ خود را وارد کنید';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      NutritionSlider(
+                          carbs: carbs,
+                          protein: protein,
+                          fat: fat,
+                          onValuesChanged: (p0, p1, p2) => setState(() {
+                                protein = p0;
+                                carbs = p1;
+                                fat = p2;
+                              })),
+                      const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                                onPressed: _calculateCalories,
+                                child: const Text('محاسبه کالری')),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: OutlinedButton(
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    _calculateCalories();
+                                    final trainer = Trainer(
+                                      name: _nameController.text,
+                                      goal: goalList[_typeIndex],
+                                      wrist: int.parse(replaceEnglishNumber(
+                                          _wristController.text)),
+                                      activity: _activityFactor.title,
+                                      calories: int.parse(replaceEnglishNumber(
+                                          _caloriesController.text)),
+                                      gender: _selectedGender,
+                                      weight: int.parse(replaceEnglishNumber(
+                                          _weightController.text)),
+                                      height: int.parse(replaceEnglishNumber(
+                                          _heightController.text)),
+                                      age: int.parse(replaceEnglishNumber(
+                                          _ageController.text)),
+                                      carbo: carbs.toInt(),
+                                      fat: fat.toInt(),
+                                      protein: protein.toInt(),
+                                      daylimeal: [],
+                                    );
+                                    String id = '';
+                                    if (widget.barnameId == null) {
+                                      final record = Item.fromJson(json.decode(
+                                          await addDaylimeal(
+                                              trainer: trainer)));
+                                      id = record.id;
+                                    } else {
+                                      id = widget.barnameId!;
+                                    }
+                                    context.go('$dayliMealPage?barnameId=$id');
+                                  }
+                                },
+                                child: const Text('برنامه غذایی')),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'وزن ایده آل',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(color: Colors.white),
+                          ),
+                          Text(
+                            replaceFarsiNumber(
+                                _prefectWeight.toStringAsFixed(2)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'وزن تعدیل شده',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(color: Colors.white),
+                          ),
+                          Text(
+                            replaceFarsiNumber(_tadilWeight.toStringAsFixed(2)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'نوع استخوان بندی',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(color: Colors.white),
+                          ),
+                          Text(
+                            _selectedBodyType ?? 'اطلاعات را وارد کنید',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.remove),
+                            onPressed: () => _adjustCalories(-100),
+                          ),
+                          SizedBox(
+                            width: 120,
+                            child: TextFormField(
+                              textDirection: TextDirection.ltr,
+                              controller: _caloriesController,
+                              inputFormatters: getInputFormatter,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(color: Colors.white, fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () => _adjustCalories(100),
+                          ),
+                        ],
+                      ),
                     ],
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'وزن ایده آل',
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall
-                            ?.copyWith(color: Colors.white),
-                      ),
-                      Text(
-                        replaceFarsiNumber(_prefectWeight.toStringAsFixed(2)),
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'وزن تعدیل شده',
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall
-                            ?.copyWith(color: Colors.white),
-                      ),
-                      Text(
-                        replaceFarsiNumber(_tadilWeight.toStringAsFixed(2)),
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'نوع استخوان بندی',
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall
-                            ?.copyWith(color: Colors.white),
-                      ),
-                      Text(
-                        _selectedBodyType ?? 'اطلاعات را وارد کنید',
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.remove),
-                        onPressed: () => _adjustCalories(-100),
-                      ),
-                      SizedBox(
-                        width: 120,
-                        child: TextFormField(
-                          textDirection: TextDirection.ltr,
-                          controller: _caloriesController,
-                          inputFormatters: getInputFormatter,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(color: Colors.white, fontSize: 20),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: () => _adjustCalories(100),
-                      ),
-                    ],
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),

@@ -6,7 +6,10 @@ import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
 import 'package:shahabfit/Features/Basket/Utils/basketinput.dart';
 import 'package:shahabfit/Features/Basket/Widgets/createtamrinpage.dart';
 import 'package:shahabfit/Features/BasketList/Pages/BasketListPage.dart';
+import 'package:shahabfit/Features/Daylimeal/Pages/Trainer_Screen.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_list_screen.dart';
+import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_screen.dart';
+import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
 import 'package:shahabfit/Features/login/data/fingerprint.dart';
 import 'package:shahabfit/Features/oldversion/managepage.dart';
@@ -14,7 +17,6 @@ import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Widgets/mobile_layout.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart'; // بلاک
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart'; // بلاک‌ها هم به صورت عادی باقی می‌مانند
-import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart'; // مدل‌ها نیازی به lazy loading ندارند
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart'; // مدل
 
 // Deferred imports for lazy loading
@@ -23,10 +25,7 @@ import 'package:shahabfit/Features/Activities/Pages/ActivitiesPage.dart'
 
 import 'package:shahabfit/Features/Basket/Widgets/SystemPickerPage.dart'
     deferred as systempicker;
-import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_screen.dart'
-    deferred as daylimeal;
-import 'package:shahabfit/Features/Daylimeal/Pages/trainer_screen.dart'
-    deferred as trainer;
+
 import 'package:shahabfit/Features/Splash/SplashPage.dart' deferred as splash;
 import 'package:shahabfit/Features/System/Pages/SystemPage.dart'
     deferred as system;
@@ -153,7 +152,10 @@ final router = GoRouter(
         GoRoute(
           path: daylimealListPage,
           builder: (BuildContext context, GoRouterState state) {
-            return const DayliMealListScreen();
+            return BlocProvider(
+              create: (context) => DaylimealListBloc(),
+              child: const DayliMealListScreen(),
+            );
           },
         ),
         GoRoute(
@@ -183,8 +185,6 @@ final router = GoRouter(
         child: CreateTamrinPage(),
       ),
     ),
-
-
 
     // Landing Screen
     GoRoute(
@@ -278,10 +278,12 @@ final router = GoRouter(
     GoRoute(
       path: dayliMealPage,
       builder: (context, state) {
-        final trainerData = state.extra as Trainer;
+        final barnameId = state.uri.queryParameters['barnameId']!;
         return MobileLayout(
-          child: deferredPageLoader(daylimeal.loadLibrary,
-              () => daylimeal.DaylimealScreen(trainer: trainerData)),
+          child: BlocProvider(
+            create: (context) => DaylimealListBloc(),
+            child: DaylimealScreen(barnameId: barnameId),
+          ),
         );
       },
     ),
@@ -289,10 +291,12 @@ final router = GoRouter(
     GoRoute(
       path: trainerPage,
       builder: (context, state) {
-        final trainerData = state.extra as Trainer?;
+        final barnameId = state.uri.queryParameters['barnameId'];
         return MobileLayout(
-          child: deferredPageLoader(trainer.loadLibrary,
-              () => trainer.TrainerScreen(trainer: trainerData)),
+          child: BlocProvider(
+            create: (context) => DaylimealListBloc(),
+            child: TrainerScreen(barnameId: barnameId),
+          ),
         );
       },
     ),

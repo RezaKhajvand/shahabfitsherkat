@@ -32,7 +32,6 @@ void main() async {
         BlocProvider(create: (context) => ActivityBloc()),
         BlocProvider(create: (context) => BasketBloc()),
         BlocProvider(create: (context) => SystemBloc()),
-        BlocProvider(create: (context) => DaylimealListBloc()),
         BlocProvider(create: (context) => ShagerdBloc()),
         BlocProvider(create: (context) => UpdateShagerdBloc()),
         BlocProvider(create: (context) => LoginBloc()),

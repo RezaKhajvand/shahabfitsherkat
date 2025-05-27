@@ -70,7 +70,7 @@ class _BasketPageState extends State<BasketPage>
           surfaceTintColor: Colors.transparent,
           actions: [
             IconButton(
-                onPressed: () => context.push(
+                onPressed: () => context.go(
                     '$barnameViewPage?basketId=${widget.basketInputs.basketId}&tabIndex=0'),
                 icon: Icon(Icons.share)),
           ],

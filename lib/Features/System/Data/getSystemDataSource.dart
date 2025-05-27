@@ -1,11 +1,11 @@
-import 'package:shahabfit/di.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/constants/pb.dart';
 
 Future<String> getSystem() async {
   try {
     final records = await pb
         .collection('system')
-        .getFullList(filter: '(user="$userId"||user="")');
+        .getFullList(filter: '(user="${AuthManager.readUser()}"||user="")');
     print(records.toString());
     return records.toString();
   } catch (e) {

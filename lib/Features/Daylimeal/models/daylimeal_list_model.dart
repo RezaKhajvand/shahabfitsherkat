@@ -2,6 +2,8 @@ import 'dart:convert';
 
 List<Item> daylimealListFromJson(String str) =>
     List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
+    
+Item daylimelFromJson(String str) => Item.fromJson(json.decode(str));
 
 class Item {
   String activity;

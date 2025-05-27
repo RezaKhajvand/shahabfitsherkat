@@ -26,13 +26,13 @@
       const currentVersion = manifest.version;
       const description = manifest.description;  // نسخه جدید از manifest
       const storedVersion = localStorage.getItem('currentVersion'); // نسخه ذخیره‌شده در localStorage
-      if (storedVersion&& currentVersion !== storedVersion) {  
-        alert(`نسخه جدید در دسترس است! صفحه دوباره بارگذاری می‌شود.\n ${description}\nنسخه :${currentVersion}`);
-        localStorage.setItem('currentVersion', currentVersion);
-        window.location.reload(true);
-      }else{
-         localStorage.setItem('currentVersion', currentVersion);
-      }
+      // if (storedVersion&& currentVersion !== storedVersion) {  
+      //   alert(`نسخه جدید در دسترس است! صفحه دوباره بارگذاری می‌شود.\n ${description}\nنسخه :${currentVersion}`);
+      //   localStorage.setItem('currentVersion', currentVersion);
+      //   window.location.reload(true);
+      // }else{
+      //    localStorage.setItem('currentVersion', currentVersion);
+      // }
     })
     .catch(error => {
       console.log('Error reading manifest:', error);

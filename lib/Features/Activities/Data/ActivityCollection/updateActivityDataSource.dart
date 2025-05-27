@@ -1,4 +1,4 @@
-import 'package:shahabfit/di.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/constants/pb.dart';
 
 Future<String> updateActivity({
@@ -12,7 +12,7 @@ Future<String> updateActivity({
     "title": title,
     "catId": catId,
     "isInBasket": isInBasket,
-    "user": userId,
+  "user": AuthManager.readUser(),
     "numberView": numberView,
   }..removeWhere((key, value) => value == null);
   try {

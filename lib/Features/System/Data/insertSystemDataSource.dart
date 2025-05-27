@@ -1,4 +1,4 @@
-import 'package:shahabfit/di.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/constants/pb.dart';
 
 Future<String> insertSystem(
@@ -6,7 +6,7 @@ Future<String> insertSystem(
   var body = {
     "title": title,
     "description": description,
-    "user": userId,
+  "user": AuthManager.readUser(),
   };
   try {
     final record = await pb.collection('system').create(body: body);

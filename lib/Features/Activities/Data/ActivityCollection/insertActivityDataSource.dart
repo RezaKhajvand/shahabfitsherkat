@@ -1,4 +1,4 @@
-import 'package:shahabfit/di.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/constants/pb.dart';
 
 Future<String> insertActivity({
@@ -8,7 +8,7 @@ Future<String> insertActivity({
   var body = {
     "title": title,
     "catId": catId,
-    "user": userId,
+    "user": AuthManager.readUser(),
   };
   try {
     final record = await pb.collection('activity').create(body: body);

@@ -1,4 +1,4 @@
-import 'package:shahabfit/di.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/constants/pb.dart';
 
 Future<String> updateBasket(
@@ -9,7 +9,7 @@ Future<String> updateBasket(
     required String description}) async {
   final body = <String, dynamic>{
     "name": name,
-    "user": userId,
+   "user": AuthManager.readUser(),
     "dayCount": dayCount,
     "level": level,
     "description": description,
