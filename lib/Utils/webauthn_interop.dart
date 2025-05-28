@@ -1,5 +1,5 @@
 @JS()
-library webauthn_interop;
+library;
 
 import 'dart:js_interop';
 import 'package:js/js.dart';

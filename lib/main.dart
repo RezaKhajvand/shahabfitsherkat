@@ -5,12 +5,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Di.dart';
+import 'package:shahabfit/Features/Basket/Bloc/basketlist/basket_list_bloc.dart';
 import 'package:shahabfit/Features/login/bloc/login_bloc.dart';
 import 'package:shahabfit/constants/router.dart';
 import 'package:shahabfit/constants/theme.dart';
 import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.dart';
 import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
-import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
@@ -35,6 +35,7 @@ void main() async {
         BlocProvider(create: (context) => ShagerdBloc()),
         BlocProvider(create: (context) => UpdateShagerdBloc()),
         BlocProvider(create: (context) => LoginBloc()),
+        BlocProvider(create: (context) => BasketListBloc()),
       ],
       child: const MyApp(),
     ),

@@ -5,9 +5,9 @@
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "۱-حل مشکل خروج از حساب",
+    "description": "۱-کپی برنامه\n۲-افزودن بخش ثبت برنامه غذایی",
     "orientation": "portrait-primary",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "prefer_related_applications": false,
     "icons": [
         {

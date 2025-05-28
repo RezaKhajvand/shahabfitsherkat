@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
+import 'package:shahabfit/Features/BasketList/Data/copyAllBasketDataSource.dart';
 import 'package:shahabfit/Utils/fotmat2.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/constants/Router.dart';
@@ -24,7 +25,7 @@ class BasketListPage extends StatefulWidget {
 class _BasketListPageState extends State<BasketListPage> {
   var now = DateTime.now();
   Future<List<Basket>> getBasketListFuture() async {
-    return openBasketFromJson(await getBasketList());
+    return basketListFromJson(await getBasketList());
   }
 
   @override
@@ -144,6 +145,13 @@ class _BasketListPageState extends State<BasketListPage> {
                                     ],
                                   ),
                                   Spacer(),
+                                  IconButton(
+                                    onPressed: () async {
+                                      await copyAllBasket(basketList[index].id);
+                                      setState(() {});
+                                    },
+                                    icon: Icon(Icons.copy),
+                                  ),
                                   IconButton(
                                     onPressed: () => context.push(
                                         '$barnameViewPage?basketId=${basketList[index].id}&tabIndex=0'),

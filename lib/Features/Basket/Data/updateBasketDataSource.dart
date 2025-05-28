@@ -4,13 +4,11 @@ import 'package:shahabfit/constants/pb.dart';
 Future<String> updateBasket(
     {required String basketId,
     required String name,
-    required int dayCount,
     required String level,
     required String description}) async {
   final body = <String, dynamic>{
     "name": name,
-   "user": AuthManager.readUser(),
-    "dayCount": dayCount,
+    "user": AuthManager.readUser(),
     "level": level,
     "description": description,
   };

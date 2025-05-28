@@ -1,4 +1,3 @@
-import 'package:web/web.dart' as web;
 
 void updatePageUrl(int page) {
   // final uri = Uri.parse(web.window.location.toString());

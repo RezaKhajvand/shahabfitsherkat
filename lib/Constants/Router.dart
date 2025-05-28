@@ -181,9 +181,12 @@ final router = GoRouter(
 
     GoRoute(
       path: createTamrinPage,
-      builder: (context, state) => MobileLayout(
-        child: CreateTamrinPage(),
-      ),
+      builder: (context, state) {
+        final basketId = state.uri.queryParameters['basketId'];
+        return MobileLayout(
+          child: CreateTamrinPage(basketId: basketId),
+        );
+      },
     ),
 
     // Landing Screen

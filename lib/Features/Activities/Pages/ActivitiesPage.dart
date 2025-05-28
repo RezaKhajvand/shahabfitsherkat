@@ -120,7 +120,13 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                   .textTheme
                   .titleLarge!
                   .copyWith(color: Colors.white)),
+          actionsPadding: EdgeInsets.only(left: 10),
           actions: [
+            IconButton(
+                onPressed: () =>
+                    context.go('$createTamrinPage?basketId=$basketId'),
+                icon: const Icon(Icons.edit)),
+            SizedBox(width: 10),
             IconButton(
                 onPressed: () => context.go(
                     '$basketPage?basketId=$basketId&tabIndex=${_tabController.index}'),
