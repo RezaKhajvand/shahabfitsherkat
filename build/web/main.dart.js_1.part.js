@@ -44,8 +44,8 @@ bqr(d){if(d<600)return d/1.2
 else if(d>=600&&d<800)return d/1.5
 else if(d>=800&&d<1100)return d/2
 else if(d>=1100)return d/2.7},
-aVy(d,e){return C.brd(d,e)},
-brd(d,e){var x=0,w=A.v(y.A),v=1,u=[],t,s,r
+aVy(d,e){return C.bre(d,e)},
+bre(d,e){var x=0,w=A.v(y.A),v=1,u=[],t,s,r
 var $async$aVy=A.q(function(f,g){if(f===1){u.push(g)
 x=v}while(true)switch(x){case 0:v=3
 x=6
@@ -84,8 +84,8 @@ A.aZg(x,0.15,B.Ha,B.ae,B.R)}},
 al(){var x=this
 x.aA()
 x.w=A.a([new C.ze("\u0635\u0641\u062d\u0647 \u0627\u0635\u0644\u06cc",x.e),new C.ze("\u0645\u0637\u0627\u0644\u0628 \u0622\u0645\u0648\u0632\u0634\u06cc",x.f),new C.ze("\u0627\u0631\u062a\u0628\u0627\u0637 \u0628\u0627 \u0645\u0627",x.r)],y.m)},
-G(d){var x,w,v,u,t,s,r,q,p,o=this,n=null,m=y.w,l=A.bu(d,n,m).w.a.a
-m=A.bu(d,n,m).w
+G(d){var x,w,v,u,t,s,r,q,p,o=this,n=null,m=y.w,l=A.bv(d,n,m).w.a.a
+m=A.bv(d,n,m).w
 x=C.bqm(l)
 w=F.aeC(l)
 v=o.w
@@ -108,7 +108,7 @@ G(d){var x=null
 return A.bB(A.a([E.mi("images/dumble.png",B.fL,x,45),B.I8,A.aq(this.c,x,x,x,x,B.dL.j7(B.f,C.aUQ(this.d)),x,x)],y.p),B.p,B.q,B.r,x)}}
 C.TZ.prototype={
 gp8(){return B.I7},
-G(d){var x,w,v,u,t,s=null,r="images/logo.png",q=A.bu(d,s,y.w).w.a.a
+G(d){var x,w,v,u,t,s=null,r="images/logo.png",q=A.bv(d,s,y.w).w.a.a
 if(q<750){x=E.mi(r,s,s,120)
 w=q<600?80:150
 v=F.aeC(q)
@@ -116,7 +116,7 @@ return A.eJ(s,s,B.T,s,!0,s,s,A.bB(A.a([new A.bc(new A.ag(v,0,v,0),A.fd(!1,A.em(1
 w=E.mi(r,s,s,120)
 u=J.ez(3,y.l)
 for(v=this.d,t=0;t<3;++t)u[t]=A.a0O(A.aq(v[t].a,s,s,s,s,B.db.j7(B.f,C.aUQ(q)-4),s,s),new C.aiq(this,t),s)
-return A.eJ(s,s,B.T,s,!0,s,s,new A.bc(new A.ag(x,0,x,0),A.bB(A.a([w,new A.e4(new A.a8(0,q/2,0,1/0),A.bB(u,B.p,B.CP,B.r,s),s),A.qC(D.adS,new C.air(d),s)],y.p),B.p,B.bg,B.r,s),s),1/0,s,s,s,70)}}
+return A.eJ(s,s,B.T,s,!0,s,s,new A.bc(new A.ag(x,0,x,0),A.bB(A.a([w,new A.e4(new A.a8(0,q/2,0,1/0),A.bB(u,B.p,B.CP,B.r,s),s),A.qC(D.adS,new C.air(d),s)],y.p),B.p,B.bh,B.r,s),s),1/0,s,s,s,70)}}
 var z=a.updateTypes(["~(dC<R<L>>)"])
 C.aLi.prototype={
 $2(d,e){var x,w,v=null,u=A.em(10),t=A.em(10),s=$.af3()
@@ -126,7 +126,7 @@ x=(x==null?B.lS:x).w.DH(1.8)
 w=s[e]
 w=A.cN(v,B.bN.j7(B.f,16),w.b+"\n")
 s=s[e]
-return A.fd(!1,u,!0,A.bS(A.a([t,B.bh,A.a_3(v,v,3,B.aU,v,v,!0,v,A.cN(A.a([w,A.cN(v,B.fx.j7(B.f,14),s.c)],y.n),x,v),B.ab,v,v,B.ah,B.aF)],y.p),B.p,v,B.q,B.r,0,v),v,!0,v,v,v,v,v,v,v,v,v,new C.aLh(d,e),v,v,v,v,v,v,v)},
+return A.fd(!1,u,!0,A.bS(A.a([t,B.bi,A.a_3(v,v,3,B.aU,v,v,!0,v,A.cN(A.a([w,A.cN(v,B.fx.j7(B.f,14),s.c)],y.n),x,v),B.ab,v,v,B.ah,B.aF)],y.p),B.p,v,B.q,B.r,0,v),v,!0,v,v,v,v,v,v,v,v,v,new C.aLh(d,e),v,v,v,v,v,v,v)},
 $S:73}
 C.aLh.prototype={
 $0(){var x=$.af3()[this.b]
@@ -180,4 +180,4 @@ D.Ia=new A.cu(null,40,null,null)
 D.Ic=new A.cu(null,50,null,null)
 D.adS=new A.cv("\u0648\u0631\u0648\u062f \u0628\u0647 \u0627\u067e",null,null,null,null,null,null,null,null,null)})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_1",e:"endPart",h:b})})($__dart_deferred_initializers__,"noRAqlRaaDZraoOyVxhNBSrZ0Mc=");
+a.eventLog.push({p:"main.dart.js_1",e:"endPart",h:b})})($__dart_deferred_initializers__,"xGi/8b8q4Y+YZZa7DsBkxbAEaQo=");

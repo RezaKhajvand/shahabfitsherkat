@@ -13,13 +13,14 @@ Future<String> getOpenBasketActivity(
     filters.add('id="$recordId"');
   }
   String filterQuery = filters.join(' && ');
-  print(filterQuery);
+  print("Filter======>$filterQuery");
+  print("Header======>${{"id": recordId}}");
   try {
     final records = await pb.collection('basketActivity').getFullList(
-          sort: '+numberView',
-          filter: filterQuery,
-          expand: 'activity,basket,system,activity.catId',
-        );
+        sort: '+numberView',
+        filter: filterQuery,
+        expand: 'activity,basket,system,activity.catId',
+        headers: basketId == null ? {} : {"id": basketId});
 
     print(records.toString());
     return records.toString();

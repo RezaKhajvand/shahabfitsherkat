@@ -26,8 +26,10 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
     on<FetchActivityEvent>((event, emit) async {
       emit((BarnameViewLoading()));
       try {
-        basketActivity = basketActivityFromJson(
-            await getOpenBasketActivity(recordId: event.recordId));
+        basketActivity = basketActivityFromJson(await getOpenBasketActivity(
+          recordId: event.recordId,
+          basketId: event.basketId,
+        ));
         for (var element in basketActivity) {
           element.videoController = setVideoPlayerController(element);
           await element.videoController!.initialize().catchError(onError);

@@ -360,13 +360,14 @@ final router = GoRouter(
       path: barnameDetailPage,
       builder: (context, state) {
         final recordId = state.uri.queryParameters['recordId'] ?? 'recordId';
+         final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
 
         return deferredPageLoader(
           barnamedetail.loadLibrary,
           () => BlocProvider(
             create: (context) => BarnameViewBloc(),
             child: MobileLayout(
-                child: barnamedetail.BarnameDetailPage(recordId: recordId)),
+                child: barnamedetail.BarnameDetailPage(recordId: recordId, basketId: basketId)),
           ),
         );
       },

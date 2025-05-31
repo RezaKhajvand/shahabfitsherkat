@@ -341,7 +341,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                           height: itemHeight,
                                           child: InkWell(
                                             onTap: () => context.go(
-                                                '$barnameDetailPage?recordId=${list[index].id}'),
+                                                '$barnameDetailPage?basketId=${widget.basketId}&recordId=${list[index].id}'),
                                             child: ClipRect(
                                               child: BackdropFilter(
                                                 filter: ImageFilter.blur(

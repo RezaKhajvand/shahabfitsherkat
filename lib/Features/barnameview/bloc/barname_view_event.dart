@@ -17,6 +17,9 @@ final class DisposeBarnameEvent extends BarnameViewEvent {}
 
 final class FetchActivityEvent extends BarnameViewEvent {
   final String recordId;
+    final String basketId;
 
-  FetchActivityEvent({required this.recordId});
+  FetchActivityEvent({required this.recordId, required this.basketId});
+
+ 
 }

@@ -9,9 +9,10 @@ import 'package:video_player/video_player.dart';
 
 class BarnameDetailPage extends StatefulWidget {
   final String recordId;
+    final String basketId;
   const BarnameDetailPage({
     super.key,
-    required this.recordId,
+    required this.recordId, required this.basketId,
   });
 
   @override
@@ -70,7 +71,7 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
     super.initState();
     context
         .read<BarnameViewBloc>()
-        .add(FetchActivityEvent(recordId: widget.recordId));
+        .add(FetchActivityEvent(recordId: widget.recordId,basketId: widget.basketId));
   }
 
   @override
