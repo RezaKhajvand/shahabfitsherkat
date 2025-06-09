@@ -12,7 +12,7 @@ Future<String> updateActivity({
     "title": title,
     "catId": catId,
     "isInBasket": isInBasket,
-  "user": AuthManager.readUser(),
+    "user": AuthManager.readUser(),
     "numberView": numberView,
   }..removeWhere((key, value) => value == null);
   try {

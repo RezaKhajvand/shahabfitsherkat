@@ -1,5 +1,7 @@
 import 'package:pocketbase/pocketbase.dart';
 import 'package:http/http.dart' as http;
+import 'package:shahabfit/Di.dart';
+import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 // http://127.0.0.1:8090/
 // https://bermooda.liara.run
@@ -10,6 +12,7 @@ final pb = PocketBase(
 );
 
 class MyHttpClient extends http.BaseClient {
+  bool firstTime = true;
   final http.Client _inner = http.Client();
 
   @override
@@ -22,8 +25,19 @@ class MyHttpClient extends http.BaseClient {
     final response = await _inner.send(request);
     // هندل کردن 401
     if (response.statusCode == 401) {
-      print("🚨 دریافت 401 - باید logout بشی یا بری لاگین");
-      logOut();
+      try {
+        if (!firstTime) {
+          throw ClientException(response: {"message": "Expired Auth"});
+        }
+        firstTime = false;
+        print('Auth Refreshing');
+        final auth = await pb.collection('users').authRefresh(headers: headers);
+        pb.authStore.save(auth.token, auth.record);
+        await AuthManager.saveAuth(pb.authStore);
+      } catch (e, s) {
+        handleException(e, s);
+        logOut();
+      }
     }
     return response;
   }

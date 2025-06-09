@@ -33,7 +33,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
   double dividerTickness = 2;
   double getLineHeight(int length) =>
       ((itemHeight + itemSpacing) / 2) - dividerTickness / 2;
-  Color getLineColor(int systemSubId) => Colors.grey;
+  Color getLineColor(int systemSubId) => primary;
   // HexColor.fromHex(colorList[systemSubId]);
   @override
   void initState() {
@@ -481,7 +481,10 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                                   );
                                 }),
                               ),
-                              Divider(height: 30, color: Colors.white30),
+                              Divider(
+                                  height: 50,
+                                  thickness: 8,
+                                  color: Colors.white12),
                             ],
                           ),
                         );

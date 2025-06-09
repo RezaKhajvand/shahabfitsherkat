@@ -5,9 +5,9 @@
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "۱-کپی برنامه\n۲-افزودن بخش ثبت برنامه غذایی",
+    "description": "۱-تغییر ظاهری صفحه برنامه تمرینی",
     "orientation": "portrait-primary",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "prefer_related_applications": false,
     "icons": [
         {
