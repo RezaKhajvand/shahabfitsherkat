@@ -80,18 +80,16 @@ class _MyAppState extends State<MyApp> {
 }
 
 initFirebase() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  final notificationSettings =
-      await FirebaseMessaging.instance.requestPermission(provisional: true);
-  final fcmToken = await FirebaseMessaging.instance.getToken(
-      vapidKey:
-          "BJQUpS7dh779bMiGKbdRn7imKkfLH8dHlzTXkk-T39Qev1PXwft3KBtr2V41fM-uDFYXmRt5mSMyocedGH-MQdw");
-  print(fcmToken);
-  FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    final notificationSettings =
+        await FirebaseMessaging.instance.requestPermission(provisional: true);
+    final fcmToken = await FirebaseMessaging.instance.getToken(
+        vapidKey:
+            "BJQUpS7dh779bMiGKbdRn7imKkfLH8dHlzTXkk-T39Qev1PXwft3KBtr2V41fM-uDFYXmRt5mSMyocedGH-MQdw");
     print(fcmToken);
-  }).onError((err) {
-    print(err);
-  });
+  } catch (e) {
+    print(e);
+  }
 }
