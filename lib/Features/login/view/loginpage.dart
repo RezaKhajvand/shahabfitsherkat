@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,7 @@ import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/customlinearloading.dart';
 import 'package:shahabfit/constants/values.dart';
+import 'package:shahabfit/firebase_options.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,6 +37,29 @@ class _LoginPageState extends State<LoginPage>
   fingerLoginTap() {
     BlocProvider.of<LoginBloc>(context)
         .add(LoginEvent(phone: "", password: "", type: LoginType.finger));
+  }
+
+  initFirebase() async {
+    try {
+      await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform);
+      final notificationSettings =
+          await FirebaseMessaging.instance.requestPermission(provisional: true);
+      print(notificationSettings);
+      final fcmToken = await FirebaseMessaging.instance.getToken(
+          vapidKey:
+              "BJQUpS7dh779bMiGKbdRn7imKkfLH8dHlzTXkk-T39Qev1PXwft3KBtr2V41fM-uDFYXmRt5mSMyocedGH-MQdw");
+      print(fcmToken);
+      getSuccessSnackbar(context, fcmToken ?? 'Failed');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initFirebase();
   }
 
   @override

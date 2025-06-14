@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Di.dart';
 import 'package:shahabfit/Features/Basket/Bloc/basketlist/basket_list_bloc.dart';
 import 'package:shahabfit/Features/login/bloc/login_bloc.dart';
+import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/constants/router.dart';
 import 'package:shahabfit/constants/theme.dart';
 import 'package:shahabfit/Features/Activities/Bloc/ActivityBloc/activity_bloc.dart';
@@ -16,8 +17,6 @@ import 'package:shahabfit/Features/System/Bloc/System/system_bloc.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart';
 import 'package:shahabfit/Features/oldversion/bloc/updateshagerd/update_shagerd_bloc.dart';
 import 'package:shahabfit/Utils/scrollbehavior.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
 final globalKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
@@ -29,7 +28,6 @@ void main() async {
   await getItInit();
   usePathUrlStrategy();
   GoRouter.optionURLReflectsImperativeAPIs = true;
-  await initFirebase();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -76,20 +74,5 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [Locale("fa", "IR")],
       locale: const Locale("fa", "IR"),
     );
-  }
-}
-
-initFirebase() async {
-  try {
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-    final notificationSettings =
-        await FirebaseMessaging.instance.requestPermission(provisional: true);
-    final fcmToken = await FirebaseMessaging.instance.getToken(
-        vapidKey:
-            "BJQUpS7dh779bMiGKbdRn7imKkfLH8dHlzTXkk-T39Qev1PXwft3KBtr2V41fM-uDFYXmRt5mSMyocedGH-MQdw");
-    print(fcmToken);
-  } catch (e) {
-    print(e);
   }
 }
