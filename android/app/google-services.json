@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "340889079632",
+    "project_id": "dynup-d424c",
+    "storage_bucket": "dynup-d424c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340889079632:android:2e05ffa6a95f9dd1d5a655",
+        "android_client_info": {
+          "package_name": "com.example.shahabfit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4PUxqiKlF7XWk5nT70RvwmEgf-VZi1ZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
