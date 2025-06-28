@@ -56,11 +56,11 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    initFirebase();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // initFirebase();
+  // }
 
   @override
   Widget build(BuildContext context) {
