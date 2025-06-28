@@ -73,7 +73,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "07efec4482152d4679edefe5a7ffba34
 "canvaskit/skwasm.wasm": "39dd80367a4e71582d234948adc521c0",
 "firebase-messaging-sw.js": "c341a6f1e5b82cc80415e49cadad636b",
 "flutter.js": "83d881c1dbb6d6bcd6b42e274605b69c",
-"flutter_bootstrap.js": "ebec85a58696d2822a6842fd33fac403",
+"flutter_bootstrap.js": "c81bbbeb5a9f98fb160a9c8b8b05e42a",
 "index.html": "364f150fac6a1ed0245b7da23cac9780",
 "/": "364f150fac6a1ed0245b7da23cac9780",
 "logo.png": "e0c387db7ef131864d40b3df83d4432a",
