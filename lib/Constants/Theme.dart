@@ -10,7 +10,7 @@ ThemeData getTheme({required bool isFirstTheme}) {
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: primaryColor,
     ),
-    tabBarTheme: TabBarTheme(
+    tabBarTheme: TabBarThemeData(
       dividerColor: Colors.transparent,
       indicatorSize: TabBarIndicatorSize.tab,
       indicator:
