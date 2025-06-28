@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "engine": "v2",
+  "file": "main.dart.js_16.part.js",
+  "sourceRoot": "",
+  "sources": ["../../../../../../../flutter/packages/flutter/lib/src/rendering/proxy_box.dart","org-dartlang-sdk:///dart-sdk/lib/_internal/js_runtime/lib/js_number.dart","../../../../../../../flutter/packages/flutter/lib/src/rendering/object.dart","../../../../../../../flutter/packages/flutter/lib/src/rendering/box.dart","org-dartlang-sdk:///lib/ui/geometry.dart","../../../../../../../flutter/packages/flutter/lib/src/widgets/basic.dart"],
+  "names": ["RenderAspectRatio.aspectRatio","RenderAspectRatio.computeMinIntrinsicWidth","RenderAspectRatio.computeMaxIntrinsicWidth","RenderAspectRatio.computeMinIntrinsicHeight","RenderAspectRatio.computeMaxIntrinsicHeight","RenderAspectRatio._applyAspectRatio","BoxConstraints.isTight","BoxConstraints.smallest","RenderAspectRatio.computeDryLayout","RenderAspectRatio.computeDryBaseline","RenderAspectRatio.performLayout","AspectRatio.createRenderObject","RenderBox._layoutCacheStorage","RenderObject","RenderAspectRatio","RenderProxyBox","AspectRatio.updateRenderObject","_RenderProxyBox&RenderBox&RenderObjectWithChildMixin&RenderProxyBoxMixin","_RenderProxyBox&RenderBox&RenderObjectWithChildMixin","RenderBox","","_layerHandle","_layoutCacheStorage","child","constrainHeight","constrainWidth","constraints","getDryLayout","getMaxIntrinsicHeight","getMaxIntrinsicWidth","getMinIntrinsicHeight","getMinIntrinsicWidth","hasTightHeight","hasTightWidth","isFinite","isTight","size","smallest"],
+  "mappings": "A;;;;;;;;;;;;;;;;;;;;;;;;;;;IA8cMA,aAGEA,OACFA,MAIJA;IAFEA;AACAA,SACFA,C;EAGOC,IACLA;ACtZmBA,eDuZjBA,aAAgBA,EAGpBA;MEujHwBA;AC15EfA,qBAAuCA,MAAkBA;AH9pChEA,kBACFA,C;EAGOC,IACLA;AC9ZmBA,eD+ZjBA,aAAgBA,EAGpBA;ME+iHwBA;AC5wEfA,qBAAuCA,MAAkBA;AHpyChEA,kBACFA,C;EAGOC,IACLA;ACtamBA,eDuajBA,aAAeA,EAGnBA;MEuiHwBA;AC/rEfA,qBAAuCA,MAAkBA;AHz2ChEA,kBACFA,C;EAGOC,IACLA;AC9amBA,eD+ajBA,aAAeA,EAGnBA;ME+hHwBA;ACnnEfA,qBAAuCA,MAAkBA;AH76ChEA,kBACFA,C;GAEKC,mBGtIqBC,MAAYA;ACzRhCC,UD4RqBD,KAAaA,GHmJpCD,eG/PKE,WAOAA,OAAoBA,IAAWA,IHkSxCF;MAhCqBA;AADnBA,AC7cmBA,gBD8cRA;AAWPA,YATmBA;AACbA,MAQVA,OAEWA;;GAGcA;AAAzBA,QAEUA;IAGVA,OAEWA;;GAGcA;AAAzBA,QAEUA;AAG+BA,IAAzCA,OAAOA,KIxdHA,aJydNA,C;EAIKG,IACHA,OAAOA,WACTA,C;EAGQC,MACNA,OAAaA,QAAkCA,KGu6CxCA,SAA4CA,KAAwBA,eHt6C7EA,C;EAGKC,GACHA;AGk6COA,CAuVPA,UAvVmDA,GA2hBDA,MAAZA,2BA3hBqCA;GDkjErDA;WFn9GtBA,KAA6BA,KAAMA,SACrCA,C;;EK47FkBC,IL7jGlBA,mBK8jGmCA,QFr5EzBC,WDs5DuCC;AF/jFjDC;AAhZOC;AK88GHJ,QAA2CA,C;EAG1CK,MACUA,aAAcA,GAC7BA,C",
+  "x_org_dartlang_dart2js": {
+    "minified_names": {
+      "global": "",
+      "instance": ""
+    },
+    "frames": "ojBA0dekCe;sBAGJXI;AAAAQoC;iCAKIGe;sBAGJXI;AAAAMoC;iCAKGKe;sBAGHXI;AAAAOoC;iCAKGIe;sBAGHXI;AAAAKoC;2CAkBSOAG9IEFS,A;AH+IGIAGzJFjBU,A;AHwJHeAG9ImBHQ,A;eH+IdKAGzJGZW,AAAqBDe,A;UHkKnCUgB;mIAgCmBda;0DAWwBO6B;qBAK9CAC;AAAPSU;AAAOTG;AAAaDiC;AAAbCY;AACPJe;6CK87FEHmB;QAAAAAL1jGAAAArZJAAAPIAAAAAAAG+/C4CEAAAAFW,A,AARnCAADg+CoCCQ,A,A,A,A,A,AAtsCjDDO,AF1wDAAAAiZAAY,A,A;"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "engine": "v2",
+  "file": "main.dart.js_13.part.js",
+  "sourceRoot": "",
+  "sources": ["../../../lib/Features/Basket/Widgets/SystemPickerPage.dart","../../../../../../../flutter/packages/flutter/lib/src/widgets/framework.dart","../../../lib/Features/System/Bloc/System/system_event.dart","../../../../../../../flutter/packages/flutter/lib/src/painting/box_decoration.dart","../../../../../../../flutter/packages/flutter/lib/src/widgets/basic.dart","../../../lib/Features/Basket/Bloc/Basket/basket_event.dart","../../../../../AppData/Local/Pub/Cache/hosted/pub.dev/go_router-14.8.1/lib/src/router.dart","../../../../../AppData/Local/Pub/Cache/hosted/pub.dev/go_router-14.8.1/lib/src/misc/extensions.dart"],
+  "names": ["SystemPickerPage","SystemPickerPage.createState","_SystemPickerPageState.initState","_SystemPickerPageState.build","_SystemPickerPageState.backToBasket","_SystemPickerPageState.build.<anonymous function>","_SystemPickerPageState.build.<anonymous function>.<anonymous function>","_SystemPickerPageState.build.<anonymous function>.<anonymous function>.<anonymous function>","_SystemPickerPageState.build.<anonymous function>.<anonymous function>.<anonymous function>.<anonymous function>","_SystemPickerPageState.build.<anonymous function>.<anonymous function>.<anonymous function>.<anonymous function>.<anonymous function>","_SystemPickerPageState.backToBasket.<anonymous function>","GoRouterHelper.go","","GoRouterHelper|go","context","of","widget"],
+  "mappings": "A;;;0DAiBQA;sCAKJA,C;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAMEC;EAHoBA,GAAiBA,kBAAwBA,C;;EAK5DC,GACGA;UC+5BCA;CAAQA;AD95BFA,YAAwBA,IE5BnCA,WF6BJA,C;CAGOC,IACLA;OAAOA,KAEGA,UADSA,WAEJA,WACyCA,MAAWA,eAA9CA,kCACFA,SAJAA,GAMXA,SACKA,kCA4FfA,C;GAEKC,IAAsCA,OAAOA,OAE9CA,kBAC2EA,C;;AArGlDC;EAANA,GAAMA,sBAAaA,GAAQA,C;;;EAInCA,MACPA;sBAEkBA,GADOA;AACvBA,mBAGsBA,KAKPA,qBANSA,SADPA,YAqFpBA,CADCA,QAAaA,GACdA,C;;;EA9EkBC,MACGA,+BA0DOA,MAAkBA;AA3DRA,oBAsDxBA,OAEEA,OAOEA,KACEA,MACLA,GAAkBA,WACLA,MACRA,GACAA,IACAA,IAAuBA,sBGjC5CA,UHwB4BA,eGhB3BA,cHkB0BA,wCA5DZA,sCAwERA,C;;;EAxEQC,wBAEHA;AADFA,OIujEVA,UJpjE6BA,IACRA,KAGKA,KACRA,mFAEeA,MACRA,GACAA,IACAA,IAAuBA,UAExBA,IACNA,6UAEeA,MACRA,GACAA,GACAA,IARuBA,UAUxBA,IACGA,SAIGA,KAKGA,wCA3BsBA,WADZA,YA6ClCA,C;;;EAjBwBC,MACTA;YASWA,yCACQA,KAAiCA,2BATrCA,sCASyDA,C;;;EATzDC,iBACmBA,MAEFA;AAFbA,YAAwBA,IKzEzEA,UJu4BgBA,EAAOA,SD3zB6BA,IAAWA,KACNA;AACrBA,QACDA,C;;;EAwC/BC,aAC4BA,EC+wBhBA,MAAOA;AKtZOC,GNzXqCD;AADzDA,oBOlHYA,+CPmHwDA,C",
+  "x_org_dartlang_dart2js": {
+    "minified_names": {
+      "global": "",
+      "instance": ""
+    },
+    "frames": "qwBAyB2CYmB;mEAOXEc;gBAAaFW;smBAiFbAU;eAAAAc;8IApDZAU;0yBAmCsBAU;AACsBIW;oEA6C9BAS;AADdHAOlHLEG,A;uBPkHKF+C;"
+  }
+}

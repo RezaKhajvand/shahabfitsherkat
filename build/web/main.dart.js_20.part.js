@@ -7,3 +7,4 @@ B=c[28]
 var z=a.updateTypes([]);(function constants(){B.Jp=new A.cA("\u0627\u0641\u0632\u0648\u062f\u0646",null,null,null,null,null,null,null,null,null)})()};
 ((a,b)=>{a[b]=a.current
 a.eventLog.push({p:"main.dart.js_20",e:"endPart",h:b})})($__dart_deferred_initializers__,"ieo0DEkdGokIsw879BcZH4aVQiY=");
+//# sourceMappingURL=main.dart.js_20.part.js.map

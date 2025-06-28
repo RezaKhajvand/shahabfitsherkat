@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "engine": "v2",
+  "file": "main.dart.js_17.part.js",
+  "sourceRoot": "",
+  "sources": ["../../../../../AppData/Local/Pub/Cache/hosted/pub.dev/video_player-2.9.5/lib/video_player.dart","../../../../../../../flutter/packages/flutter/lib/src/widgets/framework.dart","../../../../../../../flutter/packages/flutter/lib/src/foundation/change_notifier.dart","../../../../../../../flutter/packages/flutter/lib/src/widgets/basic.dart"],
+  "names": ["_VideoPlayerState","VideoPlayer.createState","_VideoPlayerState.initState","_VideoPlayerState.didUpdateWidget","_VideoPlayerState.deactivate","_VideoPlayerState.build","_VideoPlayerWithRotation.build","_VideoPlayerState.<anonymous function>","_VideoPlayerState.<anonymous function>.<anonymous function>","","_listener","_textureId","removeListener","textureId","value","widget"],
+  "mappings": "A;;;;GAi0BEA;;QASAA,C;;;;;;;;;;;;;;;;AAboCC;EAAjBA,GAAiBA,cAAmBA,C;;GAIvDD,GACcA,IAUIA,kBAFlBA,C;EAOKE,GACGA;;GC2EQA,EAAOA;CD/EdA,IArcYA;GAmcHA;;AAUTA,QACTA,C;EAGKC,IACGA;;GACIA;GAhBMA;;KA5DXA,IACGA;GC4IMA,EAAOA;CD/EdA,IArcYA;AAqdZA,OAlBSA,GAmBlBA,C;EAGKC,GACGA;;MC0DQA,EAAOA;MDjFLA;;KA5DXA,IACGA,SAoFVA,C;CAGOC,qBA1BEA;;AA2BPA,cACMA,oCASFA,cC0CUA,EAAOA,ECrXRA,EFoU6BA,IAC3BA,OAAqBA,QA/B7BA,MAiCTA,C;;CAWOC,cACDA;AAAJA,SACEA,WAAOA,EAMXA;AAJEA,OG8qCIA,oBH5qCKA,QAEXA,C;;;EAhEcC,aACeA,MC0FbA,EAAOA,EDphBFA,OAqcZA;;AAVLA,SACEA,KAASA,eAIZA,C;;;EAJYC,OACPA,EAQCA,OARYA,EACdA,C",
+  "x_org_dartlang_dart2js": {
+    "minified_names": {
+      "global": "",
+      "instance": ""
+    },
+    "frames": "kPAi0BESQ;6VACECkB;iCAiBaKM;AAAbJI;AAA+BEO;AAGDHgB;iDAMMAqB;AAA1BEiB;AACGGM;AAAbJI;AAA+BEI;OACDHG;gCAM9BKW;AAAiCLqB;AAA1BEa;yBAKADgB;kDAEDFc;AACYMI;AAAkBDE;mBACUHM;qEAiBvCFoB;0EA3DoBMI;AAAkBFO;AACvBFgB;mEAEhBAO;"
+  }
+}
