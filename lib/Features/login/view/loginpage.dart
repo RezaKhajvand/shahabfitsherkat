@@ -43,15 +43,11 @@ class _LoginPageState extends State<LoginPage>
     try {
       await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform);
-      final notificationSettings =
-          await FirebaseMessaging.instance.requestPermission(provisional: true);
-      print(notificationSettings);
-      final fcmToken = await FirebaseMessaging.instance.getToken(
-          vapidKey:
-              "BJQUpS7dh779bMiGKbdRn7imKkfLH8dHlzTXkk-T39Qev1PXwft3KBtr2V41fM-uDFYXmRt5mSMyocedGH-MQdw");
-      print(fcmToken);
-      getSuccessSnackbar(context, fcmToken ?? 'Failed');
+      await FirebaseMessaging.instance.requestPermission(provisional: true);
+      await FirebaseMessaging.instance.subscribeToTopic("dynup");
+      getSuccessSnackbar(context, 'Success');
     } catch (e) {
+      getErrorSnackbar(context, 'Failed');
       print(e);
     }
   }
