@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +8,6 @@ import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/Widgets/customlinearloading.dart';
 import 'package:shahabfit/constants/values.dart';
-import 'package:shahabfit/firebase_options.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
 class LoginPage extends StatefulWidget {
@@ -37,25 +34,6 @@ class _LoginPageState extends State<LoginPage>
   fingerLoginTap() {
     BlocProvider.of<LoginBloc>(context)
         .add(LoginEvent(phone: "", password: "", type: LoginType.finger));
-  }
-
-  initFirebase() async {
-    try {
-      await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform);
-      await FirebaseMessaging.instance.requestPermission(provisional: true);
-      await FirebaseMessaging.instance.subscribeToTopic("dynup");
-      getSuccessSnackbar(context, 'Success');
-    } catch (e) {
-      getErrorSnackbar(context, 'Failed');
-      print(e);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initFirebase();
   }
 
   @override
