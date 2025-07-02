@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Basket/Models/description_model.dart';
 import 'package:shahabfit/Features/Basket/Utils/proxydecorator.dart';
 import 'package:shahabfit/Features/Daylimeal/Data/update_daylimeal_datasource.dart';
@@ -8,6 +9,7 @@ import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
 
 class DaylimealScreen extends StatefulWidget {
@@ -30,6 +32,7 @@ class DaylimealScreenState extends State<DaylimealScreen> {
     [TextEditingController()]
   ];
   List<String> mealWidgets = ['صبحانه', 'ناهار', 'شام'];
+  bool initialized = false;
 
   void addMeal() {
     print(controllers);
@@ -85,7 +88,7 @@ class DaylimealScreenState extends State<DaylimealScreen> {
   @override
   void initState() {
     super.initState();
-    
+
     BlocProvider.of<DaylimealListBloc>(context)
         .add(DaylimealListEvent(barnameId: widget.barnameId));
   }
@@ -125,12 +128,16 @@ class DaylimealScreenState extends State<DaylimealScreen> {
                           ),
                         )),
                         id: widget.barnameId),
-                    icon: Icon(Icons.save))
+                    icon: Icon(Icons.save)),
+                IconButton(
+                    onPressed: () => context.go(
+                        '$dayliViewPage?basketId=${widget.barnameId}&tabIndex=0'),
+                    icon: Icon(Icons.preview)),
               ],
             ),
             body: BlocBuilder<DaylimealListBloc, DaylimealListState>(
               builder: (context, state) {
-                if (state is DaylimealListLoaded) {
+                if (state is DaylimealListLoaded && !initialized) {
                   trainer = state.daylimelaList.first;
                   if (trainer != null && trainer!.daylimeal.isNotEmpty) {
                     final daylimealList = trainer!.daylimeal;
@@ -146,6 +153,7 @@ class DaylimealScreenState extends State<DaylimealScreen> {
                       ),
                     );
                   }
+                  initialized = true; // فقط همین یک بار!
                 }
 
                 return ReorderableListView.builder(

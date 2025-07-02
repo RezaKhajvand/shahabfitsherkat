@@ -71,8 +71,8 @@ class _BasketPageState extends State<BasketPage>
           actions: [
             IconButton(
                 onPressed: () => context.go(
-                    '$barnameViewPage?basketId=${widget.basketInputs.basketId}&tabIndex=0'),
-                icon: Icon(Icons.share)),
+                    '$tamrinViewPage?basketId=${widget.basketInputs.basketId}&tabIndex=0'),
+                icon: Icon(Icons.preview)),
           ],
           title: Text('سبد تمرین',
               style: Theme.of(context)

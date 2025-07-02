@@ -86,7 +86,7 @@ class _BarnameDetailPageState extends State<BarnameDetailPage> {
         listener: (context, state) {},
         builder: (context, state) {
           if (state is BarnameViewLoaded) {
-            final harkat = state.basketActivity.first;
+            final harkat = state.basketActivity!.first;
             videoController = harkat.videoController!;
             videoController.setLooping(true);
             final description = harkat.expand.activity?.description;

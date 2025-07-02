@@ -11,6 +11,7 @@ import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_list_screen.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_screen.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
+import 'package:shahabfit/Features/barnameview/page/daylimealview_screen.dart';
 import 'package:shahabfit/Features/login/data/fingerprint.dart';
 import 'package:shahabfit/Features/oldversion/managepage.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
@@ -60,7 +61,8 @@ const String shagerdSearchPage = '/shagerdsearch';
 const String daylimealListPage = '/daylimeallist';
 const String editShagerdPage = '/editshagerd';
 const String createShagerdPage = '/createshagerd';
-const String barnameViewPage = '/barnameview';
+const String tamrinViewPage = '/tamrinview';
+const String dayliViewPage = '/dayliview';
 const String barnameDetailPage = '/barnamedetailview';
 const String createTamrinPage = '/createtamrin';
 const String profilePage = '/profile';
@@ -103,8 +105,9 @@ final router = GoRouter(
       }
       return null;
     } else {
-      if (state.uri.path.contains(barnameViewPage) ||
-          state.uri.path.contains(barnameDetailPage)) {
+      if (state.uri.path.contains(tamrinViewPage) ||
+          state.uri.path.contains(barnameDetailPage)||
+          state.uri.path.contains(dayliViewPage)) {
         return null;
       }
       return loginPage;
@@ -340,7 +343,7 @@ final router = GoRouter(
     ),
     // Barname View Screen with MultiBlocProvider
     GoRoute(
-      path: barnameViewPage,
+      path: tamrinViewPage,
       builder: (context, state) {
         final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
         final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
@@ -355,19 +358,34 @@ final router = GoRouter(
         );
       },
     ),
+
+    GoRoute(
+      path: dayliViewPage,
+      builder: (context, state) {
+        final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
+        final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
+        return MultiBlocProvider(
+          providers: [BlocProvider(create: (context) => BarnameViewBloc())],
+          child: MobileLayout(
+              child: DaylimealViewPage(basketId: basketId, tabIndex: tabIndex)),
+        );
+      },
+    ),
+
     // Barname Detail Screen with MultiBlocProvider
     GoRoute(
       path: barnameDetailPage,
       builder: (context, state) {
         final recordId = state.uri.queryParameters['recordId'] ?? 'recordId';
-         final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
+        final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
 
         return deferredPageLoader(
           barnamedetail.loadLibrary,
           () => BlocProvider(
             create: (context) => BarnameViewBloc(),
             child: MobileLayout(
-                child: barnamedetail.BarnameDetailPage(recordId: recordId, basketId: basketId)),
+                child: barnamedetail.BarnameDetailPage(
+                    recordId: recordId, basketId: basketId)),
           ),
         );
       },

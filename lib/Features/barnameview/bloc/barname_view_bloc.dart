@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:shahabfit/Features/Activities/Data/BasketActivityCollection/getOpenBasketActivityDataSource.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
+import 'package:shahabfit/Features/Daylimeal/Data/daylimeal_datasource.dart';
+import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/barnameview/utils/setvideoplayercontroller.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 
@@ -63,6 +65,16 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
             basketActivity: basketActivity,
             dayIndex: dayIndex,
             filledDays: filledDays)));
+      } catch (e, s) {
+        emit((BarnameViewError(errormessage: handleException(e, s))));
+      }
+    });
+    on<FetchDaylimealEvent>((event, emit) async {
+      emit((BarnameViewLoading()));
+      try {
+        final daylimeal = daylimelFromJson(await getDaylimeal(event.basketId));
+      
+        emit((BarnameViewLoaded(daylimeal:daylimeal)));
       } catch (e, s) {
         emit((BarnameViewError(errormessage: handleException(e, s))));
       }

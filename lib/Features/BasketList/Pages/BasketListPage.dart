@@ -154,7 +154,7 @@ class _BasketListPageState extends State<BasketListPage> {
                                   ),
                                   IconButton(
                                     onPressed: () => context.push(
-                                        '$barnameViewPage?basketId=${basketList[index].id}&tabIndex=0'),
+                                        '$tamrinViewPage?basketId=${basketList[index].id}&tabIndex=0'),
                                     icon: Icon(Icons.share),
                                   ),
                                   IconButton(

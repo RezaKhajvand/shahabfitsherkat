@@ -70,15 +70,12 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                 backgroundColor: background,
                 title: state is BarnameViewLoaded
                     ? Builder(builder: (context) {
-                        final name =
-                            state.basketActivity.first.expand.basket?.name ??
-                                '';
-                        final description = state.basketActivity.first.expand
-                                .basket?.description ??
-                            '';
+                        final harkat = state.basketActivity!;
+                        final name = harkat.first.expand.basket?.name ?? '';
+                        final description =
+                            harkat.first.expand.basket?.description ?? '';
 
-                        final date =
-                            state.basketActivity.first.expand.basket?.created;
+                        final date = harkat.first.expand.basket?.created;
                         return Row(
                           children: [
                             Text(name, style: context.anjomanBold),
@@ -137,7 +134,9 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                       child: InkWell(
                         onTap: () {
                           updatePageUrl(index);
-                          fetchActivity(index.toString());
+                          fetchActivity(filledDays[index].toString());
+                          setState(
+                              () => _selectedDay = int.parse(index.toString()));
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -182,7 +181,6 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                 listener: (context, state) {
                   if (state is BarnameViewLoaded) {
                     setState(() {
-                      _selectedDay = int.parse(state.dayIndex ?? '0');
                       if (filledDays.isEmpty) {
                         filledDays = state.filledDays ?? [0];
                       }
@@ -204,7 +202,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                   }
 
                   if (state is BarnameViewLoaded) {
-                    final harkat = state.basketActivity;
+                    final harkat = state.basketActivity!;
                     List<List<ActivityItem>> groupedList = [];
                     Map<String, Map<int, List<ActivityItem>>> grouped = {};
                     for (var i = 0; i < harkat.length; i++) {
