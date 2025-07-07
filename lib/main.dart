@@ -19,10 +19,7 @@ import 'package:shahabfit/Utils/scrollbehavior.dart';
 final globalKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp, // فقط حالت عمودی رو به بالا
-  ]);
-
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await getItInit();
   usePathUrlStrategy();
   GoRouter.optionURLReflectsImperativeAPIs = true;

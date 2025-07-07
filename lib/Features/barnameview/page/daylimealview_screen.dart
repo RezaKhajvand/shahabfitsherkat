@@ -70,7 +70,6 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
                     ? Builder(builder: (context) {
                         final daylimeal = state.daylimeal!;
                         final name = daylimeal.name;
-                        final description = daylimeal.goal;
                         final date = daylimeal.created;
                         return Row(
                           children: [
@@ -78,38 +77,6 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
                             Spacer(),
                             Text(format1(Jalali.fromDateTime(date)),
                                 style: context.anjomanLight),
-                            SizedBox(width: 10),
-                            IconButton(
-                                onPressed: () => customModalSheet(
-                                      context,
-                                      Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text('توضیحات',
-                                                style: context.anjomanBold),
-                                            SizedBox(
-                                                width: double.infinity,
-                                                height: 16),
-                                            Text(description),
-                                            SizedBox(height: 30),
-                                            Center(
-                                              child: SizedBox(
-                                                width: double.infinity,
-                                                child: OutlinedButton(
-                                                    onPressed: () =>
-                                                        context.pop(),
-                                                    child: Text('بستن')),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                icon: Icon(Icons.info_outlined))
                           ],
                         );
                       })
@@ -130,9 +97,9 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
                       child: InkWell(
                         onTap: () {
                           updatePageUrl(index);
+                          fetchmeals();
                           setState(() =>
                               _selectedMeal = int.parse(index.toString()));
-                          fetchmeals();
                         },
                         child: Container(
                           decoration: BoxDecoration(
