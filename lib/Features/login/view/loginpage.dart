@@ -69,13 +69,13 @@ class _LoginPageState extends State<LoginPage>
                 Row(
                   children: [
                     Text('به  ', style: context.anjomanMedium),
-                    Text('برمودا  ',
+                    Text('دایناپ  ',
                         style: context.anjomanBlack.copyWith(color: primary)),
                     Text('خوش اومدی', style: context.anjomanMedium),
                   ],
                 ),
                 SizedBox(height: 8),
-                Text('''این مثلث برمودا تا فیتت نکنه ول نمیکنه!''',
+                Text('''دایناپ تا فیتت نکنه ول نمیکنه!''',
                     style: context.anjomanExtraLight
                         .copyWith(color: Colors.white54)),
                 SizedBox(height: 20),

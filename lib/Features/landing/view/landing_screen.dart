@@ -165,7 +165,7 @@ class _LandingScreenState extends State<LandingScreen> {
                         child: Column(
                           children: [
                             Text(
-                              'با شهاب فیت در تماس باشید',
+                              'با دایناپ در تماس باشید',
                               textAlign: TextAlign.center,
                               style: context.anjomanBlack.copyWith(
                                   color: primary,

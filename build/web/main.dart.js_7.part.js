@@ -129,7 +129,7 @@ d.ao(x).f.GR(A.aC6(w,w,w,D.NC,w,C.J,w,A.ak("\u0648\u0631\u0648\u062f \u0645\u064
 A.ck(d).Ok("/splash",w,y.X)}if(e instanceof A.Hl)A.xA(d,e.a,w)},
 $S:793}
 B.aNZ.prototype={
-$2(d,e){var x,w,v,u=null,t=A.dk(new A.bh(D.Q8,F.mB("images/render-min.png",C.dr,u,1/0),u),u,u),s=y.p,r=A.bC(A.a([A.ak("\u0628\u0647  ",u,u,u,u,C.di,u,u),A.ak("\u0628\u0631\u0645\u0648\u062f\u0627  ",u,u,u,u,C.dh.aM(C.W),u,u),A.ak("\u062e\u0648\u0634 \u0627\u0648\u0645\u062f\u06cc",u,u,u,u,C.di,u,u)],s),C.p,C.n,C.q,u),q=A.be(u,8,u),p=A.ak("\u0627\u06cc\u0646 \u0645\u062b\u0644\u062b \u0628\u0631\u0645\u0648\u062f\u0627 \u062a\u0627 \u0641\u06cc\u062a\u062a \u0646\u06a9\u0646\u0647 \u0648\u0644 \u0646\u0645\u06cc\u06a9\u0646\u0647!",u,u,u,u,C.fE.aM(E.ip),u,u),o=A.be(u,20,u),n=this.a,m=y.s,l=A.a(["username"],m),k=A.a([new A.ki()],y.V),j=A.eK(D.QL,C.W,u,20)
+$2(d,e){var x,w,v,u=null,t=A.dk(new A.bh(D.Q8,F.mB("images/render-min.png",C.dr,u,1/0),u),u,u),s=y.p,r=A.bC(A.a([A.ak("\u0628\u0647  ",u,u,u,u,C.di,u,u),A.ak("\u062f\u0627\u06cc\u0646\u0627\u067e  ",u,u,u,u,C.dh.aM(C.W),u,u),A.ak("\u062e\u0648\u0634 \u0627\u0648\u0645\u062f\u06cc",u,u,u,u,C.di,u,u)],s),C.p,C.n,C.q,u),q=A.be(u,8,u),p=A.ak("\u062f\u0627\u06cc\u0646\u0627\u067e \u062a\u0627 \u0641\u06cc\u062a\u062a \u0646\u06a9\u0646\u0647 \u0648\u0644 \u0646\u0645\u06cc\u06a9\u0646\u0647!",u,u,u,u,C.fE.aM(E.ip),u,u),o=A.be(u,20,u),n=this.a,m=y.s,l=A.a(["username"],m),k=A.a([new A.ki()],y.V),j=A.eK(D.QL,C.W,u,20)
 k=A.fQ(l,n.e,A.zh(u,u,u,u,u,u,u,u,!0,new A.fJ(4,C.eI,new A.bc(C.h4,1,C.F,-1)),u,u,u,u,u,C.qd,!0,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,u,A.ak("\u0634\u0645\u0627\u0631\u0647 \u0647\u0645\u0631\u0627\u0647",u,u,u,u,u,u,u),u,u,!0,!0,u,u,u,u,u,u,u,u,j,u,u,u,u),u,!0,u,k,u,u,1,!1,u,u,u,u,u,C.af,u,u,u)
 j=A.be(u,14,u)
 m=A.a(["password"],m)
@@ -187,4 +187,4 @@ D.QL=new A.c1(58530,"MaterialIcons",null,!1)
 D.QT=new A.c1(59069,"MaterialIcons",null,!1)
 D.QU=new A.c1(59070,"MaterialIcons",null,!1)})()};
 ((a,b)=>{a[b]=a.current
-a.eventLog.push({p:"main.dart.js_7",e:"endPart",h:b})})($__dart_deferred_initializers__,"0d9N/sdll6H2dbp0LW9aaFgLSiA=");
+a.eventLog.push({p:"main.dart.js_7",e:"endPart",h:b})})($__dart_deferred_initializers__,"dE/rLWr+SYRJ477tbB0fBzMei88=");
