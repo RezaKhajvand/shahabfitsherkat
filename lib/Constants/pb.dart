@@ -12,7 +12,6 @@ final pb = PocketBase(
 );
 
 class MyHttpClient extends http.BaseClient {
-  bool firstTime = true;
   final http.Client _inner = http.Client();
 
   @override
@@ -24,13 +23,8 @@ class MyHttpClient extends http.BaseClient {
     }
     final response = await _inner.send(request);
     // هندل کردن 401
-    if (response.statusCode == 401) {
+    if (response.statusCode == 403) {
       try {
-        if (!firstTime) {
-          throw ClientException(
-              response: {"message": "Expired Auth"}, statusCode: 400);
-        }
-        firstTime = false;
         print('Auth Refreshing');
         final auth = await pb.collection('users').authRefresh(headers: headers);
         pb.authStore.save(auth.token, auth.record);

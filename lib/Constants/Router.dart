@@ -19,6 +19,7 @@ import 'package:shahabfit/Widgets/mobile_layout.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart'; // بلاک
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart'; // بلاک‌ها هم به صورت عادی باقی می‌مانند
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart'; // مدل
+import 'package:lottie/lottie.dart';
 
 // Deferred imports for lazy loading
 import 'package:shahabfit/Features/Activities/Pages/ActivitiesPage.dart'
@@ -165,19 +166,7 @@ final router = GoRouter(
         GoRoute(
           path: profilePage,
           builder: (BuildContext context, GoRouterState state) {
-            return Scaffold(
-                appBar: AppBar(
-                  actions: [
-                    IconButton(
-                        onPressed: () => registerFingerprint(),
-                        icon: Icon(Icons.fingerprint)),
-                    IconButton(
-                        onPressed: () => logOut(),
-                        icon: Icon(Icons.logout_rounded)),
-                  ],
-                ),
-                backgroundColor: background,
-                body: const Center(child: Text('کاربری')));
+            return ProfilePage();
           },
         ),
       ],
@@ -393,3 +382,72 @@ final router = GoRouter(
     ),
   ],
 );
+
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  bool selected = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () => registerFingerprint(),
+              icon: Icon(Icons.fingerprint)),
+          IconButton(
+              onPressed: () => logOut(), icon: Icon(Icons.logout_rounded)),
+        ],
+      ),
+      backgroundColor: background,
+      body: Center(
+        child: GestureDetector(
+          onTap: () => setState(() => selected = !selected),
+          child: AnimatedScale(
+            curve: Curves.ease,
+            duration: const Duration(milliseconds: 500),
+            scale: selected ? 1 : 0.9,
+            child: Container(
+              height: 180,
+              width: 180,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: selected
+                    ? [
+                        const BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 60,
+                          offset: Offset(0, 0),
+                          spreadRadius: 0,
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Stack(
+                children: [
+                  Image.asset('images/imageball.png',
+                      fit: BoxFit.fill, filterQuality: FilterQuality.low),
+                  AnimatedOpacity(
+                    curve: Curves.ease,
+                    duration: const Duration(milliseconds: 500),
+                    opacity: selected ? 1 : 0,
+                    child: Lottie.asset(
+                      'images/data.zip',
+                      filterQuality: FilterQuality.low,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
