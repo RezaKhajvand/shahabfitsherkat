@@ -130,8 +130,8 @@ class DaylimealScreenState extends State<DaylimealScreen> {
                         id: widget.barnameId),
                     icon: Icon(Icons.save)),
                 IconButton(
-                    onPressed: () => context.go(
-                        '$dayliViewPage?basketId=${widget.barnameId}&tabIndex=0'),
+                    onPressed: () => context
+                        .go('$dayliViewPage?basketId=${widget.barnameId}'),
                     icon: Icon(Icons.preview)),
               ],
             ),

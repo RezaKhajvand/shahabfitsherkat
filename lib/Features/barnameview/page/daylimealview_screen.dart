@@ -1,7 +1,7 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
 import 'package:shahabfit/Features/barnameview/utils/updateurl.dart';
@@ -9,22 +9,21 @@ import 'package:shahabfit/Features/oldversion/utils/formatdatetime.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
-import 'package:shahabfit/Widgets/custommodalsheet.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DaylimealViewPage extends StatefulWidget {
   final String basketId;
-  final String tabIndex;
-  const DaylimealViewPage(
-      {super.key, required this.basketId, required this.tabIndex});
+
+  const DaylimealViewPage({super.key, required this.basketId});
 
   @override
   State<DaylimealViewPage> createState() => _DaylimealViewPageState();
 }
 
 class _DaylimealViewPageState extends State<DaylimealViewPage> {
-  int _selectedMeal = 0;
+  final mealsicon =
+      '🍎🍐🍊🍋🍋‍🟩🍌🍉🍇🍓🫐🍈🍒🍑🥭🍍🥥🥝🍅🍆🥑🥦🫛🥬🫜🥒🌶🫑🌽🥕🫒🧄🧅🫚🥔🍠🫘🥐🥯🍞🥖🥨🧀🥚🍳🧈🥞🧇🥓🥩🍗🍖🦴🌭🍔🍟🍕🫓🥪🥙🧆🌮🌯🫔🥗🥘🫕🥫🍝🍜🍲🍛🍣🍱🥟🦪🍤🍙🍚🍘🍥🥠🥮🍢🍡🍧🍨🍦🥧🧁🍰🎂🍮🍭🍬🍫🍿🍩🍪🌰🥜🍯🥛🍼🫖☕️🍵🧃🥤🧋🫙🍶🍺🍻🥂🍷🫗🥃🍸🍹🧉🍾🧊🥄🍴🍽🥣🥡🥢🧂';
   List<String> meals = [];
   double itemHeight = 90;
   double itemSpacing = 10;
@@ -36,7 +35,6 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
   @override
   void initState() {
     super.initState();
-    _selectedMeal = int.parse(widget.tabIndex);
     fetchmeals();
   }
 
@@ -44,6 +42,11 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
     context
         .read<BarnameViewBloc>()
         .add(FetchDaylimealEvent(basketId: widget.basketId));
+  }
+
+  String getIcon() {
+    final icons = mealsicon.runes.map((e) => String.fromCharCode(e)).toList();
+    return icons[Random().nextInt(icons.length)];
   }
 
   @override
@@ -85,121 +88,76 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
             },
           ),
         ),
-        body: Row(
-          children: [
-            StatefulBuilder(builder: (context, setState) {
-              return Column(
-                children: List.generate(
-                  meals.length,
-                  (index) => Expanded(
-                    child: Material(
-                      color: _selectedMeal == index ? primary : background,
-                      child: InkWell(
-                        onTap: () {
-                          updatePageUrl(index);
-                          fetchmeals();
-                          setState(() =>
-                              _selectedMeal = int.parse(index.toString()));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            border: Border(
-                                bottom: BorderSide(color: Colors.white30)),
-                          ),
-                          alignment: Alignment.center,
-                          width: 80,
-                          child: Text(
-                            meals[index],
-                            textAlign: TextAlign.center,
-                            style: context.anjomanBlack.copyWith(
-                              fontSize: 14,
-                              color: _selectedMeal != index
-                                  ? Colors.white
-                                  : background,
+        body: BlocConsumer<BarnameViewBloc, BarnameViewState>(
+          listener: (context, state) {
+            if (state is BarnameViewLoaded) {
+              final daylimeal = state.daylimeal!;
+              setState(() {
+                meals = List.generate(daylimeal.daylimeal.length,
+                    (index) => daylimeal.daylimeal[index].meal);
+              });
+            }
+          },
+          builder: (context, state) {
+            if (state is BarnameViewLoading) {
+              return Center(child: LoadingWidget());
+            }
+
+            if (state is BarnameViewError) {
+              return Center(
+                child: Text(
+                  state.errormessage,
+                  style: context.anjomanLight,
+                ),
+              );
+            }
+
+            if (state is BarnameViewLoaded) {
+              final meal = state.daylimeal!.daylimeal;
+              return ListView.separated(
+                padding: const EdgeInsets.all(16.0),
+                itemBuilder: (context, i) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      replaceFarsiNumber(meal[i].meal),
+                      style: context.anjomanSemiBold.copyWith(color: primary),
+                    ),
+                    SizedBox(height: 12),
+                    Column(
+                      spacing: 10,
+                      children: List.generate(
+                        meal[i].choices.length,
+                        (index) => ClipRect(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white.withOpacity(0.05),
+                                border: Border.all(color: Colors.white10),
+                              ),
+                              padding: EdgeInsets.all(12),
+                              child: Text(
+                                '${getIcon()}  ${meal[i].choices[index].text}',
+                                style: context.anjomanLight,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                    )
+                  ],
                 ),
+                separatorBuilder: (context, index) =>
+                    Divider(height: 50, thickness: 8, color: Colors.white12),
+                itemCount: meal.length,
               );
-            }),
-            Expanded(
-              child: BlocConsumer<BarnameViewBloc, BarnameViewState>(
-                listener: (context, state) {
-                  if (state is BarnameViewLoaded) {
-                    final daylimeal = state.daylimeal!;
-                    setState(() {
-                      meals = List.generate(daylimeal.daylimeal.length,
-                          (index) => daylimeal.daylimeal[index].meal);
-                    });
-                  }
-                },
-                builder: (context, state) {
-                  if (state is BarnameViewLoading) {
-                    return Center(child: LoadingWidget());
-                  }
+            }
 
-                  if (state is BarnameViewError) {
-                    return Center(
-                      child: Text(
-                        state.errormessage,
-                        style: context.anjomanLight,
-                      ),
-                    );
-                  }
-
-                  if (state is BarnameViewLoaded) {
-                    final meal = state.daylimeal!.daylimeal[_selectedMeal];
-
-                    return ListView.separated(
-                      padding: const EdgeInsets.all(16.0),
-                      itemBuilder: (context, i) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            replaceFarsiNumber('انتخاب ${i + 1}'),
-                            style: context.anjomanSemiBold,
-                          ),
-                          SizedBox(height: 12),
-                          SizedBox(
-                            height: itemHeight,
-                            child: ClipRect(
-                              child: BackdropFilter(
-                                filter:
-                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.white.withOpacity(0.05),
-                                    border: Border.all(color: Colors.white10),
-                                  ),
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    meal.choices[i].text,
-                                    style: context.anjomanLight,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      separatorBuilder: (context, index) => Divider(
-                          height: 40, thickness: 8, color: Colors.white12),
-                      itemCount: meal.choices.length,
-                    );
-                  }
-
-                  return SizedBox();
-                },
-              ),
-            ),
-          ],
+            return SizedBox();
+          },
         ),
       ),
     );

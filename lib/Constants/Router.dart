@@ -353,11 +353,11 @@ final router = GoRouter(
       path: dayliViewPage,
       builder: (context, state) {
         final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
-        final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
+   
         return MultiBlocProvider(
           providers: [BlocProvider(create: (context) => BarnameViewBloc())],
           child: MobileLayout(
-              child: DaylimealViewPage(basketId: basketId, tabIndex: tabIndex)),
+              child: DaylimealViewPage(basketId: basketId)),
         );
       },
     ),
