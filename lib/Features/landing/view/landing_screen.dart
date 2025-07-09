@@ -15,6 +15,7 @@ import 'package:shahabfit/Widgets/socialcard.dart';
 import 'package:shahabfit/Widgets/titrbar.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 import 'package:shahabfit/widgets/appbarcontent.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -193,6 +194,10 @@ class _LandingScreenState extends State<LandingScreen> {
                                     url: sURLTelegram,
                                     imagePath: 'images/telegram.png',
                                     title: 'Telegram'),
+                                HtmlWidget(
+                                    '''<a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=3847591&Code=EcOLBczeyqy7Gei4P1TNCjHGRDwrVMJh'  style="display: inline-block; padding: 8px; background: white; border: 2px solid #ddd; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);"'>
+<img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=3847591&Code=EcOLBczeyqy7Gei4P1TNCjHGRDwrVMJh'  alt='نماد اعتماد'  code='EcOLBczeyqy7Gei4P1TNCjHGRDwrVMJh   style='cursor:pointer; display: block; width: 120px; height: auto;'>
+</a>'''),
                               ],
                             )
                           ],

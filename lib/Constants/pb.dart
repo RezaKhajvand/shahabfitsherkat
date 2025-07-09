@@ -27,7 +27,8 @@ class MyHttpClient extends http.BaseClient {
     if (response.statusCode == 401) {
       try {
         if (!firstTime) {
-          throw ClientException(response: {"message": "Expired Auth"});
+          throw ClientException(
+              response: {"message": "Expired Auth"}, statusCode: 400);
         }
         firstTime = false;
         print('Auth Refreshing');

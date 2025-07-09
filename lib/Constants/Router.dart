@@ -96,7 +96,7 @@ Widget deferredPageLoader(
 /// GoRouter configuration with lazy loading applied.
 final router = GoRouter(
   initialLocation:
-      AuthManager.readAccessToken() != null ? splashPage : loginPage,
+      AuthManager.readAccessToken() != null ? splashPage : landingPage,
   redirect: (context, state) async {
     var path = state.uri.path;
     if (AuthManager.readAccessToken() != null) {
@@ -106,8 +106,9 @@ final router = GoRouter(
       return null;
     } else {
       if (state.uri.path.contains(tamrinViewPage) ||
-          state.uri.path.contains(barnameDetailPage)||
-          state.uri.path.contains(dayliViewPage)) {
+          state.uri.path.contains(barnameDetailPage) ||
+          state.uri.path.contains(dayliViewPage) ||
+          state.uri.path.contains(landingPage)) {
         return null;
       }
       return loginPage;
