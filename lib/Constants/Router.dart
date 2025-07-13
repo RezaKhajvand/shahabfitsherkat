@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/Features/Activities/Pages/ActivitiesPage.dart';
 import 'package:shahabfit/Features/Basket/Pages/BasketPage.dart';
 import 'package:shahabfit/Features/Basket/Utils/basketinput.dart';
+import 'package:shahabfit/Features/Basket/Widgets/SystemPickerPage.dart';
 import 'package:shahabfit/Features/Basket/Widgets/createtamrinpage.dart';
 import 'package:shahabfit/Features/BasketList/Pages/BasketListPage.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/Trainer_Screen.dart';
@@ -11,40 +13,25 @@ import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_list_screen.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_screen.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/Home/Pages/HomePage.dart';
+import 'package:shahabfit/Features/Splash/SplashPage.dart';
+import 'package:shahabfit/Features/System/Pages/SystemPage.dart';
+import 'package:shahabfit/Features/barnameview/page/barnamedetail_screen.dart';
+import 'package:shahabfit/Features/barnameview/page/barnameview_screen.dart';
 import 'package:shahabfit/Features/barnameview/page/daylimealview_screen.dart';
+import 'package:shahabfit/Features/landing/view/blog_screen.dart';
+import 'package:shahabfit/Features/landing/view/landing_screen.dart';
 import 'package:shahabfit/Features/login/data/fingerprint.dart';
+import 'package:shahabfit/Features/login/view/loginpage.dart';
+import 'package:shahabfit/Features/oldversion/addpage.dart';
+import 'package:shahabfit/Features/oldversion/editpage.dart';
 import 'package:shahabfit/Features/oldversion/managepage.dart';
+import 'package:shahabfit/Features/oldversion/searchpage.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/Widgets/mobile_layout.dart';
 import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart'; // بلاک
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart'; // بلاک‌ها هم به صورت عادی باقی می‌مانند
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart'; // مدل
 import 'package:lottie/lottie.dart';
-
-// Deferred imports for lazy loading
-import 'package:shahabfit/Features/Activities/Pages/ActivitiesPage.dart'
-    deferred as activities;
-
-import 'package:shahabfit/Features/Basket/Widgets/SystemPickerPage.dart'
-    deferred as systempicker;
-
-import 'package:shahabfit/Features/Splash/SplashPage.dart' deferred as splash;
-import 'package:shahabfit/Features/System/Pages/SystemPage.dart'
-    deferred as system;
-import 'package:shahabfit/Features/barnameview/page/barnamedetail_screen.dart'
-    deferred as barnamedetail;
-import 'package:shahabfit/Features/barnameview/page/barnameview_screen.dart'
-    deferred as barnameview;
-import 'package:shahabfit/Features/landing/view/blog_screen.dart'
-    deferred as blog;
-import 'package:shahabfit/Features/landing/view/landing_screen.dart'
-    deferred as landing;
-import 'package:shahabfit/Features/login/view/loginpage.dart' deferred as login;
-import 'package:shahabfit/Features/oldversion/addpage.dart' deferred as addpage;
-import 'package:shahabfit/Features/oldversion/editpage.dart'
-    deferred as editpage;
-import 'package:shahabfit/Features/oldversion/searchpage.dart'
-    deferred as searchpage;
 
 const String landingPage = '/';
 const String loginPage = '/login';
@@ -70,29 +57,6 @@ const String profilePage = '/profile';
 //
 final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shell');
-
-/// Helper widget for deferred loading using FutureBuilder.
-Widget deferredPageLoader(
-    Future<void> Function() loadLibrary, Widget Function() builder) {
-  return FutureBuilder(
-    future: loadLibrary(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.done) {
-        return builder();
-      }
-      return Scaffold(
-        body: const Center(
-            child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('لطفا منتظر بمانید'),
-            CircularProgressIndicator(),
-          ],
-        )),
-      );
-    },
-  );
-}
 
 /// GoRouter configuration with lazy loading applied.
 final router = GoRouter(
@@ -185,33 +149,29 @@ final router = GoRouter(
     // Landing Screen
     GoRoute(
       path: landingPage,
-      builder: (context, state) => deferredPageLoader(landing.loadLibrary,
-          () => landing.LandingScreen(key: const ValueKey(landingPage))),
+      builder: (context, state) =>
+          LandingScreen(key: const ValueKey(landingPage)),
     ),
     // Blog Screen with parameter
     GoRoute(
       path: '$blogPage/:blogId',
       builder: (context, state) {
         final blogId = int.parse(state.pathParameters["blogId"]!);
-        return deferredPageLoader(
-            blog.loadLibrary,
-            () =>
-                blog.BlogScreen(blogId: blogId, key: const ValueKey(blogPage)));
+        return BlogScreen(blogId: blogId, key: const ValueKey(blogPage));
       },
     ),
     // Login Screen
     GoRoute(
       path: loginPage,
       builder: (context, state) => MobileLayout(
-        child: deferredPageLoader(login.loadLibrary, () => login.LoginPage()),
+        child: LoginPage(),
       ),
     ),
     // Splash Screen
     GoRoute(
       path: splashPage,
       builder: (context, state) => MobileLayout(
-        child:
-            deferredPageLoader(splash.loadLibrary, () => splash.SplashScreen()),
+        child: SplashScreen(),
       ),
     ),
 
@@ -224,13 +184,11 @@ final router = GoRouter(
         final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
 
         return MobileLayout(
-          child: deferredPageLoader(
-              systempicker.loadLibrary,
-              () => systempicker.SystemPickerPage(
-                    recordId: recordId,
-                    basketId: basketId,
-                    tabIndex: tabIndex,
-                  )),
+          child: SystemPickerPage(
+            recordId: recordId,
+            basketId: basketId,
+            tabIndex: tabIndex,
+          ),
         );
       },
     ),
@@ -241,12 +199,10 @@ final router = GoRouter(
           final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
           final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
           return MobileLayout(
-            child: deferredPageLoader(
-                activities.loadLibrary,
-                () => activities.ActivitiesPage(
-                      basketId: basketId,
-                      tabIndex: tabIndex,
-                    )),
+            child: ActivitiesPage(
+              basketId: basketId,
+              tabIndex: tabIndex,
+            ),
           );
         }),
     // Basket Screen
@@ -267,8 +223,7 @@ final router = GoRouter(
     GoRoute(
       path: systemPage,
       builder: (context, state) => MobileLayout(
-        child:
-            deferredPageLoader(system.loadLibrary, () => system.SystemPage()),
+        child: SystemPage(),
       ),
     ),
     GoRoute(
@@ -303,8 +258,7 @@ final router = GoRouter(
       builder: (context, state) {
         final shagerd = state.extra as Shagerd;
         return MobileLayout(
-          child: deferredPageLoader(
-              editpage.loadLibrary, () => editpage.EditPage(shagerd: shagerd)),
+          child: EditPage(shagerd: shagerd),
         );
       },
     ),
@@ -312,23 +266,18 @@ final router = GoRouter(
     GoRoute(
       path: createShagerdPage,
       builder: (context, state) => MobileLayout(
-        child: deferredPageLoader(
-            addpage.loadLibrary,
-            () => BlocProvider(
-                  create: (context) => ShagerdBloc(),
-                  child: addpage.AddPage(),
-                )),
+        child: BlocProvider(
+          create: (context) => ShagerdBloc(),
+          child: AddPage(),
+        ),
       ),
     ),
     // Shagerd Search Screen with BlocProvider
     GoRoute(
       path: shagerdSearchPage,
-      builder: (context, state) => deferredPageLoader(
-        searchpage.loadLibrary,
-        () => BlocProvider(
-          create: (context) => ShagerdBloc(),
-          child: MobileLayout(child: searchpage.SearchPage()),
-        ),
+      builder: (context, state) => BlocProvider(
+        create: (context) => ShagerdBloc(),
+        child: MobileLayout(child: SearchPage()),
       ),
     ),
     // Barname View Screen with MultiBlocProvider
@@ -337,14 +286,10 @@ final router = GoRouter(
       builder: (context, state) {
         final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
         final tabIndex = state.uri.queryParameters['tabIndex'] ?? '0';
-        return deferredPageLoader(
-          barnameview.loadLibrary,
-          () => MultiBlocProvider(
-            providers: [BlocProvider(create: (context) => BarnameViewBloc())],
-            child: MobileLayout(
-                child: barnameview.BarnameViewPage(
-                    basketId: basketId, tabIndex: tabIndex)),
-          ),
+        return MultiBlocProvider(
+          providers: [BlocProvider(create: (context) => BarnameViewBloc())],
+          child: MobileLayout(
+              child: BarnameViewPage(basketId: basketId, tabIndex: tabIndex)),
         );
       },
     ),
@@ -353,11 +298,10 @@ final router = GoRouter(
       path: dayliViewPage,
       builder: (context, state) {
         final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
-   
+
         return MultiBlocProvider(
           providers: [BlocProvider(create: (context) => BarnameViewBloc())],
-          child: MobileLayout(
-              child: DaylimealViewPage(basketId: basketId)),
+          child: MobileLayout(child: DaylimealViewPage(basketId: basketId)),
         );
       },
     ),
@@ -369,14 +313,10 @@ final router = GoRouter(
         final recordId = state.uri.queryParameters['recordId'] ?? 'recordId';
         final basketId = state.uri.queryParameters['basketId'] ?? 'basketId';
 
-        return deferredPageLoader(
-          barnamedetail.loadLibrary,
-          () => BlocProvider(
-            create: (context) => BarnameViewBloc(),
-            child: MobileLayout(
-                child: barnamedetail.BarnameDetailPage(
-                    recordId: recordId, basketId: basketId)),
-          ),
+        return BlocProvider(
+          create: (context) => BarnameViewBloc(),
+          child: MobileLayout(
+              child: BarnameDetailPage(recordId: recordId, basketId: basketId)),
         );
       },
     ),
