@@ -9,6 +9,8 @@ import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
 import 'package:shahabfit/Features/barnameview/utils/updateurl.dart';
 import 'package:shahabfit/Features/oldversion/utils/formatdatetime.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
+import 'package:shahabfit/Utils/pdfcreator.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shahabfit/Widgets/custommodalsheet.dart';
@@ -26,6 +28,9 @@ class BarnameViewPage extends StatefulWidget {
 }
 
 class _BarnameViewPageState extends State<BarnameViewPage> {
+  List<ActivityItem> allBasketActivity = [];
+  String name = '';
+  String description = '';
   int _selectedDay = 0;
   List<int> filledDays = [];
   double itemHeight = 90;
@@ -68,13 +73,24 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                 elevation: 4,
                 shadowColor: Colors.black,
                 backgroundColor: background,
+                actions: [
+                  AuthManager.readAccessToken() == null
+                      ? SizedBox()
+                      : Padding(
+                          padding: const EdgeInsets.only(left: 6),
+                          child: IconButton(
+                              onPressed: () => pdfCreator(
+                                  allBasketActivity, name, description),
+                              icon: Icon(Icons.download_rounded)),
+                        )
+                ],
                 title: state is BarnameViewLoaded
                     ? Builder(builder: (context) {
+                        allBasketActivity = state.allBasketActivity!;
                         final harkat = state.basketActivity!;
-                        final name = harkat.first.expand.basket?.name ?? '';
-                        final description =
+                        name = harkat.first.expand.basket?.name ?? '';
+                        description =
                             harkat.first.expand.basket?.description ?? '';
-
                         final date = harkat.first.expand.basket?.created;
                         return Row(
                           children: [

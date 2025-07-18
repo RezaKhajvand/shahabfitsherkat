@@ -11,6 +11,7 @@ part 'barname_view_event.dart';
 part 'barname_view_state.dart';
 
 class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
+  List<ActivityItem> allBasketActivity = [];
   List<ActivityItem> basketActivity = [];
 
   @override
@@ -50,6 +51,7 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
       try {
         basketActivity = basketActivityFromJson(
             await getOpenBasketActivity(basketId: event.basketId));
+        allBasketActivity = basketActivity;
         List<int> filledDays = [];
         for (var element in basketActivity) {
           filledDays.add(element.dayOfWeek);
@@ -62,6 +64,7 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
             )
             .toList();
         emit((BarnameViewLoaded(
+            allBasketActivity: allBasketActivity,
             basketActivity: basketActivity,
             dayIndex: dayIndex,
             filledDays: filledDays)));
@@ -73,8 +76,8 @@ class BarnameViewBloc extends Bloc<BarnameViewEvent, BarnameViewState> {
       emit((BarnameViewLoading()));
       try {
         final daylimeal = daylimelFromJson(await getDaylimeal(event.basketId));
-      
-        emit((BarnameViewLoaded(daylimeal:daylimeal)));
+
+        emit((BarnameViewLoaded(daylimeal: daylimeal)));
       } catch (e, s) {
         emit((BarnameViewError(errormessage: handleException(e, s))));
       }

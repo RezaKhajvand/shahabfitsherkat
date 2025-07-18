@@ -1,29 +1,30 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "shahabfitsherkat",
-            "request": "launch",
-            "type": "dart",
-        },
-        {
-            "name": "shahabfitsherkat (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile",
-        },
-        {
-            "name": "shahabfitsherkat (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release",
-        },
-        {
-            "name": "shahabfitsherkat (web server - release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release",
-            "deviceId": "web-server",
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "shahabfitsherkat",
+      "request": "launch",
+      "type": "dart",
+      "args": ["-d", "chrome", "--web-port", "8000"]
+    },
+    {
+      "name": "shahabfitsherkat (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "shahabfitsherkat (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "shahabfitsherkat (web server - release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "deviceId": "web-server"
+    }
+  ]
 }
