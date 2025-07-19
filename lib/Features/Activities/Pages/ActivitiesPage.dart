@@ -56,7 +56,10 @@ class _ActivitiesPageState extends State<ActivitiesPage>
         initialIndex: int.parse(widget.tabIndex));
     basketId = widget.basketId;
     categoryId = categoryList.first.id;
-    getActivityList();
+    BlocProvider.of<ActivityBloc>(context).add(GetActivityEvent(
+        basketId: basketId,
+        categoryId: categoryId,
+        dayOfWeek: _tabController.index));
   }
 
   getActivityList() {

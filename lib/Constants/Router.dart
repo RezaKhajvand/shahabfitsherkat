@@ -61,22 +61,25 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 /// GoRouter configuration with lazy loading applied.
 final router = GoRouter(
   initialLocation:
-      AuthManager.readAccessToken() != null ? splashPage : landingPage,
+      AuthManager.readAccessToken() != null ? splashPage : loginPage,
   redirect: (context, state) async {
     var path = state.uri.path;
-    if (AuthManager.readAccessToken() != null) {
-      if (path == loginPage) {
-        return splashPage;
-      }
+    if (state.uri.path.contains(landingPage)) {
       return null;
     } else {
-      if (state.uri.path.contains(tamrinViewPage) ||
-          state.uri.path.contains(barnameDetailPage) ||
-          state.uri.path.contains(dayliViewPage) ||
-          state.uri.path.contains(landingPage)) {
+      if (AuthManager.readAccessToken() != null) {
+        if (path == loginPage) {
+          return splashPage;
+        }
         return null;
+      } else {
+        if (state.uri.path.contains(tamrinViewPage) ||
+            state.uri.path.contains(barnameDetailPage) ||
+            state.uri.path.contains(dayliViewPage)) {
+          return null;
+        }
+        return loginPage;
       }
-      return loginPage;
     }
   },
   routes: [

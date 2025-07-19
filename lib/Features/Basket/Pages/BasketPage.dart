@@ -44,7 +44,8 @@ class _BasketPageState extends State<BasketPage>
         length: weekDays.length,
         vsync: this,
         initialIndex: widget.basketInputs.tabIndex);
-    getBasketItems();
+    BlocProvider.of<BasketBloc>(context)
+        .add(GetBasketEvent(basketId: widget.basketInputs.basketId));
   }
 
   void getBasketItems() {
