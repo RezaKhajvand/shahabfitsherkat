@@ -73,6 +73,9 @@ flutter:
     - family: Anjoman-ExtraLight
       fonts:
         - asset: web/assets/fonts/Anjoman-ExtraLight.ttf
+    - family: CALIBRI
+      fonts:
+        - asset: web/assets/fonts/CALIBRI.TTF
 
   # fonts:
   #   - family: Schyler
