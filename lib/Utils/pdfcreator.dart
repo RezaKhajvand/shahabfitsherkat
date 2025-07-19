@@ -14,7 +14,7 @@ Future<void> pdfCreator(
   String pdfName,
   String pdfText,
 ) async {
-  final pdf = pw.Document();
+  final pdf = pw.Document(version: PdfVersion.pdf_1_4);
 
   // استخراج روزهای پر شده
   final filledDays = pdfItems.map((e) => e.dayOfWeek).toSet().toList();
