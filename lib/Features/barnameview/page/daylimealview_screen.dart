@@ -3,10 +3,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
 import 'package:shahabfit/Features/barnameview/utils/updateurl.dart';
 import 'package:shahabfit/Features/oldversion/utils/formatdatetime.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
+import 'package:shahabfit/Utils/daylipdfcreator.dart';
 import 'package:shahabfit/Utils/texttheme.dart';
 import 'package:shahabfit/Widgets/LoadingWidget.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -22,6 +25,7 @@ class DaylimealViewPage extends StatefulWidget {
 }
 
 class _DaylimealViewPageState extends State<DaylimealViewPage> {
+  List<Daylimeal> pdfMeals = [];
   final mealsicon =
       '🍎🍐🍊🍋🍋‍🟩🍌🍉🍇🍓🫐🍈🍒🍑🥭🍍🥥🥝🍅🍆🥑🥦🫛🥬🫜🥒🌶🫑🌽🥕🫒🧄🧅🫚🥔🍠🫘🥐🥯🍞🥖🥨🧀🥚🍳🧈🥞🧇🥓🥩🍗🍖🦴🌭🍔🍟🍕🫓🥪🥙🧆🌮🌯🫔🥗🥘🫕🥫🍝🍜🍲🍛🍣🍱🥟🦪🍤🍙🍚🍘🍥🥠🥮🍢🍡🍧🍨🍦🥧🧁🍰🎂🍮🍭🍬🍫🍿🍩🍪🌰🥜🍯🥛🍼🫖☕️🍵🧃🥤🧋🫙🍶🍺🍻🥂🍷🫗🥃🍸🍹🧉🍾🧊🥄🍴🍽🥣🥡🥢🧂';
   List<String> meals = [];
@@ -65,10 +69,25 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
           preferredSize: Size.fromHeight(56),
           child: BlocBuilder<BarnameViewBloc, BarnameViewState>(
             builder: (context, state) {
+              String name = '';
+              if (state is BarnameViewLoaded) {
+                name = state.daylimeal?.name ?? '';
+              }
+
               return AppBar(
                 elevation: 4,
                 shadowColor: Colors.black,
                 backgroundColor: background,
+                actions: [
+                  AuthManager.readAccessToken() == null
+                      ? SizedBox()
+                      : Padding(
+                          padding: const EdgeInsets.only(left: 6),
+                          child: IconButton(
+                              onPressed: () => dayliPDFCreator(pdfMeals, name),
+                              icon: Icon(Icons.download_rounded)),
+                        )
+                ],
                 title: state is BarnameViewLoaded
                     ? Builder(builder: (context) {
                         final daylimeal = state.daylimeal!;
@@ -114,6 +133,7 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
 
             if (state is BarnameViewLoaded) {
               final meal = state.daylimeal!.daylimeal;
+              pdfMeals = meal;
               return ListView.separated(
                 padding: const EdgeInsets.all(16.0),
                 itemBuilder: (context, i) => Column(

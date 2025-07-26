@@ -1,0 +1,133 @@
+import 'package:flutter/services.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
+import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
+import 'package:shahabfit/Utils/fotmat2.dart';
+import 'package:shahabfit/Utils/get_current_url.dart';
+import 'package:shahabfit/Utils/pdf_saver.dart';
+import 'package:shamsi_date/shamsi_date.dart';
+
+Future<void> dayliPDFCreator(
+  List<Daylimeal> meals,
+  String pdfName,
+) async {
+  final pdf = pw.Document(
+    version: PdfVersion.pdf_1_4,
+  );
+  final fontData = await rootBundle.load("web/assets/fonts/CALIBRI.TTF");
+  final ttf = pw.Font.ttf(fontData);
+  final imageData = await rootBundle.load('images/pdf.png');
+  final logoData = await rootBundle.load('images/logo.png');
+  final imageBytes = imageData.buffer.asUint8List();
+  final logoBytes = logoData.buffer.asUint8List();
+
+  // صفحه اول
+  pdf.addPage(
+    pw.Page(
+      pageFormat: PdfPageFormat.a4,
+      orientation: pw.PageOrientation.portrait,
+      textDirection: pw.TextDirection.rtl,
+      theme: pw.ThemeData(
+        defaultTextStyle: pw.TextStyle(
+          font: ttf,
+          fontSize: 8,
+          color: PdfColor.fromHex('FFFFFF'),
+        ),
+      ),
+      build: (context) => pw.FullPage(
+        ignoreMargins: true,
+        child: pw.Stack(
+          children: [
+            pw.Positioned.fill(
+              child: pw.Image(
+                pw.MemoryImage(imageBytes),
+                fit: pw.BoxFit.cover,
+              ),
+            ),
+            pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Container(
+                  width: PdfPageFormat.a4.width,
+                  height: 50,
+                  color: PdfColor.fromHex('E6FE58'),
+                  alignment: pw.Alignment.center,
+                  child: pw.Padding(
+                    padding: pw.EdgeInsets.symmetric(horizontal: 40),
+                    child: pw.Row(
+                      children: [
+                        pw.Image(
+                          pw.MemoryImage(logoBytes),
+                          height: 20,
+                          width: 60,
+                          fit: pw.BoxFit.fitWidth,
+                        ),
+                        pw.Spacer(),
+                        pw.Text(
+                          '$pdfName  -  ${format2(Jalali.now())}',
+                          style: pw.TextStyle(
+                              fontSize: 10, color: PdfColors.black),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                pw.Padding(
+                  padding:
+                      pw.EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: List.generate(
+                      meals.length,
+                      (i) => pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            replaceFarsiNumber(meals[i].meal),
+                          ),
+                          pw.SizedBox(height: 4),
+                          pw.Column(
+                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                            children: List.generate(
+                              meals[i].choices.length,
+                              (index) => pw.Text(
+                                meals[i].choices[index].text,
+                              ),
+                            ),
+                          ),
+                          pw.Divider(height: 20, color: PdfColors.white),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            pw.Align(
+              alignment: pw.Alignment.bottomCenter,
+              child: pw.Padding(
+                padding: pw.EdgeInsets.only(bottom: 10),
+                child: pw.UrlLink(
+                  destination: getCurrentUrl(),
+                  child: pw.Text(
+                    'لینک برنامه به همراه آموزش حرکات',
+                    style: pw.TextStyle(
+                      color: PdfColors.blue,
+                      decoration: pw.TextDecoration.underline,
+                      fontSize: 10,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+
+  // ذخیره نهایی
+  final pdfBytes = await pdf.save();
+  await savePdfFile(pdfBytes, pdfName);
+}
