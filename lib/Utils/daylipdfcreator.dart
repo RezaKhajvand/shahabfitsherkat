@@ -5,6 +5,7 @@ import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Utils/fotmat2.dart';
 import 'package:shahabfit/Utils/get_current_url.dart';
+import 'package:shahabfit/Utils/nimfasele.dart';
 import 'package:shahabfit/Utils/pdf_saver.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -15,8 +16,11 @@ Future<void> dayliPDFCreator(
   final pdf = pw.Document(
     version: PdfVersion.pdf_1_4,
   );
-  final fontData = await rootBundle.load("web/assets/fonts/CALIBRI.TTF");
-  final ttf = pw.Font.ttf(fontData);
+  final iransansFont =
+      pw.Font.ttf(await rootBundle.load("fonts/IRANSans(FaNum).ttf"));
+  final calibriFont =
+      pw.Font.ttf(await rootBundle.load("web/assets/fonts/CALIBRI.TTF"));
+
   final imageData = await rootBundle.load('images/pdf.png');
   final logoData = await rootBundle.load('images/logo.png');
   final imageBytes = imageData.buffer.asUint8List();
@@ -30,7 +34,7 @@ Future<void> dayliPDFCreator(
       textDirection: pw.TextDirection.rtl,
       theme: pw.ThemeData(
         defaultTextStyle: pw.TextStyle(
-          font: ttf,
+          font: iransansFont,
           fontSize: 8,
           color: PdfColor.fromHex('FFFFFF'),
         ),
@@ -54,7 +58,7 @@ Future<void> dayliPDFCreator(
                   color: PdfColor.fromHex('E6FE58'),
                   alignment: pw.Alignment.center,
                   child: pw.Padding(
-                    padding: pw.EdgeInsets.symmetric(horizontal: 40),
+                    padding: pw.EdgeInsets.symmetric(horizontal: 20),
                     child: pw.Row(
                       children: [
                         pw.Image(
@@ -76,28 +80,55 @@ Future<void> dayliPDFCreator(
                 pw.Padding(
                   padding:
                       pw.EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  child: pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  child: pw.Wrap(
+                    spacing: 14,
+                    runSpacing: 14,
                     children: List.generate(
                       meals.length,
-                      (i) => pw.Column(
-                        crossAxisAlignment: pw.CrossAxisAlignment.start,
-                        children: [
-                          pw.Text(
-                            replaceFarsiNumber(meals[i].meal),
+                      (i) => pw.Container(
+                        padding: pw.EdgeInsets.all(10),
+                        decoration: pw.BoxDecoration(
+                          // color: PdfColor.fromHex('131314'),
+                          borderRadius: pw.BorderRadius.circular(5),
+                          border: pw.Border.all(
+                            color: PdfColors.white,
                           ),
-                          pw.SizedBox(height: 4),
-                          pw.Column(
-                            crossAxisAlignment: pw.CrossAxisAlignment.start,
-                            children: List.generate(
-                              meals[i].choices.length,
-                              (index) => pw.Text(
-                                meals[i].choices[index].text,
+                        ),
+                        width: (PdfPageFormat.a4.width / 2) - 30,
+                        height: 160,
+                        child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Text(
+                              replaceFarsiNumber(meals[i].meal),
+                              style: pw.TextStyle(
+                                color: PdfColor.fromHex('E6FE58'),
+                                fontSize: 12,
                               ),
                             ),
-                          ),
-                          pw.Divider(height: 20, color: PdfColors.white),
-                        ],
+                            pw.Expanded(
+                              child: pw.FittedBox(
+                                fit: pw.BoxFit.scaleDown,
+                                alignment: pw.Alignment.topRight,
+                                child: pw.Column(
+                                  crossAxisAlignment:
+                                      pw.CrossAxisAlignment.start,
+                                  children: List.generate(
+                                    meals[i].choices.length,
+                                    (index) => pw.Padding(
+                                      padding: pw.EdgeInsets.only(top: 10),
+                                      child: pw.Text(
+                                        convertHalfSpaceToSpace(
+                                            meals[i].choices[index].text),
+                                        style: pw.TextStyle(lineSpacing: 1),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

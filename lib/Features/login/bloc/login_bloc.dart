@@ -33,20 +33,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
 
         await AuthManager.saveAuth(pb.authStore);
-        await Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform);
-        FirebaseMessaging.instance.requestPermission(provisional: true);
-        final fcmToken =
-            await FirebaseMessaging.instance.getToken(vapidKey: vapidKey);
-        print(fcmToken);
-        final body = {"fcmToken": fcmToken};
-        await pb
-            .collection('users')
-            .update(pb.authStore.record!.id, body: body);
+        initFirebase();
         emit((LoginSuccess()));
       } catch (e, s) {
         emit((LoginError(errormessage: handleException(e, s))));
       }
     });
   }
+}
+
+initFirebase() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.instance.requestPermission(provisional: true);
+  final fcmToken =
+      await FirebaseMessaging.instance.getToken(vapidKey: vapidKey);
+  print(fcmToken);
+  final body = {"fcmToken": fcmToken};
+  await pb.collection('users').update(pb.authStore.record!.id, body: body);
 }

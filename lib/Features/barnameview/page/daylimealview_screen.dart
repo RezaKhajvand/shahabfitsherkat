@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart';
-import 'package:shahabfit/Features/barnameview/utils/updateurl.dart';
 import 'package:shahabfit/Features/oldversion/utils/formatdatetime.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Utils/authmanager.dart';

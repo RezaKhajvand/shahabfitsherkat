@@ -76,7 +76,9 @@ flutter:
     - family: CALIBRI
       fonts:
         - asset: web/assets/fonts/CALIBRI.TTF
-
+    - family: IRANSansFaNum
+      fonts:
+        - asset: web/assets/fonts/IRANSans(FaNum).ttf
   # fonts:
   #   - family: Schyler
   #     fonts:
