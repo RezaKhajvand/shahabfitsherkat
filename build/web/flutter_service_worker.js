@@ -86,12 +86,12 @@ const RESOURCES = {"assets/AssetManifest.bin": "b66f2e4229ead0bfc62ae80a0801eefb
 "download.js": "aadeff8c2158b3f0642e38bdd2d87397",
 "firebase-messaging-sw.js": "c341a6f1e5b82cc80415e49cadad636b",
 "flutter.js": "83d881c1dbb6d6bcd6b42e274605b69c",
-"flutter_bootstrap.js": "d056516e373dfa73b7450637cffa301c",
-"index.html": "3266e58e07da1da67dff147921da3bf2",
-"/": "3266e58e07da1da67dff147921da3bf2",
+"flutter_bootstrap.js": "1983aad65d350490d87e758955f349a5",
+"index.html": "1244b29fcc0a50b07079e5268a0c9ee7",
+"/": "1244b29fcc0a50b07079e5268a0c9ee7",
 "logo.png": "e0c387db7ef131864d40b3df83d4432a",
 "main.dart.js": "f61117cc230aff43314750aa2660490d",
-"manifest.json": "2122e7046dd8258673bf068c5c245a7c",
+"manifest.json": "641120382a30098204fede9bd716269c",
 "sitemap.xml": "b4b0569c905b476cc39991654f454197",
 "version.json": "8a1b4594ef7492e0e8b4c40f046bef6b"};
 // The application shell files that are downloaded before a service worker can
