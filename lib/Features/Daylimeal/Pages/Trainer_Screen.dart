@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Features/Daylimeal/Data/add_daylimeal_datasource.dart';
+import 'package:shahabfit/Features/Daylimeal/Data/update_daylimeal_datasource.dart';
 import 'package:shahabfit/Features/Daylimeal/bloc/daylimeal_list_bloc.dart';
 import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
@@ -420,7 +421,6 @@ class TrainerScreenState extends State<TrainerScreen> {
                                       carbo: carbs.toInt(),
                                       fat: fat.toInt(),
                                       protein: protein.toInt(),
-                                      daylimeal: [],
                                     );
                                     String id = '';
                                     if (widget.barnameId == null) {
@@ -430,6 +430,8 @@ class TrainerScreenState extends State<TrainerScreen> {
                                       id = record.id;
                                     } else {
                                       id = widget.barnameId!;
+                                      await updateDaylimeal(
+                                          id: id, trainer: trainer);
                                     }
                                     context.go('$dayliMealPage?barnameId=$id');
                                   }

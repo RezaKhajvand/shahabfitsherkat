@@ -2,7 +2,7 @@ import 'dart:convert';
 
 List<Item> daylimealListFromJson(String str) =>
     List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
-    
+
 Item daylimelFromJson(String str) => Item.fromJson(json.decode(str));
 
 class Item {
@@ -67,6 +67,27 @@ class Item {
         weight: json["weight"],
         wrist: json["wrist"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "activity": activity,
+        "age": age,
+        "carbo": carbo,
+        "calories": calories,
+        "collectionId": collectionId,
+        "collectionName": collectionName,
+        "created": created.toIso8601String(),
+        "daylimeal": daylimeal.map((x) => x.toJson()).toList(),
+        "fat": fat,
+        "goal": goal,
+        "gender": gender,
+        "height": height,
+        "id": id,
+        "name": name,
+        "protein": protein,
+        "updated": updated.toIso8601String(),
+        "weight": weight,
+        "wrist": wrist,
+      };
 }
 
 class Daylimeal {
@@ -83,6 +104,11 @@ class Daylimeal {
         choices:
             List<Choice>.from(json["choices"].map((x) => Choice.fromJson(x))),
       );
+
+  Map<String, dynamic> toJson() => {
+        "meal": meal,
+        "choices": choices.map((x) => x.toJson()).toList(),
+      };
 }
 
 class Choice {
@@ -95,4 +121,8 @@ class Choice {
   factory Choice.fromJson(Map<String, dynamic> json) => Choice(
         text: json["text"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "text": text,
+      };
 }

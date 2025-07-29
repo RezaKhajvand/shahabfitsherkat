@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Features/Daylimeal/Data/add_daylimeal_datasource.dart';
+import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
@@ -64,24 +66,52 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                             borderRadius: cardBorderRadius),
                       ),
                       padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            meal.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall!
-                                .copyWith(color: Colors.white),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                meal.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(color: Colors.white),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'کالری  ${replaceFarsiNumber(meal.calories.toString())}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(color: Colors.grey),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'کالری  ${replaceFarsiNumber(meal.calories.toString())}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall!
-                                .copyWith(color: Colors.grey),
-                          ),
+                          IconButton(
+                              onPressed: () async {
+                                await addDaylimeal(
+                                    trainer: Trainer(
+                                  name: '${meal.name} copy',
+                                  activity: meal.activity,
+                                  age: meal.age,
+                                  calories: meal.calories,
+                                  carbo: meal.carbo,
+                                  fat: meal.fat,
+                                  gender: meal.gender,
+                                  goal: meal.goal,
+                                  height: meal.height,
+                                  protein: meal.protein,
+                                  weight: meal.weight,
+                                  wrist: meal.wrist,
+                                  daylimeal: meal.daylimeal
+                                      .map((e) => e.toJson())
+                                      .toList(),
+                                ));
+                                setState(() {});
+                              },
+                              icon: Icon(Icons.copy))
                         ],
                       ),
                     ),
