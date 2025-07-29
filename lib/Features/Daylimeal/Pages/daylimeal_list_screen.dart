@@ -109,7 +109,7 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                                       .map((e) => e.toJson())
                                       .toList(),
                                 ));
-                                setState(() {});
+                                fetchDaylimealList();
                               },
                               icon: Icon(Icons.copy))
                         ],
