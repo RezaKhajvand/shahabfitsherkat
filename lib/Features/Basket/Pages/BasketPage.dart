@@ -71,7 +71,7 @@ class _BasketPageState extends State<BasketPage>
           surfaceTintColor: Colors.transparent,
           actions: [
             IconButton(
-                onPressed: () => context.go(
+                onPressed: () => context.push(
                     '$tamrinViewPage?basketId=${widget.basketInputs.basketId}&tabIndex=0'),
                 icon: Icon(Icons.preview)),
           ],

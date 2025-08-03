@@ -131,7 +131,7 @@ class _ActivitiesPageState extends State<ActivitiesPage>
                 icon: const Icon(Icons.edit)),
             SizedBox(width: 10),
             IconButton(
-                onPressed: () => context.go(
+                onPressed: () => context.push(
                     '$basketPage?basketId=$basketId&tabIndex=${_tabController.index}'),
                 icon: const Icon(Icons.shopping_basket)),
           ],

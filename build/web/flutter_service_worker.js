@@ -86,11 +86,11 @@ const RESOURCES = {"assets/AssetManifest.bin": "b66f2e4229ead0bfc62ae80a0801eefb
 "download.js": "aadeff8c2158b3f0642e38bdd2d87397",
 "firebase-messaging-sw.js": "c341a6f1e5b82cc80415e49cadad636b",
 "flutter.js": "83d881c1dbb6d6bcd6b42e274605b69c",
-"flutter_bootstrap.js": "167aee8ae1ce645545118c46c4e60cc7",
+"flutter_bootstrap.js": "df700420b58209662189aebc08fcaa48",
 "index.html": "1244b29fcc0a50b07079e5268a0c9ee7",
 "/": "1244b29fcc0a50b07079e5268a0c9ee7",
 "logo.png": "e0c387db7ef131864d40b3df83d4432a",
-"main.dart.js": "40bf28fa9253490784ef29196e620fca",
+"main.dart.js": "88caea1f22e0590be6a0c4a9235b66b6",
 "manifest.json": "79279eaa27e868f25e75aab54bb69e3b",
 "sitemap.xml": "b4b0569c905b476cc39991654f454197",
 "version.json": "8a1b4594ef7492e0e8b4c40f046bef6b"};
