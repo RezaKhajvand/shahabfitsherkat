@@ -14,7 +14,9 @@ Future<void> pdfCreator(
   String pdfName,
   String pdfText,
 ) async {
-  final pdf = pw.Document(version: PdfVersion.pdf_1_4,);
+  final pdf = pw.Document(
+    version: PdfVersion.pdf_1_4,
+  );
 
   // استخراج روزهای پر شده
   final filledDays = pdfItems.map((e) => e.dayOfWeek).toSet().toList();
@@ -127,10 +129,9 @@ Future<void> pdfCreator(
                                     children: [
                                       pw.Builder(
                                         builder: (context) {
-                                          final channel = activity.systemSubId;
-                                          final colorHex = HexColor.fromHex(
-                                                  colorList[channel])
-                                              .toHex();
+                                          final colorHex =
+                                              HexColor.fromHex('E6FE58')
+                                                  .toHex();
                                           if (activity.system != '') {
                                             return pw.Container(
                                               height: 10,
