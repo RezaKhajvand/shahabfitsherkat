@@ -339,7 +339,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController contentController = TextEditingController();
   bool selected = false;
-  int shimmerLine = 12;
+  int shimmerLine = 7;
 
   sendAIRequest() async {
     setState(() {
@@ -422,7 +422,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     width: double.infinity,
                     height: selected
                         ? (pageSize.height / 2) - 90
-                        : 200, // وابسته به state
+                        : 140, // وابسته به state
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.white.withOpacity(0.05),
