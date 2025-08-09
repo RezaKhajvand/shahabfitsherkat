@@ -141,7 +141,8 @@ Future<void> pdfCreator(
                                                   right: pw.BorderSide(
                                                       width: 2,
                                                       color: PdfColor.fromHex(
-                                                          colorHex)),
+                                                        colorHex,
+                                                      )),
                                                 ),
                                               ),
                                             );

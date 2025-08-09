@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,7 @@ import 'package:shahabfit/Features/Basket/Utils/basketinput.dart';
 import 'package:shahabfit/Features/Basket/Widgets/SystemPickerPage.dart';
 import 'package:shahabfit/Features/Basket/Widgets/createtamrinpage.dart';
 import 'package:shahabfit/Features/BasketList/Pages/BasketListPage.dart';
+import 'package:shahabfit/Features/Daylimeal/Data/ai_datasource.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/Trainer_Screen.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_list_screen.dart';
 import 'package:shahabfit/Features/Daylimeal/Pages/daylimeal_screen.dart';
@@ -32,6 +35,8 @@ import 'package:shahabfit/Features/oldversion/bloc/shagerdlist/shagerd_bloc.dart
 import 'package:shahabfit/Features/barnameview/bloc/barname_view_bloc.dart'; // بلاک‌ها هم به صورت عادی باقی می‌مانند
 import 'package:shahabfit/Features/oldversion/models/shagerd_model.dart'; // مدل
 import 'package:lottie/lottie.dart';
+import 'package:shahabfit/utils/texttheme.dart';
+import 'package:shimmer/shimmer.dart';
 
 const String landingPage = '/';
 const String loginPage = '/login';
@@ -54,6 +59,7 @@ const String dayliViewPage = '/dayliview';
 const String barnameDetailPage = '/barnamedetailview';
 const String createTamrinPage = '/createtamrin';
 const String profilePage = '/profile';
+
 //
 final GlobalKey<NavigatorState> _shellNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'shell');
@@ -62,31 +68,28 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 final router = GoRouter(
   initialLocation:
       AuthManager.readAccessToken() != null ? splashPage : loginPage,
-  redirect: (context, state) async {
+  redirect: (context, state) {
     var path = state.uri.path;
-    if (state.uri.path.contains(landingPage)) {
+    print('Path ===> $path');
+    print(AuthManager.readAccessToken());
+    if (AuthManager.readAccessToken() != null) {
+      if (path == loginPage) {
+        return splashPage;
+      }
       return null;
     } else {
-      if (AuthManager.readAccessToken() != null) {
-        if (path == loginPage) {
-          return splashPage;
-        }
+      if (state.uri.path.contains(tamrinViewPage) ||
+          state.uri.path.contains(barnameDetailPage) ||
+          state.uri.path.contains(dayliViewPage)) {
         return null;
-      } else {
-        if (state.uri.path.contains(tamrinViewPage) ||
-            state.uri.path.contains(barnameDetailPage) ||
-            state.uri.path.contains(dayliViewPage)) {
-          return null;
-        }
-        return loginPage;
       }
+      return loginPage;
     }
   },
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (BuildContext context, GoRouterState state, Widget child) {
-        print(state.fullPath);
         int tabIndex = 0;
         switch (state.fullPath) {
           case managePage:
@@ -334,9 +337,24 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final TextEditingController contentController = TextEditingController();
   bool selected = false;
+  int shimmerLine = 12;
+
+  sendAIRequest() async {
+    setState(() {
+      selected = !selected;
+    });
+    final res = await aiRequest(contentController.text);
+    setState(() {
+      contentController.text = res;
+      selected = !selected;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final pageSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -348,48 +366,124 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       backgroundColor: background,
-      body: Center(
-        child: GestureDetector(
-          onTap: () => setState(() => selected = !selected),
-          child: AnimatedScale(
-            curve: Curves.ease,
-            duration: const Duration(milliseconds: 500),
-            scale: selected ? 1 : 0.9,
-            child: Container(
-              height: 180,
-              width: 180,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: selected
-                    ? [
-                        const BoxShadow(
-                          color: Colors.black,
-                          blurRadius: 60,
-                          offset: Offset(0, 0),
-                          spreadRadius: 0,
-                        ),
-                      ]
-                    : null,
-              ),
-              child: Stack(
-                children: [
-                  Image.asset('images/imageball.png',
-                      fit: BoxFit.fill, filterQuality: FilterQuality.low),
-                  AnimatedOpacity(
-                    curve: Curves.ease,
-                    duration: const Duration(milliseconds: 500),
-                    opacity: selected ? 1 : 0,
-                    child: Lottie.asset(
-                      'images/data.zip',
-                      filterQuality: FilterQuality.low,
-                      fit: BoxFit.fill,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Center(
+            child: AnimatedScale(
+              curve: Curves.ease,
+              duration: const Duration(milliseconds: 500),
+              scale: selected ? 1 : 0.9,
+              child: Container(
+                height: 180,
+                width: 180,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: selected
+                      ? [
+                          const BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 60,
+                            offset: Offset(0, 0),
+                            spreadRadius: 0,
+                          ),
+                        ]
+                      : null,
+                ),
+                child: Stack(
+                  children: [
+                    Image.asset('images/imageball.png',
+                        fit: BoxFit.fill, filterQuality: FilterQuality.low),
+                    AnimatedOpacity(
+                      curve: Curves.ease,
+                      duration: const Duration(milliseconds: 500),
+                      opacity: selected ? 1 : 0,
+                      child: Lottie.asset(
+                        'images/data.zip',
+                        filterQuality: FilterQuality.low,
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+          Positioned(
+            bottom: 20,
+            left: 20,
+            right: 20,
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: AnimatedContainer(
+                    curve: Curves.ease,
+                    duration: Duration(milliseconds: 500),
+                    width: double.infinity,
+                    height: selected
+                        ? (pageSize.height / 2) - 90
+                        : 200, // وابسته به state
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white.withOpacity(0.05),
+                      border: Border.all(color: Colors.white10),
+                    ),
+                    child: Stack(
+                      children: [
+                        if (!selected)
+                          TextFormField(
+                            style: context.anjomanLight,
+                            controller: contentController,
+                            maxLines: 12,
+                            decoration: InputDecoration(
+                              hintText: 'سلام چطور میتوانم کمکتان کنم',
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(45, 16, 10, 16),
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                            ),
+                          ),
+                        if (!selected)
+                          Positioned(
+                            bottom: 4,
+                            left: 4,
+                            child: IconButton(
+                              iconSize: 24,
+                              icon: Icon(Icons.send),
+                              onPressed: () => sendAIRequest(),
+                            ),
+                          ),
+                        if (selected)
+                          SingleChildScrollView(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              spacing: 10,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: List.generate(
+                                shimmerLine,
+                                (index) => Shimmer.fromColors(
+                                  baseColor: Colors.white10,
+                                  highlightColor: Colors.white24,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(4)),
+                                    height: 16,
+                                    width: index == shimmerLine - 1
+                                        ? pageSize.width / 2
+                                        : double.infinity,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    )),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
