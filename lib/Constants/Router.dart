@@ -71,7 +71,6 @@ final router = GoRouter(
   redirect: (context, state) {
     var path = state.uri.path;
     print('Path ===> $path');
-    print(AuthManager.readAccessToken());
     if (AuthManager.readAccessToken() != null) {
       if (path == loginPage) {
         return splashPage;

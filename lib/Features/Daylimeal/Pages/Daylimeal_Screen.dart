@@ -88,7 +88,6 @@ class DaylimealScreenState extends State<DaylimealScreen> {
   @override
   void initState() {
     super.initState();
-
     BlocProvider.of<DaylimealListBloc>(context)
         .add(DaylimealListEvent(barnameId: widget.barnameId));
   }

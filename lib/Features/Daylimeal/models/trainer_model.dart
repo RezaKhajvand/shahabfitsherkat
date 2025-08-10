@@ -11,7 +11,7 @@ class Trainer {
   final int? carbo;
   final int? fat;
   final String? activity;
-  final List<Map<String, dynamic>>? daylimeal;
+   List<Map<String, dynamic>>? daylimeal;
 
   Trainer({
      this.name,

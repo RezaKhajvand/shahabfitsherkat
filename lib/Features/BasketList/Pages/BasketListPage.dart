@@ -68,8 +68,10 @@ class _BasketListPageState extends State<BasketListPage> {
                   itemCount: basketList.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () => context.push(
-                          '$activitiesPage?basketId=${basketList[index].id}'),
+                      onTap: () {
+                        context.go(
+                            '$activitiesPage?basketId=${basketList[index].id}');
+                      },
                       child: Container(
                           decoration: ShapeDecoration(
                             color: background,

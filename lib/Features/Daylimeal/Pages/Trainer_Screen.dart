@@ -424,6 +424,7 @@ class TrainerScreenState extends State<TrainerScreen> {
                                     );
                                     String id = '';
                                     if (widget.barnameId == null) {
+                                      trainer.daylimeal = [];
                                       final record = Item.fromJson(json.decode(
                                           await addDaylimeal(
                                               trainer: trainer)));
