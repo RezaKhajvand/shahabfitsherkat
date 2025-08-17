@@ -56,7 +56,7 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                   final meal = daylimealList[index];
                   return InkWell(
                     onTap: () =>
-                        context.go('$trainerPage?barnameId=${meal.id}'),
+                        context.push('$trainerPage?barnameId=${meal.id}'),
                     child: Container(
                       decoration: ShapeDecoration(
                         color: background,
