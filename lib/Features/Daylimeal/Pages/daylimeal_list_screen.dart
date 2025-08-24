@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Features/Daylimeal/Data/add_daylimeal_datasource.dart';
+import 'package:shahabfit/Features/Daylimeal/Data/delete_daylimeal_datasource.dart';
 import 'package:shahabfit/Features/Daylimeal/models/trainer_model.dart';
+import 'package:shahabfit/Widgets/custommodalsheet.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/constants/colors.dart';
@@ -50,7 +52,7 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
             if (state is DaylimealListLoaded) {
               final daylimealList = state.daylimelaList;
               return ListView.separated(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 90),
                 itemCount: daylimealList.length,
                 itemBuilder: (context, index) {
                   final meal = daylimealList[index];
@@ -67,7 +69,6 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                       ),
                       padding: const EdgeInsets.all(16),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,6 +90,7 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                               ),
                             ],
                           ),
+                          Spacer(),
                           IconButton(
                               onPressed: () async {
                                 await addDaylimeal(
@@ -111,7 +113,51 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
                                 ));
                                 fetchDaylimealList();
                               },
-                              icon: Icon(Icons.copy))
+                              icon: Icon(Icons.copy)),
+                          IconButton(
+                              onPressed: () async {
+                                customModalSheet(
+                                  context,
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Text(
+                                          'آیا از حذف این برنامه اطمینان دارید',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        Row(
+                                          textDirection: TextDirection.ltr,
+                                          children: [
+                                            Expanded(
+                                                child: ElevatedButton(
+                                                    onPressed: () async {
+                                                      context.pop();
+                                                      await deleteDaylimeal(
+                                                          id: meal.id);
+                                                      fetchDaylimealList();
+                                                    },
+                                                    child: const Text('بله'))),
+                                            const SizedBox(width: 20),
+                                            Expanded(
+                                              child: OutlinedButton(
+                                                onPressed: () => context.pop(),
+                                                child: const Text('انصراف'),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.delete_outline,
+                                size: 30,
+                              )),
                         ],
                       ),
                     ),

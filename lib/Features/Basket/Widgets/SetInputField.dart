@@ -48,6 +48,8 @@ class _SetInputFieldState extends State<SetInputField> {
       widget.basketActivity.activitySet[widget.setIndex][widget.fieldIndex] =
           value;
       BlocProvider.of<BasketBloc>(context).add(UpdateBasketActivityEvent(
+          system: widget.basketActivity.expand.system,
+          systemSubId: widget.basketActivity.systemSubId,
           basketActivityId: widget.basketActivity.id,
           activitySet: widget.basketActivity.activitySet));
     });

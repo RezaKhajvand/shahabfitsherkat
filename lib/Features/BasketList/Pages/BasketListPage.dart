@@ -213,7 +213,10 @@ class _BasketListPageState extends State<BasketListPage> {
                                           ),
                                         );
                                       },
-                                      icon: const Icon(Icons.delete_outline)),
+                                      icon: const Icon(
+                                        Icons.delete_outline,
+                                        size: 30,
+                                      )),
                                 ],
                               ),
                               const SizedBox(height: 8),
