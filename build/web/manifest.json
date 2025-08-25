@@ -5,9 +5,9 @@
   "display": "standalone",
   "background_color": "#0175C2",
   "theme_color": "#0175C2",
-  "description": "۱-افزودن هوش مصنوعی",
+  "description": "۱-رفع باگ",
   "orientation": "portrait-primary",
-  "version": "1.1.18",
+  "version": "1.1.20",
   "prefer_related_applications": false,
   "icons": [
     {
