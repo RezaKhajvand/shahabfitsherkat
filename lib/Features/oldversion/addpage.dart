@@ -202,7 +202,7 @@ class _AddPageState extends State<AddPage> {
                           useMagnifier: true,
                           onSelectedItemChanged: (value) {
                             workouttimeindex = value;
-                            print(workouttimeindex);
+                            print('workouttimeindex ====> $workouttimeindex');
                           },
                           childDelegate: ListWheelChildBuilderDelegate(
                             childCount: timelist.length,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/Router.dart';
+import 'package:shahabfit/Utils/apptab.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,8 +20,23 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   goToMainPage() async {
-    await Future.delayed(const Duration(milliseconds: 2000),
-        () => context.pushReplacement(managePage));
+    await Future.delayed(const Duration(milliseconds: 2000));
+
+    // 🚨 اینو از API واقعی بگیر
+    List<String> userAccess = AuthManager.readAccess();
+
+    // لیست همه تب‌ها (مثل قبل)
+    final allowedTabs =
+        allTabs.where((t) => userAccess.contains(t.id)).toList();
+
+    // اولین تب مجاز رو انتخاب کن
+    final startRoute =
+        allowedTabs.isNotEmpty ? allowedTabs.first.route : profilePage;
+
+    // حالا برو به اون تب
+    if (mounted) {
+      context.go(startRoute); // 👈 اینجا go بزن، نه pushReplacement
+    }
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shahabfit/Widgets/CustomErrorWidget.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/constants/colors.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
@@ -102,6 +103,13 @@ class _SystemPageState extends State<SystemPage> {
                 },
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 14),
+              );
+            }
+            if (state is SystemError) {
+              return CustomErrorWidget(
+                errormsg: state.errormsg,
+                onPressed: () =>
+                    BlocProvider.of<SystemBloc>(context).add(GetSystemEvent()),
               );
             }
             return const LoadingWidget();

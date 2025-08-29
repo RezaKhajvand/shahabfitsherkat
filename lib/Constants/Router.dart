@@ -88,25 +88,11 @@ final router = GoRouter(
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
+      
       builder: (BuildContext context, GoRouterState state, Widget child) {
-        int tabIndex = 0;
-        switch (state.fullPath) {
-          case managePage:
-            tabIndex = 0;
-            break;
-          case basketListPage:
-            tabIndex = 1;
-            break;
-          case daylimealListPage:
-            tabIndex = 2;
-            break;
-          case profilePage:
-            tabIndex = 3;
-            break;
-        }
         return MobileLayout(
             child: HomePage(
-          tabIndex: tabIndex,
+          currentRoute: state.fullPath!, // مسیر فعلی
           child: child,
         ));
       },

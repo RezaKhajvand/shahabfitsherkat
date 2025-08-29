@@ -26,7 +26,7 @@ Future<void> registerFingerprint() async {
 Future<RecordAuth> loginWithFingerprint() async {
   final String finger = AuthManager.readFinger() ?? '';
   try {
-    final result = authenticateWithFingerprint(finger);
+    final result = authenticateWithFingerprint(finger.toJS);
     final credResult = await result.toDart;
     if (credResult.toString() == "ok") {
       final auth = await fingerLogin(credentialId: finger);

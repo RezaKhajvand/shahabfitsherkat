@@ -69,7 +69,6 @@ class _ShagerdListState extends State<ShagerdList> {
         }
         if (state is ShagerdLoaded) {
           final shagerds = state.shagerdList;
-          print(shagerds.length);
           return Column(
             children: [
               Container(

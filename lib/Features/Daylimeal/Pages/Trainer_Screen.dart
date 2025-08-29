@@ -153,7 +153,6 @@ class TrainerScreenState extends State<TrainerScreen> {
               padding: const EdgeInsets.all(16.0),
               child: BlocBuilder<DaylimealListBloc, DaylimealListState>(
                 builder: (context, state) {
-                  print(state);
                   if (state is DaylimealListLoaded) {
                     final trainer = state.daylimelaList.first;
 

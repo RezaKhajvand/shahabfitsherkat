@@ -235,7 +235,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                         groupedList.add(list);
                       });
                     });
-                    print('$grouped=======>$grouped');
+               
                     List<Widget> movementWidgets = [];
                     grouped.forEach((system, subsystems) {
                       subsystems.forEach((subsystem, list) {

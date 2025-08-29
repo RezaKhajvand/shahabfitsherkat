@@ -28,7 +28,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         ]);
         activity = activityListFromJson(futureResault.first);
         openBasket = basketActivityFromJson(futureResault.last);
-        print(openBasket.length);
+
         for (var activity in activity) {
           if (openBasket.any((element) =>
               element.activity == activity.id &&
@@ -44,9 +44,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         }
         sortItems();
         emit((ActivityLoaded(
-            openBasket: openBasket,
-            activity: activity,
-          )));
+          openBasket: openBasket,
+          activity: activity,
+        )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -58,9 +58,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             await insertActivity(catId: event.categoryId, title: event.title)));
         activity.add(activityRecord);
         emit((ActivityLoaded(
-            openBasket: openBasket,
-            activity: activity,
-            )));
+          openBasket: openBasket,
+          activity: activity,
+        )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -75,9 +75,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         }));
         activity = newShagerdList;
         emit((ActivityLoaded(
-            openBasket: openBasket,
-            activity: activity,
-          )));
+          openBasket: openBasket,
+          activity: activity,
+        )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -88,9 +88,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         await deleteActivity(activityId: event.activity.id);
         activity.remove(event.activity);
         emit((ActivityLoaded(
-            openBasket: openBasket,
-            activity: activity,
-          )));
+          openBasket: openBasket,
+          activity: activity,
+        )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -99,7 +99,6 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       emit((ActivityLoaded(
           openBasket: openBasket,
           activity: activity,
-    
           loadingItem: event.activityId)));
       try {
         var insertedBasketActivity = insertBasketActivityFromJson(
@@ -134,9 +133,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
             id: insertedBasketActivity.id,
             expand: Expand()));
         emit((ActivityLoaded(
-            openBasket: openBasket,
-            activity: activity,
-          )));
+          openBasket: openBasket,
+          activity: activity,
+        )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }
@@ -157,9 +156,9 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
         openBasket
             .removeWhere((element) => element.id == event.basketActivityId);
         emit((ActivityLoaded(
-            openBasket: openBasket,
-            activity: activity,
-          )));
+          openBasket: openBasket,
+          activity: activity,
+        )));
       } catch (e, s) {
         emit((ActivityError(errormsg: handleException(e, s))));
       }

@@ -206,7 +206,7 @@ class _EditPageState extends State<EditPage> {
                           useMagnifier: true,
                           onSelectedItemChanged: (value) {
                             workouttimeindex = value;
-                            print(workouttimeindex);
+                            print('workouttimeindex ====> $workouttimeindex');
                           },
                           childDelegate: ListWheelChildBuilderDelegate(
                             childCount: timelist.length,

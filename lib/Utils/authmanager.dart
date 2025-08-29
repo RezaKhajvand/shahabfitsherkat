@@ -16,6 +16,16 @@ class AuthManager {
     await saveAccessToken(auth.token);
     await saveUser(auth.record?.id ?? '');
     await saveLoginTime(now);
+    await saveAccess(auth.record?.get("access") ?? []);
+  }
+
+  static saveAccess(List<String> access) async {
+    await _prefs.setStringList('access', access);
+    print('save shod : $access');
+  }
+
+  static List<String> readAccess() {
+    return _prefs.getStringList('access')??[];
   }
 
   static saveFinger(String id) async {

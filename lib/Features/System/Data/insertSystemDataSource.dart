@@ -6,7 +6,7 @@ Future<String> insertSystem(
   var body = {
     "title": title,
     "description": description,
-  "user": AuthManager.readUser(),
+    "user": AuthManager.readUser(),
   };
   try {
     final record = await pb.collection('system').create(body: body);

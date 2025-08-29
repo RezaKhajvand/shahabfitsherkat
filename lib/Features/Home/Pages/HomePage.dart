@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Constants/colors.dart';
+import 'package:shahabfit/Utils/apptab.dart';
+import 'package:shahabfit/Utils/authmanager.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 
 class HomePage extends StatefulWidget {
-  final int tabIndex;
   final Widget child;
+  final String currentRoute;
   const HomePage({
     super.key,
-    required this.tabIndex,
     required this.child,
+    required this.currentRoute,
   });
 
   @override
@@ -22,17 +23,24 @@ class _HomePageState extends State<HomePage> {
   NavigationDestinationLabelBehavior labelBehavior =
       NavigationDestinationLabelBehavior.onlyShowSelected;
   late PageController controller;
+  final List<String> userAccess = AuthManager.readAccess();
 
   @override
   void initState() {
     super.initState();
-
     controller = PageController(initialPage: currentPageIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-    currentPageIndex = widget.tabIndex;
+    // تب‌های مجاز
+    final allowedTabs =
+        allTabs.where((t) => userAccess.contains(t.id)).toList();
+    // پیدا کردن ایندکس بر اساس route
+    int currentPageIndex =
+        allowedTabs.indexWhere((t) => t.route == widget.currentRoute);
+    if (currentPageIndex == -1) currentPageIndex = 0; // fallback
+
     return Scaffold(
         bottomNavigationBar: StatefulBuilder(builder: (context, setState) {
           return NavigationBar(
@@ -45,67 +53,22 @@ class _HomePageState extends State<HomePage> {
             labelBehavior: labelBehavior,
             selectedIndex: currentPageIndex,
             onDestinationSelected: (int index) {
-              _onItemTapped(index, context);
+              context.go(allowedTabs[index].route);
             },
-            destinations: const <Widget>[
-              NavigationDestination(
-                selectedIcon: Icon(
-                  Icons.list_alt_rounded,
-                  color: Colors.black,
-                ),
-                icon: Icon(
-                  Icons.list_alt_rounded,
-                  color: Colors.white30,
-                  size: 25,
-                ),
-                label: 'حضورغیاب',
-              ),
-              NavigationDestination(
-                selectedIcon: Icon(
-                  Icons.fitness_center_rounded,
-                  color: Colors.black,
-                ),
-                icon: Icon(
-                  Icons.fitness_center_rounded,
-                  color: Colors.white30,
-                  size: 25,
-                ),
-                label: 'تمرینی',
-              ),
-              NavigationDestination(
-                icon: Icon(
-                  Icons.fastfood_outlined,
-                  color: Colors.white30,
-                  size: 25,
-                ),
-                selectedIcon: Icon(Icons.fastfood),
-                label: 'غذایی',
-              ),
-              NavigationDestination(
-                icon: Icon(
-                  Icons.person_4_outlined,
-                  color: Colors.white30,
-                  size: 25,
-                ),
-                selectedIcon: Icon(Icons.person_4),
-                label: 'کاربری',
-              ),
-            ],
+            destinations: allowedTabs.map((tab) {
+              return NavigationDestination(
+                icon: Icon(tab.icon, color: Colors.white30, size: 25),
+                selectedIcon: Icon(tab.selectedIcon, color: Colors.black),
+                label: tab.label,
+              );
+            }).toList(),
           );
         }),
         body: widget.child);
   }
 }
 
-void _onItemTapped(int index, BuildContext context) {
-  switch (index) {
-    case 0:
-      context.go(managePage);
-    case 1:
-      context.go(basketListPage);
-    case 2:
-      context.go(daylimealListPage);
-    case 3:
-      context.go(profilePage);
-  }
+int safeIndex(int index, int max) {
+  if (index >= max) return 0; // برگرده به اولین تب
+  return index;
 }
