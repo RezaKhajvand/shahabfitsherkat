@@ -1,6 +1,6 @@
 enum DescriptionType { tamrin, qazae }
 
-getDescriptionTitle(DescriptionType type) {
+String getDescriptionTitle(DescriptionType type) {
   switch (type) {
     case DescriptionType.tamrin:
       return 'تمرینی';

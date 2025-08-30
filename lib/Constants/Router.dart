@@ -88,7 +88,6 @@ final router = GoRouter(
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
-      
       builder: (BuildContext context, GoRouterState state, Widget child) {
         return MobileLayout(
             child: HomePage(
@@ -326,7 +325,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool selected = false;
   int shimmerLine = 7;
 
-  sendAIRequest() async {
+  Future<void> sendAIRequest() async {
     setState(() {
       selected = !selected;
     });

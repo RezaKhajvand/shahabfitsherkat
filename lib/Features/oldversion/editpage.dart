@@ -53,7 +53,7 @@ class _EditPageState extends State<EditPage> {
     'بهمن',
     'اسفند'
   ];
-  tarikhErsal() async {
+  Future<void> tarikhErsal() async {
     var resault =
         await customModalSheet(context, const TarikhBottomSheetContent());
     if (resault != null) {

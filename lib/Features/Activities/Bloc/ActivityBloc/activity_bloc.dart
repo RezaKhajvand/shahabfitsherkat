@@ -164,7 +164,7 @@ class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
       }
     });
   }
-  sortItems() {
+  void sortItems() {
     activity.sort((a, b) => a.numberView.compareTo(b.numberView));
   }
 }

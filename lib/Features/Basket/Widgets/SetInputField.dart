@@ -37,11 +37,11 @@ class _SetInputFieldState extends State<SetInputField> {
             1);
   }
 
-  scrollToItem(int itemIndex) {
+  void scrollToItem(int itemIndex) {
     _controller.jumpToItem(itemIndex);
   }
 
-  updateBasketActivity(int value) {
+  void updateBasketActivity(int value) {
     _timer?.cancel();
     _timer = null;
     _timer = Timer(const Duration(seconds: 1), () {

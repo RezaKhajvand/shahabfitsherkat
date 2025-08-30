@@ -24,14 +24,14 @@ class _LoginPageState extends State<LoginPage>
   final TextEditingController passController = TextEditingController();
   bool _visibility = false;
 
-  loginTap() {
+  void loginTap() {
     BlocProvider.of<LoginBloc>(context).add(LoginEvent(
         phone: replaceEnglishNumber(userController.text),
         password: passController.text,
         type: LoginType.userPass));
   }
 
-  fingerLoginTap() {
+  void fingerLoginTap() {
     BlocProvider.of<LoginBloc>(context)
         .add(LoginEvent(phone: "", password: "", type: LoginType.finger));
   }

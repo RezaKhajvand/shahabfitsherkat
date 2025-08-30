@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/Features/Basket/Bloc/basketlist/basket_list_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:shahabfit/Features/Basket/Data/insertBasketDataSource.dart';
 import 'package:shahabfit/Features/Basket/Data/updateBasketDataSource.dart';
 import 'package:shahabfit/Features/Basket/Models/description_model.dart';
 import 'package:shahabfit/Features/Basket/Utils/descriptiontype.dart';
+import 'package:shahabfit/Features/Basket/Widgets/description_autocomplete.dart';
 import 'package:shahabfit/Features/oldversion/utils/handleException.dart';
 import 'package:shahabfit/Widgets/CustomSnackbars.dart';
 import 'package:shahabfit/constants/Router.dart';
@@ -106,41 +108,11 @@ class _CreateTamrinPageState extends State<CreateTamrinPage> {
                   );
                 }),
                 const SizedBox(height: 20),
-                TypeAheadField<DescriptionModel>(
-                    controller: descController,
-                    hideOnEmpty: true,
-                    suggestionsCallback: (search) async {
-                      if (descriptionList.isEmpty) {
-                        return descriptionList = descriptionFromJson(
-                            await getDescriptionList(DescriptionType.tamrin));
-                      } else {
-                        return descriptionList
-                            .where((element) => element.text.contains(search))
-                            .toList();
-                      }
-                    },
-                    builder: (context, controller, focusNode) {
-                      return TextField(
-                        controller: controller,
-                        focusNode: focusNode,
-                        autofocus: true,
-                        maxLines: 3,
-                        textAlignVertical: TextAlignVertical.top,
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.white),
-                        decoration: const InputDecoration(
-                            alignLabelWithHint: true,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 12),
-                            label: Text('توضیحات برنامه'),
-                            labelStyle: TextStyle(fontSize: 14)),
-                      );
-                    },
-                    itemSeparatorBuilder: (context, index) =>
-                        const Divider(height: 2),
-                    itemBuilder: (context, description) =>
-                        ListTile(dense: true, title: Text(description.text)),
-                    onSelected: (value) => descController.text = value.text),
+                DescriptionAutocomplete(
+                  controller: descController,
+                  label: 'توضیحات برنامه',
+                  onSelected: (value) => descController.text = value.text,
+                ),
                 Spacer(),
                 SizedBox(
                   width: double.infinity,

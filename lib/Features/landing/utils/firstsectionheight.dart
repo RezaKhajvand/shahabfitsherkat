@@ -1,4 +1,4 @@
-getFirstSectionHeight(double screenHeight, double screenWidth) {
+double getFirstSectionHeight(double screenHeight, double screenWidth) {
   var mobilePadding = screenHeight / 1.2;
   var desktopPadding = screenHeight;
 

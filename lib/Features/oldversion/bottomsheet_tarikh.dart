@@ -50,7 +50,7 @@ class _OutlinedButtonFieldState extends State<TarikhBottomSheetContent> {
     super.initState();
   }
 
-  getToNowTime() {
+  void getToNowTime() {
     Future.delayed(
       const Duration(milliseconds: 200),
       () {

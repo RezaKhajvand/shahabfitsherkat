@@ -11,7 +11,7 @@ class AuthManager {
     return {'Authorization': 'Bearer ${readAccessToken()}'};
   }
 
-  static saveAuth(AuthStore auth) async {
+  static Future<void> saveAuth(AuthStore auth) async {
     var now = DateTime.now();
     await saveAccessToken(auth.token);
     await saveUser(auth.record?.id ?? '');
@@ -19,16 +19,16 @@ class AuthManager {
     await saveAccess(auth.record?.get("access") ?? []);
   }
 
-  static saveAccess(List<String> access) async {
+  static Future<void> saveAccess(List<String> access) async {
     await _prefs.setStringList('access', access);
     print('save shod : $access');
   }
 
   static List<String> readAccess() {
-    return _prefs.getStringList('access')??[];
+    return _prefs.getStringList('access') ?? [];
   }
 
-  static saveFinger(String id) async {
+  static Future<void> saveFinger(String id) async {
     await _prefs.setString('finger', id);
     print('save shod : $id');
   }
@@ -38,7 +38,7 @@ class AuthManager {
   }
 
   //Save user
-  static saveUser(String user) async {
+  static Future<void> saveUser(String user) async {
     await _prefs.setString('user', user);
     print('save shod : $user');
   }
@@ -49,7 +49,7 @@ class AuthManager {
   }
 
   //Save access token
-  static saveAccessToken(String accessToken) async {
+  static Future<void> saveAccessToken(String accessToken) async {
     await _prefs.setString('accessToken', accessToken);
     print('save shod : $accessToken');
   }
@@ -69,7 +69,7 @@ class AuthManager {
   }
 
   //Login Time
-  static saveLoginTime(DateTime loginTime) async {
+  static Future<void> saveLoginTime(DateTime loginTime) async {
     await _prefs.setString('loginTime', loginTime.toString());
     print('save shod : $loginTime');
   }
@@ -94,7 +94,7 @@ class AuthManager {
   }
 }
 
-logOut() async {
+Future<void> logOut() async {
   await AuthManager.clearAuthData();
   while (router.canPop()) {
     router.pop();

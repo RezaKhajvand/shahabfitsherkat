@@ -197,7 +197,7 @@ class TrainerScreenState extends State<TrainerScreen> {
                                   .labelLarge
                                   ?.copyWith(color: Colors.white),
                               dropdownColor: Colors.black,
-                              value: _typeIndex,
+                              initialValue: _typeIndex,
                               decoration:
                                   const InputDecoration(labelText: 'هدف'),
                               items: List.generate(
@@ -231,7 +231,7 @@ class TrainerScreenState extends State<TrainerScreen> {
                                   .labelLarge
                                   ?.copyWith(color: Colors.white),
                               dropdownColor: Colors.black,
-                              value: _activityFactor,
+                              initialValue: _activityFactor,
                               decoration: const InputDecoration(
                                   labelText: 'میزان فعالیت'),
                               items: List.generate(
@@ -283,7 +283,7 @@ class TrainerScreenState extends State<TrainerScreen> {
                                   .labelLarge
                                   ?.copyWith(color: Colors.white),
                               dropdownColor: Colors.black,
-                              value: _selectedGender,
+                              initialValue: _selectedGender,
                               decoration:
                                   const InputDecoration(labelText: 'جنسیت'),
                               items: ['مرد', 'زن'].map((gender) {

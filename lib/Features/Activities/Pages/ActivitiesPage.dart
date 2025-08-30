@@ -62,7 +62,7 @@ class _ActivitiesPageState extends State<ActivitiesPage>
         dayOfWeek: _tabController.index));
   }
 
-  getActivityList() {
+  void getActivityList() {
     updatePageUrl(_tabController.index);
     BlocProvider.of<ActivityBloc>(context).add(GetActivityEvent(
         basketId: basketId,
@@ -70,7 +70,7 @@ class _ActivitiesPageState extends State<ActivitiesPage>
         dayOfWeek: _tabController.index));
   }
 
-  searchActivity({required String value}) {
+  void searchActivity({required String value}) {
     _timer?.cancel();
     _timer = null;
     _timer = Timer(const Duration(milliseconds: 1000), () {

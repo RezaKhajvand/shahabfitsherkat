@@ -3,7 +3,7 @@ import 'package:shahabfit/Constants/colors.dart';
 import 'package:shahabfit/utils/texttheme.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-openSocialMedia(BuildContext context, uri) async {
+Future<void> openSocialMedia(BuildContext context, uri) async {
   try {
     await launchUrl(Uri.parse(uri), mode: LaunchMode.externalApplication);
   } catch (ex) {

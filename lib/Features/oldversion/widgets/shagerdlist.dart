@@ -26,10 +26,11 @@ class ShagerdList extends StatefulWidget {
 }
 
 class _ShagerdListState extends State<ShagerdList> {
-  fetchAllShagerd() => context.read<ShagerdBloc>().add(FetchShagerdEvent());
-  fetchKhosusiShagerd() =>
+  void fetchAllShagerd() =>
+      context.read<ShagerdBloc>().add(FetchShagerdEvent());
+  void fetchKhosusiShagerd() =>
       context.read<ShagerdBloc>().add(FetchShagerdEvent(khosusi: true));
-  fetchMonqziShagerd() =>
+  void fetchMonqziShagerd() =>
       context.read<ShagerdBloc>().add(FetchShagerdEvent(monqzi: true));
 
   @override
@@ -38,7 +39,7 @@ class _ShagerdListState extends State<ShagerdList> {
     fetchShagerd();
   }
 
-  fetchShagerd() {
+  void fetchShagerd() {
     switch (widget.type) {
       case ShagerdType.all:
         fetchAllShagerd();

@@ -26,7 +26,7 @@ class DayliMealListScreenState extends State<DayliMealListScreen> {
     fetchDaylimealList();
   }
 
-  fetchDaylimealList() =>
+  void fetchDaylimealList() =>
       BlocProvider.of<DaylimealListBloc>(context).add(DaylimealListEvent());
   @override
   Widget build(BuildContext context) {

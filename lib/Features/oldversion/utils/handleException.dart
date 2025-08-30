@@ -1,6 +1,6 @@
 import 'package:pocketbase/pocketbase.dart';
 
-handleException(dynamic e, StackTrace s) {
+dynamic handleException(dynamic e, StackTrace s) {
   if (e is ClientException) {
     final message =
         e.response['data']?['name']?['message'] ?? e.response['message'];

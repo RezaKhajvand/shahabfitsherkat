@@ -41,7 +41,7 @@ class _DaylimealViewPageState extends State<DaylimealViewPage> {
     fetchmeals();
   }
 
-  fetchmeals() {
+  void fetchmeals() {
     context
         .read<BarnameViewBloc>()
         .add(FetchDaylimealEvent(basketId: widget.basketId));

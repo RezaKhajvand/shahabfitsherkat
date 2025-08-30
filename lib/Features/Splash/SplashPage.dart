@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     goToMainPage();
   }
 
-  goToMainPage() async {
+  Future<void> goToMainPage() async {
     await Future.delayed(const Duration(milliseconds: 2000));
 
     // 🚨 اینو از API واقعی بگیر

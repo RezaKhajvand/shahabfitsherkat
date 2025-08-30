@@ -47,7 +47,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
     fetchActivity(_selectedDay.toString());
   }
 
-  fetchActivity(String day) {
+  void fetchActivity(String day) {
     context
         .read<BarnameViewBloc>()
         .add(FetchBarnameEvent(basketId: widget.basketId, dayOfWeek: day));
@@ -235,7 +235,7 @@ class _BarnameViewPageState extends State<BarnameViewPage> {
                         groupedList.add(list);
                       });
                     });
-               
+
                     List<Widget> movementWidgets = [];
                     grouped.forEach((system, subsystems) {
                       subsystems.forEach((subsystem, list) {
