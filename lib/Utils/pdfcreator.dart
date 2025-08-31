@@ -4,6 +4,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:shahabfit/Utils/ColorExtension.dart';
 import 'package:shahabfit/Utils/fotmat2.dart';
 import 'package:shahabfit/Utils/get_current_url.dart';
+import 'package:shahabfit/Utils/get_link.dart';
 import 'package:shahabfit/Utils/pdf_saver.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shahabfit/Features/Activities/Models/BasketActivityModel.dart';
@@ -29,9 +30,7 @@ Future<void> pdfCreator(
     5: 'جلسه ششم',
     6: 'جلسه هفتم',
   }..removeWhere((key, value) => !filledDays.contains(key));
-
-  final fontData = await rootBundle.load("web/assets/fonts/CALIBRI.TTF");
-  final ttf = pw.Font.ttf(fontData);
+  final ttf = pw.Font.ttf(await rootBundle.load("fonts/IRANSans(FaNum).ttf"));
   final imageData = await rootBundle.load('images/pdf.png');
   final logoData = await rootBundle.load('images/logo.png');
   final imageBytes = imageData.buffer.asUint8List();
@@ -183,23 +182,7 @@ Future<void> pdfCreator(
                 ),
               ],
             ),
-            pw.Align(
-              alignment: pw.Alignment.bottomCenter,
-              child: pw.Padding(
-                padding: pw.EdgeInsets.only(bottom: 10),
-                child: pw.UrlLink(
-                  destination: getCurrentUrl(),
-                  child: pw.Text(
-                    'لینک برنامه به همراه آموزش حرکات',
-                    style: pw.TextStyle(
-                      color: PdfColors.blue,
-                      decoration: pw.TextDecoration.underline,
-                      fontSize: 10,
-                    ),
-                  ),
-                ),
-              ),
-            )
+            getLink(),
           ],
         ),
       ),
@@ -268,23 +251,7 @@ Future<void> pdfCreator(
                 ],
               ),
             ),
-            pw.Align(
-              alignment: pw.Alignment.bottomCenter,
-              child: pw.Padding(
-                padding: pw.EdgeInsets.only(bottom: 10),
-                child: pw.UrlLink(
-                  destination: getCurrentUrl(),
-                  child: pw.Text(
-                    'لینک برنامه به همراه آموزش حرکات',
-                    style: pw.TextStyle(
-                      color: PdfColors.blue,
-                      decoration: pw.TextDecoration.underline,
-                      fontSize: 10,
-                    ),
-                  ),
-                ),
-              ),
-            )
+            getLink(),
           ],
         ),
       ),

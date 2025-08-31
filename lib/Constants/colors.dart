@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color background = Color(0xFF141414);
+const Color logomotionbg = Color(0xFF040404);
 const Color navigationColor = Color.fromARGB(255, 17, 17, 17);
 
 const Color primary = Color(0xFFE6FE58);

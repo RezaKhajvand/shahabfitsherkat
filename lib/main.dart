@@ -48,13 +48,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void didChangeDependencies() {
-    precacheImage(const AssetImage('images/splash.jpg'), context);
-    precacheImage(const AssetImage('images/shahabbg.png'), context);
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,

@@ -4,7 +4,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:shahabfit/Features/Daylimeal/models/daylimeal_list_model.dart';
 import 'package:shahabfit/Features/oldversion/utils/replacefarsiandenglishnumber.dart';
 import 'package:shahabfit/Utils/fotmat2.dart';
-import 'package:shahabfit/Utils/get_current_url.dart';
+import 'package:shahabfit/Utils/get_link.dart';
 import 'package:shahabfit/Utils/nimfasele.dart';
 import 'package:shahabfit/Utils/pdf_saver.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -133,23 +133,7 @@ Future<void> dayliPDFCreator(
                 ),
               ],
             ),
-            pw.Align(
-              alignment: pw.Alignment.bottomCenter,
-              child: pw.Padding(
-                padding: pw.EdgeInsets.only(bottom: 10),
-                child: pw.UrlLink(
-                  destination: getCurrentUrl(),
-                  child: pw.Text(
-                    'لینک برنامه به همراه آموزش حرکات',
-                    style: pw.TextStyle(
-                      color: PdfColors.blue,
-                      decoration: pw.TextDecoration.underline,
-                      fontSize: 10,
-                    ),
-                  ),
-                ),
-              ),
-            )
+            getLink()
           ],
         ),
       ),

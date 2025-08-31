@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Utils/apptab.dart';
 import 'package:shahabfit/Utils/authmanager.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:shahabfit/Widgets/mobile_layout.dart';
+import 'package:shahabfit/constants/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,59 +14,57 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  late final AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
-    goToMainPage();
+    _controller = AnimationController(vsync: this);
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        print('lottie ended');
+        goToMainPage(); // بعد از اتمام انیمیشن برو به صفحه بعدی
+      }
+    });
   }
 
   Future<void> goToMainPage() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
-
-    // 🚨 اینو از API واقعی بگیر
     List<String> userAccess = AuthManager.readAccess();
-
-    // لیست همه تب‌ها (مثل قبل)
     final allowedTabs =
         allTabs.where((t) => userAccess.contains(t.id)).toList();
-
-    // اولین تب مجاز رو انتخاب کن
     final startRoute =
         allowedTabs.isNotEmpty ? allowedTabs.first.route : profilePage;
 
-    // حالا برو به اون تب
     if (mounted) {
-      context.go(startRoute); // 👈 اینجا go بزن، نه pushReplacement
+      context.go(startRoute);
     }
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final imageWidth = MediaQuery.of(context).size.width / 1.1;
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: Stack(
-          fit: StackFit.loose,
+      backgroundColor: logomotionbg,
+      body: ClipRect(
+        child: Lottie.asset(
+          'images/logomotion.zip',
+          controller: _controller,
+          onLoaded: (composition) {
+            _controller
+              ..duration = composition.duration
+              ..forward(); // پلی شدن انیمیشن
+          },
+          fit: BoxFit.contain,
+          height: double.infinity,
+          width: double.infinity,
           alignment: Alignment.center,
-          children: [
-            Image.asset(
-              'images/splash.png',
-              width: imageWidth,
-              fit: BoxFit.fitWidth,
-            ),
-            Shimmer.fromColors(
-              baseColor: Colors.transparent,
-              period: const Duration(seconds: 2),
-              highlightColor: Colors.white,
-              child: Image.asset(
-                'images/splash.png',
-                width: imageWidth,
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ],
         ),
       ),
     );

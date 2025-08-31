@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shahabfit/Constants/Router.dart';
 import 'package:shahabfit/Features/Basket/Bloc/Basket/basket_bloc.dart';
 import 'package:shahabfit/constants/borderradius.dart';
 import 'package:shahabfit/constants/colors.dart';
@@ -94,10 +93,12 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
                                 OutlinedButton(
                                     onPressed: () {
                                       BlocProvider.of<BasketBloc>(context).add(
-                                          UpdateBasketActivityEvent(
-                                              basketActivityId: widget.recordId,
-                                              system: systemList[index],
-                                              systemSubId: channelIndex + 1));
+                                        UpdateBasketActivityEvent(
+                                          basketActivityId: widget.recordId,
+                                          system: systemList[index],
+                                          systemSubId: channelIndex + 1,
+                                        ),
+                                      );
                                       backToBasket(context);
                                     },
                                     child: Text(
