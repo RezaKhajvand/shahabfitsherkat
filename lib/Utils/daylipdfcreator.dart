@@ -18,8 +18,6 @@ Future<void> dayliPDFCreator(
   );
   final iransansFont =
       pw.Font.ttf(await rootBundle.load("fonts/IRANSans(FaNum).ttf"));
-  final calibriFont =
-      pw.Font.ttf(await rootBundle.load("web/assets/fonts/CALIBRI.TTF"));
 
   final imageData = await rootBundle.load('images/pdf.png');
   final logoData = await rootBundle.load('images/logo.png');

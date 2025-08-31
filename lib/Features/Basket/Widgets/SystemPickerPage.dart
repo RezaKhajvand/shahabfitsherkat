@@ -137,8 +137,8 @@ class _SystemPickerPageState extends State<SystemPickerPage> {
     );
   }
 
-  void backToBasket(BuildContext context) => Router.neglect(
-      context,
-      () => context.go(
-          '$basketPage?basketId=${widget.basketId}&tabIndex=${widget.tabIndex}'));
+  void backToBasket(BuildContext context) => Router.neglect(context, () {
+        context.pop(); // بستن modal
+        context.pop(); // بستن SystemPickerPage
+      });
 }

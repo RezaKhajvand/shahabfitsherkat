@@ -90,21 +90,8 @@ class _SetInputFieldState extends State<SetInputField> {
               enableInteractiveSelection: false,
               textInputAction: TextInputAction.done,
               maxLength: 2,
-              onTapOutside: (event) {
-                focusNode.unfocus();
-                setState(() => isWheeling = true);
-                scrollToItem(
-                    int.parse(replaceEnglishNumber(_fieldController.text)));
-                updateBasketActivity(
-                    int.parse(replaceEnglishNumber(_fieldController.text)));
-              },
-              onFieldSubmitted: (_) {
-                setState(() => isWheeling = true);
-                scrollToItem(
-                    int.parse(replaceEnglishNumber(_fieldController.text)));
-                updateBasketActivity(
-                    int.parse(replaceEnglishNumber(_fieldController.text)));
-              },
+              onTapOutside: (_) => submit(),
+              onFieldSubmitted: (_) => submit(),
               textAlign: TextAlign.center,
               inputFormatters: [FarsiInputFormatter()],
               style: Theme.of(context)
@@ -131,5 +118,12 @@ class _SetInputFieldState extends State<SetInputField> {
         ),
       ),
     );
+  }
+
+  void submit() {
+    setState(() => isWheeling = true);
+    scrollToItem(int.parse(replaceEnglishNumber(_fieldController.text)) - 1);
+    updateBasketActivity(
+        int.parse(replaceEnglishNumber(_fieldController.text)));
   }
 }

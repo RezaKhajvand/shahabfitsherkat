@@ -34,7 +34,7 @@ class _SystemPickerState extends State<SystemPicker> {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
             onPressed: () => Router.neglect(
               context,
-              () => context.go(
+              () => context.push(
                 '$systemPickerPage?recordId=${widget.basketActivity.id}&basketId=${widget.basketActivity.basket}&tabIndex=${widget.tabIndex}',
               ),
             ),

@@ -54,7 +54,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
         }
         updatedRecord.activitySet =
             event.activitySet ?? updatedRecord.activitySet;
-
+        print('activitySet ====> ${updatedRecord.activitySet}');
         emit((BasketLoaded(basketActivity: basketActivity)));
       } catch (e, s) {
         emit((BasketError(errormsg: handleException(e, s))));
